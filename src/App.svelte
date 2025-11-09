@@ -428,17 +428,38 @@
     padding: 0 2rem;
   }
 
-  /* Navbar - Corporate Identity */
+  /* Navbar - Corporate Identity Glassmorphism */
   .navbar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(31, 36, 42, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(199, 209, 246, 0.1);
-    transition: all 0.3s ease;
+    background: rgba(31, 36, 42, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(199, 209, 246, 0.15);
+    box-shadow:
+      0 4px 20px rgba(0, 0, 0, 0.3),
+      0 1px 4px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .navbar::before {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(199, 209, 246, 0.3) 50%,
+      transparent 100%
+    );
+    pointer-events: none;
   }
 
   .nav-content {
