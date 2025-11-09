@@ -16,6 +16,9 @@
     Menu,
     X,
     ArrowRight,
+    Home,
+    Plus,
+    User,
   } from 'lucide-svelte';
 
   import logo from '../img/logo-zuclubit.png';
@@ -146,6 +149,25 @@
         {/if}
       </button>
     </div>
+  </div>
+</nav>
+
+<!-- Mobile Floating Navbar (Bottom) -->
+<nav class="mobile-floating-nav">
+  <div class="mobile-nav-pill">
+    <a href="/" class="mobile-nav-btn" aria-label="Home">
+      <Home size={20} strokeWidth={2} />
+    </a>
+    <button class="mobile-nav-btn mobile-nav-btn-primary" on:click={toggleMobileMenu} aria-label="Menu">
+      {#if mobileMenuOpen}
+        <X size={20} strokeWidth={2} />
+      {:else}
+        <Plus size={20} strokeWidth={2} />
+      {/if}
+    </button>
+    <a href="#contact" class="mobile-nav-btn" aria-label="Contact">
+      <User size={20} strokeWidth={2} />
+    </a>
   </div>
 </nav>
 
@@ -554,6 +576,136 @@
 
   .mobile-menu-btn:hover {
     color: #C7D1F6;
+  }
+
+  /* Mobile Floating Navbar - Glassmorphism Pill Design */
+  .mobile-floating-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    display: none;
+  }
+
+  .mobile-nav-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(31, 36, 42, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: 0.75rem 1.25rem;
+    border-radius: 999px;
+    border: 1px solid rgba(199, 209, 246, 0.15);
+    box-shadow:
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 4px 12px rgba(0, 0, 0, 0.3),
+      inset 0 1px 2px rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mobile-nav-pill:hover {
+    box-shadow:
+      0 12px 48px rgba(0, 0, 0, 0.5),
+      0 6px 16px rgba(199, 209, 246, 0.2),
+      inset 0 1px 2px rgba(255, 255, 255, 0.08);
+  }
+
+  .mobile-nav-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(45, 51, 60, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: #EAF1FC;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.3),
+      inset 0 1px 2px rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mobile-nav-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(199, 209, 246, 0.15);
+    transform: translate(-50%, -50%);
+    transition:
+      width 0.4s ease,
+      height 0.4s ease;
+  }
+
+  .mobile-nav-btn:active::before {
+    width: 100%;
+    height: 100%;
+  }
+
+  .mobile-nav-btn:hover {
+    background: rgba(45, 51, 60, 1);
+    border-color: rgba(199, 209, 246, 0.2);
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 16px rgba(0, 0, 0, 0.4),
+      inset 0 1px 2px rgba(255, 255, 255, 0.08);
+  }
+
+  .mobile-nav-btn:active {
+    transform: translateY(0);
+  }
+
+  .mobile-nav-btn-primary {
+    background: linear-gradient(135deg, #C7D1F6 0%, #EAF1FC 100%);
+    color: #12161B;
+    border-color: transparent;
+    box-shadow:
+      0 6px 20px rgba(199, 209, 246, 0.4),
+      0 2px 8px rgba(199, 209, 246, 0.3),
+      inset 0 1px 2px rgba(255, 255, 255, 0.3);
+    position: relative;
+    z-index: 1;
+  }
+
+  .mobile-nav-btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    width: 30%;
+    height: 30%;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.6) 0%,
+      transparent 70%
+    );
+    filter: blur(4px);
+    pointer-events: none;
+  }
+
+  .mobile-nav-btn-primary:hover {
+    background: linear-gradient(135deg, #EAF1FC 0%, #C7D1F6 100%);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow:
+      0 8px 28px rgba(199, 209, 246, 0.5),
+      0 4px 12px rgba(199, 209, 246, 0.4),
+      inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  }
+
+  .mobile-nav-btn-primary:active {
+    transform: translateY(-2px) scale(1.02);
   }
 
   /* Hero - Corporate Identity Palette */
@@ -1369,6 +1521,10 @@
   /* Responsive */
   @media (max-width: 768px) {
     .mobile-menu-btn {
+      display: block;
+    }
+
+    .mobile-floating-nav {
       display: block;
     }
 
