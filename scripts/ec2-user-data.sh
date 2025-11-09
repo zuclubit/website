@@ -2,15 +2,15 @@
 # EC2 User Data Script para desplegar Zuclubit Svelte Site
 # Compatible con Amazon Linux 2023
 
-set -e  # Salir si hay algún error
+set -e  # Salir si hay algï¿½n error
 
-# Variables de configuración
-REPO_URL="https://github.com/tu-usuario/zuclubit-site.git"  # Actualizar con tu repo
+# Variables de configuraciï¿½n
+REPO_URL="https://github.com/zuclubit/website.git"
 APP_DIR="/var/www/zuclubit-site"
 NGINX_CONF="/etc/nginx/conf.d/zuclubit.conf"
 LOG_FILE="/var/log/zuclubit-deployment.log"
 
-# Función para logging
+# Funciï¿½n para logging
 log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
 }
@@ -25,7 +25,7 @@ dnf update -y
 log "Instalando nginx..."
 dnf install -y nginx
 
-# 3. Instalar Node.js y npm (versión LTS)
+# 3. Instalar Node.js y npm (versiï¿½n LTS)
 log "Instalando Node.js y npm..."
 dnf install -y nodejs npm
 
@@ -33,42 +33,26 @@ dnf install -y nodejs npm
 log "Node version: $(node --version)"
 log "NPM version: $(npm --version)"
 
-# 4. Instalar git si no está instalado
+# 4. Instalar git si no estï¿½ instalado
 log "Instalando git..."
 dnf install -y git
 
-# 5. Crear directorio de la aplicación
-log "Creando directorio de aplicación..."
+# 5. Crear directorio de la aplicaciï¿½n
+log "Creando directorio de aplicaciï¿½n..."
 mkdir -p "$APP_DIR"
 cd "$APP_DIR"
 
-# 6. Clonar el repositorio (o descomentar para usar archivos locales)
+# 6. Clonar el repositorio
 log "Clonando repositorio..."
-# OPCIÓN 1: Clonar desde GitHub (descomentar y actualizar REPO_URL arriba)
-# git clone "$REPO_URL" .
-
-# OPCIÓN 2: Si los archivos ya están en el AMI o S3, copiarlos aquí
-# Ejemplo con S3:
-# aws s3 sync s3://tu-bucket/zuclubit-site/ "$APP_DIR"
-
-# Para desarrollo/testing: crear estructura básica
-# (Eliminar esto cuando uses un repo real)
-cat > "$APP_DIR/.deployment-note" << 'EOF'
-IMPORTANTE: Configura el método de obtención del código:
-1. Descomentar la línea 'git clone' y actualizar REPO_URL
-2. O configurar la sincronización desde S3
-3. O incluir los archivos en un AMI personalizado
-EOF
+git clone "$REPO_URL" .
 
 # 7. Instalar dependencias de Node.js
 log "Instalando dependencias de npm..."
-# Descomentar cuando tengas el código fuente:
-# npm install
+npm install
 
-# 8. Construir la aplicación
-log "Construyendo la aplicación..."
-# Descomentar cuando tengas el código fuente:
-# npm run build
+# 8. Construir la aplicaciï¿½n
+log "Construyendo la aplicaciï¿½n..."
+npm run build
 
 # 9. Configurar nginx
 log "Configurando nginx..."
@@ -108,53 +92,12 @@ server {
 }
 EOF
 
-# 10. Crear directorio dist temporal (si no existe el build)
-log "Preparando directorio de distribución..."
-mkdir -p "$APP_DIR/dist"
-
-# Crear página temporal de bienvenida
-cat > "$APP_DIR/dist/index.html" << 'EOF'
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zuclubit - Deployment en Progreso</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        .container {
-            text-align: center;
-            padding: 2rem;
-        }
-        h1 { font-size: 2.5rem; margin-bottom: 1rem; }
-        p { font-size: 1.2rem; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Zuclubit Site</h1>
-        <p>Servidor configurado correctamente</p>
-        <p>Actualiza el código fuente y reconstruye para ver tu aplicación</p>
-    </div>
-</body>
-</html>
-EOF
-
-# 11. Configurar permisos
+# 10. Configurar permisos
 log "Configurando permisos..."
 chown -R nginx:nginx "$APP_DIR"
 chmod -R 755 "$APP_DIR"
 
-# 12. Configurar SELinux (si está habilitado)
+# 12. Configurar SELinux (si estï¿½ habilitado)
 if [ -x "$(command -v setenforce)" ]; then
     log "Configurando SELinux..."
     chcon -R -t httpd_sys_content_t "$APP_DIR/dist"
@@ -166,7 +109,7 @@ systemctl enable nginx
 systemctl start nginx
 systemctl status nginx
 
-# 14. Configurar firewall (si está habilitado)
+# 14. Configurar firewall (si estï¿½ habilitado)
 if systemctl is-active --quiet firewalld; then
     log "Configurando firewall..."
     firewall-cmd --permanent --add-service=http
@@ -174,24 +117,22 @@ if systemctl is-active --quiet firewalld; then
     firewall-cmd --reload
 fi
 
-# 15. Verificación final
-log "=== Verificación del despliegue ==="
+# 15. Verificaciï¿½n final
+log "=== Verificaciï¿½n del despliegue ==="
 log "Nginx status: $(systemctl is-active nginx)"
 log "Node version: $(node --version)"
 log "NPM version: $(npm --version)"
 
-# Mostrar IP pública
+# Mostrar IP pï¿½blica
 PUBLIC_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 log "Servidor disponible en: http://$PUBLIC_IP"
 
-log "=== Despliegue completado ==="
-log "NOTA: Recuerda configurar el método de obtención del código fuente"
-log "Ver: $APP_DIR/.deployment-note"
+log "=== Despliegue completado exitosamente ==="
 
-# Crear script de actualización para uso futuro
+# Crear script de actualizaciï¿½n para uso futuro
 cat > /usr/local/bin/update-zuclubit.sh << 'UPDATEEOF'
 #!/bin/bash
-# Script para actualizar la aplicación Zuclubit
+# Script para actualizar la aplicaciï¿½n Zuclubit
 
 set -e
 APP_DIR="/var/www/zuclubit-site"
@@ -199,7 +140,7 @@ APP_DIR="/var/www/zuclubit-site"
 echo "Actualizando Zuclubit Site..."
 cd "$APP_DIR"
 
-# Obtener últimos cambios
+# Obtener ï¿½ltimos cambios
 git pull origin main
 
 # Reinstalar dependencias si es necesario
@@ -211,10 +152,10 @@ npm run build
 # Reiniciar nginx
 systemctl reload nginx
 
-echo "Actualización completada!"
+echo "Actualizaciï¿½n completada!"
 UPDATEEOF
 
 chmod +x /usr/local/bin/update-zuclubit.sh
 
-log "Script de actualización creado en: /usr/local/bin/update-zuclubit.sh"
+log "Script de actualizaciï¿½n creado en: /usr/local/bin/update-zuclubit.sh"
 log "Uso: sudo /usr/local/bin/update-zuclubit.sh"
