@@ -12,45 +12,64 @@
     Target,
     ClipboardCheck,
     CheckCircle2,
-    Check
+    Check,
+    Menu,
+    X,
+    ArrowRight,
   } from 'lucide-svelte';
+
+  import logo from '../img/logo-zuclubit.png';
+
+  let mobileMenuOpen = false;
+  let activeService = null;
 
   // Services data
   const services = [
     {
+      id: 'architecture',
       icon: Building2,
       title: 'Architecture & Design',
-      description: 'Software, data, infrastructure, integration, and security architecture for enterprise systems.',
+      description:
+        'Software, data, infrastructure, integration, and security architecture for enterprise systems.',
       tags: ['Microservices', 'Cloud Native', 'Event-Driven'],
     },
     {
+      id: 'devops',
       icon: Settings,
       title: 'DevOps & Operations',
-      description: 'DevOps, SecOps, MLOps, DataOps, FinOps, and AIOps implementation with continuous delivery.',
+      description:
+        'DevOps, SecOps, MLOps, DataOps, FinOps, and AIOps implementation with continuous delivery.',
       tags: ['CI/CD', 'IaC', 'Automation'],
     },
     {
+      id: 'ai',
       icon: Brain,
       title: 'AI & Machine Learning',
-      description: 'Artificial intelligence, machine learning, data science, and predictive analytics solutions.',
+      description:
+        'Artificial intelligence, machine learning, data science, and predictive analytics solutions.',
       tags: ['Deep Learning', 'NLP', 'Computer Vision'],
     },
     {
+      id: 'cloud',
       icon: Cloud,
       title: 'Cloud Computing',
       description: 'Multi-cloud, hybrid cloud, edge computing architecture and migration services.',
       tags: ['AWS', 'Azure', 'GCP'],
     },
     {
+      id: 'security',
       icon: Shield,
       title: 'Cybersecurity',
-      description: 'Security audits, penetration testing, compliance, and threat detection systems.',
+      description:
+        'Security audits, penetration testing, compliance, and threat detection systems.',
       tags: ['Zero Trust', 'SIEM', 'SOC'],
     },
     {
+      id: 'transformation',
       icon: TrendingUp,
       title: 'Digital Transformation',
-      description: 'IT consulting, process automation, business intelligence, and enterprise modernization.',
+      description:
+        'IT consulting, process automation, business intelligence, and enterprise modernization.',
       tags: ['RPA', 'BI/Analytics', 'Legacy Migration'],
     },
   ];
@@ -76,6 +95,10 @@
       items: ['Kubernetes', 'Docker', 'Terraform', 'Infrastructure as Code'],
     },
     {
+      category: 'Security',
+      items: ['Penetration Testing', 'Security Audits', 'Threat Intelligence', 'Incident Response'],
+    },
+    {
       category: 'Data',
       items: ['Data Architecture', 'Big Data', 'Data Warehousing', 'Real-time Analytics'],
     },
@@ -83,14 +106,6 @@
       category: 'IoT & Innovation',
       items: ['IoT Platforms', 'AR/VR', 'Robotics', 'Blockchain'],
     },
-  ];
-
-  // Success metrics
-  const metrics = [
-    { value: '100+', label: 'Enterprise Clients' },
-    { value: '99.9%', label: 'System Uptime' },
-    { value: '40%', label: 'Avg. Cost Reduction' },
-    { value: '24/7', label: 'Support Coverage' },
   ];
 
   // Contact form
@@ -117,29 +132,53 @@
       }, 5000);
     }, 1500);
   }
+
+  function toggleMobileMenu() {
+    mobileMenuOpen = !mobileMenuOpen;
+  }
 </script>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="container">
+    <div class="nav-content">
+      <a href="/" class="nav-logo">
+        <img src={logo} alt="Zuclubit Logo" class="logo-image" />
+      </a>
+      <div class="nav-links" class:active={mobileMenuOpen}>
+        <a href="#services" on:click={() => (mobileMenuOpen = false)}>Services</a>
+        <a href="#expertise" on:click={() => (mobileMenuOpen = false)}>Expertise</a>
+        <a href="#standards" on:click={() => (mobileMenuOpen = false)}>Standards</a>
+        <a href="#contact" on:click={() => (mobileMenuOpen = false)}>Contact</a>
+      </div>
+      <button class="mobile-menu-btn" on:click={toggleMobileMenu} aria-label="Toggle menu">
+        {#if mobileMenuOpen}
+          <X size={24} />
+        {:else}
+          <Menu size={24} />
+        {/if}
+      </button>
+    </div>
+  </div>
+</nav>
 
 <!-- Hero Section -->
 <section class="hero">
+  <div class="hero-bg"></div>
   <div class="container">
     <div class="hero-content" in:fade={{ duration: 800 }}>
-      <div class="brand-container">
-        <h1 class="brand">ZUCLUBIT</h1>
-        <p class="tagline">The Living Code</p>
+      <div class="brand-section">
+        <h1 class="brand-name">ZUCLUBIT</h1>
+        <p class="brand-tagline">The Living Code</p>
       </div>
-      <h2 class="headline">Enterprise Technology Solutions That Transform Business</h2>
+      <h2 class="headline">Technology That Evolves With Purpose</h2>
       <p class="subheadline">
-        We architect, implement, and optimize cutting-edge technology ecosystems. From AI-powered automation
-        to cloud-native infrastructure, we deliver measurable results for enterprises worldwide.
+        Complete integration of hardware, software and intelligence for digital transformation and
+        sustainable innovation.
       </p>
       <div class="cta-group">
-        <a href="#contact" class="btn btn-primary">Get Started →</a>
-        <a href="#services" class="btn btn-outline">Explore Services</a>
-      </div>
-      <div class="trust-indicators" in:fade={{ delay: 400, duration: 800 }}>
-        <span><Check size={16} class="inline-icon" /> ISO 27001 Certified</span>
-        <span><Check size={16} class="inline-icon" /> 99.9% SLA</span>
-        <span><Check size={16} class="inline-icon" /> 24/7 Support</span>
+        <a href="#contact" class="btn btn-primary btn-large">Start Your Transformation →</a>
+        <a href="#services" class="btn btn-secondary btn-large">Explore Services ↓</a>
       </div>
     </div>
   </div>
@@ -150,13 +189,19 @@
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">Comprehensive Technology Services</h2>
-      <p class="section-subtitle">
-        End-to-end solutions covering the full technology lifecycle
-      </p>
+      <p class="section-subtitle">End-to-end solutions covering the full technology lifecycle</p>
     </div>
     <div class="services-grid">
       {#each services as service, i}
-        <div class="service-card" in:fly={{ y: 50, delay: i * 100, duration: 600 }}>
+        <div
+          class="service-card"
+          class:active={activeService === service.id}
+          in:fly={{ y: 50, delay: i * 100, duration: 600 }}
+          on:mouseenter={() => (activeService = service.id)}
+          on:mouseleave={() => (activeService = null)}
+          role="button"
+          tabindex="0"
+        >
           <div class="service-icon">
             <svelte:component this={service.icon} size={48} strokeWidth={1.5} />
           </div>
@@ -167,6 +212,11 @@
               <span class="tag">{tag}</span>
             {/each}
           </div>
+          <div class="service-cta-container">
+            <a href="#contact" class="service-cta">
+              Learn More <ArrowRight size={16} />
+            </a>
+          </div>
         </div>
       {/each}
     </div>
@@ -174,13 +224,11 @@
 </section>
 
 <!-- Expertise Section -->
-<section class="expertise">
+<section id="expertise" class="expertise">
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">Deep Technical Expertise</h2>
-      <p class="section-subtitle">
-        Specialized knowledge across modern technology stacks
-      </p>
+      <p class="section-subtitle">Specialized knowledge across modern technology stacks</p>
     </div>
     <div class="expertise-grid">
       {#each expertise as area}
@@ -194,17 +242,19 @@
         </div>
       {/each}
     </div>
+    <div class="section-cta">
+      <p class="section-cta-text">Need specialized expertise for your project?</p>
+      <a href="#contact" class="btn btn-primary">Discuss Your Needs →</a>
+    </div>
   </div>
 </section>
 
 <!-- Standards & Compliance Section -->
-<section class="standards">
+<section id="standards" class="standards">
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">Standards & Compliance</h2>
-      <p class="section-subtitle">
-        Certified expertise in industry-leading frameworks
-      </p>
+      <p class="section-subtitle">Certified expertise in industry-leading frameworks</p>
     </div>
     <div class="standards-grid">
       {#each standards as standard}
@@ -217,19 +267,9 @@
         </div>
       {/each}
     </div>
-  </div>
-</section>
-
-<!-- Metrics Section -->
-<section class="metrics">
-  <div class="container">
-    <div class="metrics-grid">
-      {#each metrics as metric}
-        <div class="metric-item">
-          <div class="metric-value">{metric.value}</div>
-          <div class="metric-label">{metric.label}</div>
-        </div>
-      {/each}
+    <div class="section-cta">
+      <p class="section-cta-text">Ready to ensure compliance and security?</p>
+      <a href="#contact" class="btn btn-primary">Get a Compliance Audit →</a>
     </div>
   </div>
 </section>
@@ -239,9 +279,7 @@
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">Let's Build Something Great</h2>
-      <p class="section-subtitle">
-        Ready to transform your technology infrastructure? Let's talk.
-      </p>
+      <p class="section-subtitle">Ready to transform your technology infrastructure? Let's talk.</p>
     </div>
     <div class="contact-container">
       <div class="contact-info">
@@ -249,23 +287,23 @@
         <ul class="benefits-list">
           <li>
             <span class="check"><CheckCircle2 size={20} /></span>
-            <span>Proven track record with 100+ enterprise clients</span>
+            <span>Complete technology integration from architecture to automation</span>
           </li>
           <li>
             <span class="check"><CheckCircle2 size={20} /></span>
-            <span>Certified experts in 20+ technologies</span>
+            <span>Expertise across DevOps, Cloud, AI/ML, and Cybersecurity</span>
           </li>
           <li>
             <span class="check"><CheckCircle2 size={20} /></span>
-            <span>Guaranteed 99.9% uptime SLA</span>
+            <span>ISO 27001, NIST, OWASP, and ITIL frameworks implementation</span>
           </li>
           <li>
             <span class="check"><CheckCircle2 size={20} /></span>
-            <span>24/7 technical support and monitoring</span>
+            <span>End-to-end solutions: research, design, integration & support</span>
           </li>
           <li>
             <span class="check"><CheckCircle2 size={20} /></span>
-            <span>ISO 27001 & NIST compliant processes</span>
+            <span>Focus on sustainable innovation and digital transformation</span>
           </li>
         </ul>
       </div>
@@ -276,11 +314,23 @@
         </div>
         <div class="form-group">
           <label for="email">Business Email *</label>
-          <input type="email" id="email" bind:value={formData.email} required placeholder="john@company.com" />
+          <input
+            type="email"
+            id="email"
+            bind:value={formData.email}
+            required
+            placeholder="john@company.com"
+          />
         </div>
         <div class="form-group">
           <label for="company">Company *</label>
-          <input type="text" id="company" bind:value={formData.company} required placeholder="Your Company" />
+          <input
+            type="text"
+            id="company"
+            bind:value={formData.company}
+            required
+            placeholder="Your Company"
+          />
         </div>
         <div class="form-group">
           <label for="service">Service Interest *</label>
@@ -296,7 +346,12 @@
         </div>
         <div class="form-group">
           <label for="message">Tell us about your project (optional)</label>
-          <textarea id="message" bind:value={formData.message} rows="4" placeholder="Brief description of your needs..."></textarea>
+          <textarea
+            id="message"
+            bind:value={formData.message}
+            rows="4"
+            placeholder="Brief description of your needs..."
+          ></textarea>
         </div>
         <button type="submit" class="btn btn-primary" disabled={formStatus === 'sending'}>
           {#if formStatus === 'sending'}
@@ -322,36 +377,39 @@
   <div class="container">
     <div class="footer-content">
       <div class="footer-brand">
-        <div class="footer-logo">ZUCLUBIT</div>
+        <div class="footer-logo-container">
+          <img src={logo} alt="Zuclubit Logo" class="footer-logo-image" />
+          <div class="footer-logo">ZUCLUBIT</div>
+        </div>
         <p class="footer-tagline">The Living Code</p>
         <p class="footer-description">
-          Enterprise technology solutions that drive digital transformation.
+          Complete technology integration: from architecture to automation.
         </p>
       </div>
       <div class="footer-links">
         <div class="footer-column">
           <h4>Services</h4>
           <ul>
-            <li><a href="#services">Architecture</a></li>
-            <li><a href="#services">DevOps</a></li>
-            <li><a href="#services">AI & ML</a></li>
-            <li><a href="#services">Cloud</a></li>
+            <li><a href="#services">Architecture & Design</a></li>
+            <li><a href="#services">DevOps & Operations</a></li>
+            <li><a href="#services">Cybersecurity</a></li>
+            <li><a href="#services">Cloud Computing</a></li>
           </ul>
         </div>
         <div class="footer-column">
-          <h4>Company</h4>
+          <h4>Navigation</h4>
           <ul>
-            <li><a href="#about">About Us</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#expertise">Expertise</a></li>
+            <li><a href="#standards">Standards</a></li>
             <li><a href="#contact">Contact</a></li>
-            <li><a href="#careers">Careers</a></li>
           </ul>
         </div>
         <div class="footer-column">
-          <h4>Resources</h4>
+          <h4>Connect</h4>
           <ul>
-            <li><a href="#blog">Blog</a></li>
-            <li><a href="#case-studies">Case Studies</a></li>
-            <li><a href="#docs">Documentation</a></li>
+            <li><a href="#contact">Get in Touch</a></li>
+            <li><a href="mailto:contact@zuclubit.com">Email Us</a></li>
           </ul>
         </div>
       </div>
@@ -374,7 +432,12 @@
   }
 
   :global(body) {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family:
+      'Inter',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
     background: #0b0e11;
     color: #f5f7fa;
     line-height: 1.6;
@@ -392,6 +455,97 @@
     padding: 0 2rem;
   }
 
+  /* Navbar */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(11, 14, 17, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .nav-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .logo-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background:
+      linear-gradient(135deg, #0b0e11 0%, #0b0e11 100%) padding-box,
+      linear-gradient(135deg, #00cfff 0%, #00e5c3 100%) border-box;
+    box-shadow: 0 4px 16px rgba(0, 207, 255, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .logo-image:hover {
+    box-shadow: 0 6px 20px rgba(0, 207, 255, 0.5);
+    transform: scale(1.05);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-links a {
+    color: #f5f7fa;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    position: relative;
+  }
+
+  .nav-links a:hover {
+    color: #00cfff;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #00cfff 0%, #00e5c3 100%);
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover::after {
+    width: 100%;
+  }
+
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: #f5f7fa;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.2s ease;
+  }
+
+  .mobile-menu-btn:hover {
+    color: #00cfff;
+  }
+
   /* Hero */
   .hero {
     min-height: 100vh;
@@ -400,22 +554,33 @@
     background: linear-gradient(135deg, #0b0e11 0%, #1c2024 100%);
     position: relative;
     overflow: hidden;
+    padding-top: 120px;
+    padding-bottom: 4rem;
   }
 
-  .hero::before {
-    content: '';
+  .hero-bg {
     position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(0, 207, 255, 0.15) 0%, transparent 70%);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      radial-gradient(circle at 20% 50%, rgba(0, 207, 255, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(0, 229, 195, 0.15) 0%, transparent 50%);
     animation: pulse 8s ease-in-out infinite;
+    z-index: 0;
   }
 
   @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.5; }
-    50% { transform: scale(1.1); opacity: 0.8; }
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 1;
+    }
   }
 
   .hero-content {
@@ -426,12 +591,12 @@
     margin: 0 auto;
   }
 
-  .brand-container {
-    margin-bottom: 2rem;
+  .brand-section {
+    margin-bottom: 2.5rem;
   }
 
-  .brand {
-    font-family: 'Orbitron', monospace;
+  .brand-name {
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 4rem;
     font-weight: 700;
     background: linear-gradient(135deg, #00cfff 0%, #00e5c3 100%);
@@ -439,50 +604,90 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     letter-spacing: 0.1em;
+    margin: 0;
+    line-height: 1;
   }
 
-  .tagline {
-    font-family: 'Orbitron', monospace;
-    font-size: 1.2rem;
+  .brand-tagline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 500;
     color: #00e5c3;
-    margin-top: 0.5rem;
+    margin: 0.75rem 0 0;
     letter-spacing: 0.05em;
   }
 
   .headline {
-    font-size: 3rem;
-    font-weight: 700;
-    margin: 2rem 0 1.5rem;
-    line-height: 1.2;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #f5f7fa;
+    margin: 0 0 1.5rem;
+    letter-spacing: -0.01em;
   }
 
   .subheadline {
-    font-size: 1.25rem;
-    color: #a0aec0;
-    margin-bottom: 2.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 400;
     line-height: 1.7;
+    color: #a0aec0;
+    margin: 0 0 2.5rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .cta-group {
     display: flex;
     gap: 1rem;
     justify-content: center;
-    margin-bottom: 2rem;
+    flex-wrap: wrap;
   }
 
-  .trust-indicators {
-    display: flex;
-    gap: 2rem;
-    justify-content: center;
-    font-size: 0.9rem;
-    color: #00e5c3;
-    align-items: center;
+  .btn-large {
+    padding: 1rem 2rem;
+    font-size: 1.05rem;
+    font-weight: 600;
   }
 
-  .trust-indicators span {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  .btn-secondary {
+    background: transparent;
+    border: 2px solid #00cfff;
+    color: #00cfff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-secondary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(0, 207, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition:
+      width 0.6s ease,
+      height 0.6s ease;
+  }
+
+  .btn-secondary:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(0, 207, 255, 0.1);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 207, 255, 0.3);
+  }
+
+  .btn-secondary:active {
+    transform: translateY(-1px) scale(1);
   }
 
   /* Buttons */
@@ -502,22 +707,43 @@
   .btn-primary {
     background: linear-gradient(135deg, #00cfff 0%, #00e5c3 100%);
     color: #0b0e11;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition:
+      width 0.6s ease,
+      height 0.6s ease;
+  }
+
+  .btn-primary:hover::before {
+    width: 300px;
+    height: 300px;
   }
 
   .btn-primary:hover {
-    transform: translateY(-2px);
+    transform: translateY(-2px) scale(1.02);
     box-shadow: 0 8px 20px rgba(0, 207, 255, 0.4);
   }
 
-  .btn-outline {
-    background: transparent;
-    border-color: rgba(255, 255, 255, 0.3);
-    color: #f5f7fa;
+  .btn-primary:active {
+    transform: translateY(-1px) scale(1);
   }
 
-  .btn-outline:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.5);
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
   }
 
   /* Sections */
@@ -531,9 +757,11 @@
   }
 
   .section-title {
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    letter-spacing: -0.01em;
   }
 
   .section-subtitle {
@@ -559,13 +787,38 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
     padding: 2rem;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
   }
 
-  .service-card:hover {
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(0, 207, 255, 0.15),
+      transparent 50%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .service-card:hover,
+  .service-card.active {
     transform: translateY(-4px);
     border-color: #00cfff;
     box-shadow: 0 12px 30px rgba(0, 207, 255, 0.2);
+  }
+
+  .service-card:hover::before,
+  .service-card.active::before {
+    opacity: 1;
   }
 
   .service-icon {
@@ -601,6 +854,37 @@
     color: #00cfff;
   }
 
+  .service-cta-container {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .service-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #00cfff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .service-cta:hover {
+    gap: 0.75rem;
+    color: #00e5c3;
+  }
+
+  .service-cta:hover :global(svg) {
+    transform: translateX(4px);
+  }
+
+  .service-cta :global(svg) {
+    transition: transform 0.3s ease;
+  }
+
   /* Expertise */
   .expertise {
     background: #0b0e11;
@@ -608,8 +892,8 @@
 
   .expertise-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
   }
 
   .expertise-area {
@@ -617,6 +901,15 @@
     border-radius: 12px;
     padding: 1.5rem;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: default;
+  }
+
+  .expertise-area:hover {
+    border-color: rgba(0, 207, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 207, 255, 0.1);
+    background: linear-gradient(135deg, rgba(0, 207, 255, 0.03) 0%, rgba(0, 229, 195, 0.03) 100%);
   }
 
   .expertise-category {
@@ -663,12 +956,19 @@
     border-radius: 12px;
     padding: 1.5rem;
     text-align: center;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: default;
   }
 
   .standard-card:hover {
     border-color: #00cfff;
-    transform: translateY(-2px);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(0, 207, 255, 0.2);
+    background: linear-gradient(135deg, rgba(0, 207, 255, 0.05) 0%, rgba(0, 229, 195, 0.05) 100%);
+  }
+
+  .standard-card:hover .standard-icon {
+    transform: scale(1.1) rotate(5deg);
   }
 
   .standard-icon {
@@ -676,6 +976,7 @@
     margin-bottom: 0.75rem;
     display: flex;
     justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .standard-name {
@@ -689,30 +990,22 @@
     color: #a0aec0;
   }
 
-  /* Metrics */
-  .metrics {
-    background: linear-gradient(135deg, #00cfff 0%, #00e5c3 100%);
-    color: #0b0e11;
-    padding: 4rem 0;
-  }
-
-  .metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
+  /* Section CTAs */
+  .section-cta {
+    margin-top: 4rem;
     text-align: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, rgba(0, 207, 255, 0.05) 0%, rgba(0, 229, 195, 0.05) 100%);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 207, 255, 0.2);
   }
 
-  .metric-value {
-    font-size: 3rem;
-    font-weight: 700;
-    font-family: 'Orbitron', monospace;
-  }
-
-  .metric-label {
-    font-size: 1rem;
+  .section-cta-text {
+    font-size: 1.25rem;
     font-weight: 500;
-    margin-top: 0.5rem;
+    color: #f5f7fa;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
   }
 
   /* Contact */
@@ -828,20 +1121,36 @@
     margin-bottom: 3rem;
   }
 
+  .footer-logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-logo-image {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+  }
+
   .footer-logo {
-    font-family: 'Orbitron', monospace;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 1.75rem;
     font-weight: 700;
     background: linear-gradient(135deg, #00cfff 0%, #00e5c3 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    letter-spacing: -0.01em;
   }
 
   .footer-tagline {
-    font-family: 'Orbitron', monospace;
+    font-family: 'Inter', sans-serif;
     color: #00e5c3;
     margin: 0.5rem 0 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
   }
 
   .footer-description {
@@ -905,35 +1214,82 @@
 
   /* Responsive */
   @media (max-width: 768px) {
-    .brand {
+    .mobile-menu-btn {
+      display: block;
+    }
+
+    .nav-links {
+      position: fixed;
+      top: 70px;
+      left: 0;
+      right: 0;
+      background: rgba(11, 14, 17, 0.98);
+      backdrop-filter: blur(10px);
+      flex-direction: column;
+      gap: 0;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav-links a {
+      padding: 1rem 2rem;
+      width: 100%;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-links a::after {
+      display: none;
+    }
+
+    .logo-image {
+      width: 40px;
+      height: 40px;
+    }
+
+    .brand-name {
       font-size: 2.5rem;
     }
 
+    .brand-tagline {
+      font-size: 1.1rem;
+    }
+
     .headline {
-      font-size: 2rem;
+      font-size: 1.75rem;
+      line-height: 1.3;
     }
 
     .subheadline {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
     }
 
     .cta-group {
       flex-direction: column;
+      gap: 0.75rem;
     }
 
-    .trust-indicators {
-      flex-direction: column;
-      gap: 0.5rem;
+    .btn-large {
+      padding: 0.875rem 1.75rem;
+      font-size: 1rem;
+      width: 100%;
     }
 
     .services-grid,
     .expertise-grid,
     .standards-grid {
       grid-template-columns: 1fr;
-    }
-
-    .metrics-grid {
-      grid-template-columns: repeat(2, 1fr);
     }
 
     .contact-container {

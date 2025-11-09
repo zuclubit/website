@@ -1,5 +1,5 @@
 <script>
-  import { fade, scale, slide } from 'svelte/transition';
+  import { fade, slide } from 'svelte/transition';
 
   /**
    * Datos para las tres entidades fundamentales de Zuclubit.
@@ -41,8 +41,14 @@
       icon: '🧠',
       name: 'CUERVO Platform',
       subtitle: 'La Mente Orquestadora',
-      description: 'Plataforma empresarial de orquestación multi-agente con Constitutional AI, Tree of Thoughts y escalabilidad lineal hasta 1M+ nodos.',
-      features: ['Orquestación Multi-Agente', 'Constitutional AI Framework', 'Consenso Distribuido', '10-100x Eficiencia Energética'],
+      description:
+        'Plataforma empresarial de orquestación multi-agente con Constitutional AI, Tree of Thoughts y escalabilidad lineal hasta 1M+ nodos.',
+      features: [
+        'Orquestación Multi-Agente',
+        'Constitutional AI Framework',
+        'Consenso Distribuido',
+        '10-100x Eficiencia Energética',
+      ],
       tags: ['#OrquestaciónIA', '#ConstitutionalAI', '#EnterpriseReady'],
       color: 'platform',
       link: '#platform',
@@ -52,8 +58,14 @@
       icon: '🎛️',
       name: 'CUERVO Admin',
       subtitle: 'La Conciencia Controladora',
-      description: 'Panel SaaS profesional para gestionar agentes, diseñar prompts, monitorear ejecuciones y analizar métricas en tiempo real.',
-      features: ['Prompt Engineering Pro', 'Execution Monitoring', 'Metrics Dashboard', 'Real-time WebSocket'],
+      description:
+        'Panel SaaS profesional para gestionar agentes, diseñar prompts, monitorear ejecuciones y analizar métricas en tiempo real.',
+      features: [
+        'Prompt Engineering Pro',
+        'Execution Monitoring',
+        'Metrics Dashboard',
+        'Real-time WebSocket',
+      ],
       tags: ['#Dashboard', '#Analytics', '#Monitoring'],
       color: 'admin',
       link: '#admin',
@@ -63,8 +75,14 @@
       icon: '💻',
       name: 'CUERVO IDE',
       subtitle: 'El Bit que Crea',
-      description: 'IDE nativo con IA integrada. 320MB RAM, <30ms latency AI completions, arquitectura Rust + TypeScript. El futuro del desarrollo.',
-      features: ['AI-Assisted Coding', '320MB RAM (~3x menor que VS Code)', '<30ms AI Latency', 'WASM Plugins'],
+      description:
+        'IDE nativo con IA integrada. 320MB RAM, <30ms latency AI completions, arquitectura Rust + TypeScript. El futuro del desarrollo.',
+      features: [
+        'AI-Assisted Coding',
+        '320MB RAM (~3x menor que VS Code)',
+        '<30ms AI Latency',
+        'WASM Plugins',
+      ],
       tags: ['#NextGenIDE', '#Performance', '#AIFirst'],
       color: 'ide',
       link: '#ide',
@@ -165,8 +183,8 @@
       Creadores del Ecosistema CUERVO
     </p>
     <p class="intro" in:fade={{ delay: 400, duration: 800 }}>
-      La tecnología cobra vida cuando la mente, la conciencia y la esencia convergen.
-      Desarrollamos plataformas de orquestación de IA donde cada bit importa y el código respira.
+      La tecnología cobra vida cuando la mente, la conciencia y la esencia convergen. Desarrollamos
+      plataformas de orquestación de IA donde cada bit importa y el código respira.
     </p>
     <div class="cta-group" in:fade={{ delay: 600, duration: 800 }}>
       <a href="#productos" class="cta">Explorar Ecosistema</a>
@@ -189,8 +207,9 @@
       Humanizamos la red transformando la información en experiencia.
     </p>
     <p in:fade={{ delay: 400, duration: 600 }}>
-      Por eso creamos <strong>CUERVO</strong>: Control Unificado de Recursos y Validación de Orquestación.
-      Un ecosistema completo de plataformas de IA que materializa nuestra visión del código vivo.
+      Por eso creamos <strong>CUERVO</strong>: Control Unificado de Recursos y Validación de
+      Orquestación. Un ecosistema completo de plataformas de IA que materializa nuestra visión del
+      código vivo.
     </p>
   </div>
 </section>
@@ -317,24 +336,24 @@
     <div class="tech-card" in:fade={{ duration: 500 }}>
       <h4>Constitutional AI</h4>
       <p>
-        No solo IA ética, sino IA con principios constitucionales embebidos.
-        Transparencia total, governance automático y cumplimiento regulatorio desde el diseño.
+        No solo IA ética, sino IA con principios constitucionales embebidos. Transparencia total,
+        governance automático y cumplimiento regulatorio desde el diseño.
       </p>
       <span class="tech-powered">Powered by CUERVO Platform</span>
     </div>
     <div class="tech-card" in:fade={{ delay: 150, duration: 500 }}>
       <h4>Arquitectura Corvid-Inspired</h4>
       <p>
-        Basada en neurociencia de córvidos. 10-100x eficiencia energética,
-        escalabilidad lineal hasta 1M+ nodos y consenso distribuido bizantino.
+        Basada en neurociencia de córvidos. 10-100x eficiencia energética, escalabilidad lineal
+        hasta 1M+ nodos y consenso distribuido bizantino.
       </p>
       <span class="tech-powered">Powered by CUERVO Platform</span>
     </div>
     <div class="tech-card" in:fade={{ delay: 300, duration: 500 }}>
       <h4>Desarrollo AI-Native</h4>
       <p>
-        IDE construido desde cero para la era de IA. Completions &lt;30ms,
-        320MB RAM (3x menor que VS Code), arquitectura híbrida Rust + TypeScript.
+        IDE construido desde cero para la era de IA. Completions &lt;30ms, 320MB RAM (3x menor que
+        VS Code), arquitectura híbrida Rust + TypeScript.
       </p>
       <span class="tech-powered">Powered by CUERVO IDE</span>
     </div>
@@ -352,9 +371,8 @@
     <div class="contact-info" in:fade={{ duration: 600 }}>
       <h4>¿Listo para CUERVO?</h4>
       <p>
-        Solicita una demo personalizada de nuestras plataformas.
-        Te mostraremos cómo Constitutional AI y orquestación multi-agente
-        pueden transformar tus procesos críticos de negocio.
+        Solicita una demo personalizada de nuestras plataformas. Te mostraremos cómo Constitutional
+        AI y orquestación multi-agente pueden transformar tus procesos críticos de negocio.
       </p>
       <div class="contact-benefits">
         <div class="benefit-item">
@@ -379,13 +397,7 @@
     <form class="contact-form" on:submit={handleSubmit} in:fade={{ delay: 200, duration: 600 }}>
       <div class="form-group">
         <label for="name">Nombre completo *</label>
-        <input
-          type="text"
-          id="name"
-          bind:value={formData.name}
-          required
-          placeholder="Tu nombre"
-        />
+        <input type="text" id="name" bind:value={formData.name} required placeholder="Tu nombre" />
       </div>
 
       <div class="form-group">
@@ -454,8 +466,8 @@
 <section class="closing-section">
   <h3 class="section-title" in:slide={{ x: -100, duration: 600 }}>El Código Respira</h3>
   <p class="closing-text" in:fade={{ duration: 600 }}>
-    Entre la mente, la conciencia y la esencia… el código cobra vida.
-    Únete a Zuclubit y sé parte de la evolución digital.
+    Entre la mente, la conciencia y la esencia… el código cobra vida. Únete a Zuclubit y sé parte de
+    la evolución digital.
   </p>
   <div class="closing-stats" in:fade={{ delay: 200, duration: 600 }}>
     <div class="stat-item">
@@ -549,7 +561,9 @@
     border-radius: 9999px;
     text-decoration: none;
     font-weight: 600;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
   }
   a.cta:hover {
     transform: translateY(-3px);
@@ -588,7 +602,9 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
     cursor: pointer;
   }
   .triad-item:hover {
@@ -1090,7 +1106,8 @@
   }
 
   @keyframes pulse {
-    0%, 100% {
+    0%,
+    100% {
       transform: scale(1);
       opacity: 0.6;
     }

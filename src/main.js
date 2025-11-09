@@ -1,8 +1,12 @@
 import App from './App.svelte';
 
-// Monta la aplicación Svelte en el contenedor #app.
+// Obtener el contenedor y limpiar el contenido de carga
+const target = document.getElementById('app');
+target.innerHTML = '';
+
+// Montar la aplicación Svelte
 const app = new App({
-  target: document.getElementById('app'),
+  target,
 });
 
 export default app;

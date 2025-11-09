@@ -38,3 +38,24 @@ npm-debug.log*
 
 # Claude
 .claude/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Lighthouse reports
+.lighthouseci/
+
+# Deployment
+.wrangler/
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Security
+*.sarif
+trivy-results.sarif

@@ -6,19 +6,22 @@
     {
       icon: '🏗️',
       title: 'Architecture & Design',
-      description: 'Software, data, infrastructure, integration, and security architecture for enterprise systems.',
+      description:
+        'Software, data, infrastructure, integration, and security architecture for enterprise systems.',
       tags: ['Microservices', 'Cloud Native', 'Event-Driven'],
     },
     {
       icon: '⚙️',
       title: 'DevOps & Operations',
-      description: 'DevOps, SecOps, MLOps, DataOps, FinOps, and AIOps implementation with continuous delivery.',
+      description:
+        'DevOps, SecOps, MLOps, DataOps, FinOps, and AIOps implementation with continuous delivery.',
       tags: ['CI/CD', 'IaC', 'Automation'],
     },
     {
       icon: '🤖',
       title: 'AI & Machine Learning',
-      description: 'Artificial intelligence, machine learning, data science, and predictive analytics solutions.',
+      description:
+        'Artificial intelligence, machine learning, data science, and predictive analytics solutions.',
       tags: ['Deep Learning', 'NLP', 'Computer Vision'],
     },
     {
@@ -30,13 +33,15 @@
     {
       icon: '🔒',
       title: 'Cybersecurity',
-      description: 'Security audits, penetration testing, compliance, and threat detection systems.',
+      description:
+        'Security audits, penetration testing, compliance, and threat detection systems.',
       tags: ['Zero Trust', 'SIEM', 'SOC'],
     },
     {
       icon: '📊',
       title: 'Digital Transformation',
-      description: 'IT consulting, process automation, business intelligence, and enterprise modernization.',
+      description:
+        'IT consulting, process automation, business intelligence, and enterprise modernization.',
       tags: ['RPA', 'BI/Analytics', 'Legacy Migration'],
     },
   ];
@@ -115,8 +120,9 @@
       </div>
       <h2 class="headline">Enterprise Technology Solutions That Transform Business</h2>
       <p class="subheadline">
-        We architect, implement, and optimize cutting-edge technology ecosystems. From AI-powered automation
-        to cloud-native infrastructure, we deliver measurable results for enterprises worldwide.
+        We architect, implement, and optimize cutting-edge technology ecosystems. From AI-powered
+        automation to cloud-native infrastructure, we deliver measurable results for enterprises
+        worldwide.
       </p>
       <div class="cta-group">
         <a href="#contact" class="btn btn-primary">Get Started →</a>
@@ -136,9 +142,7 @@
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">Comprehensive Technology Services</h2>
-      <p class="section-subtitle">
-        End-to-end solutions covering the full technology lifecycle
-      </p>
+      <p class="section-subtitle">End-to-end solutions covering the full technology lifecycle</p>
     </div>
     <div class="services-grid">
       {#each services as service, i}
@@ -162,9 +166,7 @@
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">Deep Technical Expertise</h2>
-      <p class="section-subtitle">
-        Specialized knowledge across modern technology stacks
-      </p>
+      <p class="section-subtitle">Specialized knowledge across modern technology stacks</p>
     </div>
     <div class="expertise-grid">
       {#each expertise as area}
@@ -186,9 +188,7 @@
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">Standards & Compliance</h2>
-      <p class="section-subtitle">
-        Certified expertise in industry-leading frameworks
-      </p>
+      <p class="section-subtitle">Certified expertise in industry-leading frameworks</p>
     </div>
     <div class="standards-grid">
       {#each standards as standard}
@@ -221,9 +221,7 @@
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">Let's Build Something Great</h2>
-      <p class="section-subtitle">
-        Ready to transform your technology infrastructure? Let's talk.
-      </p>
+      <p class="section-subtitle">Ready to transform your technology infrastructure? Let's talk.</p>
     </div>
     <div class="contact-container">
       <div class="contact-info">
@@ -258,11 +256,23 @@
         </div>
         <div class="form-group">
           <label for="email">Business Email *</label>
-          <input type="email" id="email" bind:value={formData.email} required placeholder="john@company.com" />
+          <input
+            type="email"
+            id="email"
+            bind:value={formData.email}
+            required
+            placeholder="john@company.com"
+          />
         </div>
         <div class="form-group">
           <label for="company">Company *</label>
-          <input type="text" id="company" bind:value={formData.company} required placeholder="Your Company" />
+          <input
+            type="text"
+            id="company"
+            bind:value={formData.company}
+            required
+            placeholder="Your Company"
+          />
         </div>
         <div class="form-group">
           <label for="service">Service Interest *</label>
@@ -278,7 +288,12 @@
         </div>
         <div class="form-group">
           <label for="message">Tell us about your project (optional)</label>
-          <textarea id="message" bind:value={formData.message} rows="4" placeholder="Brief description of your needs..."></textarea>
+          <textarea
+            id="message"
+            bind:value={formData.message}
+            rows="4"
+            placeholder="Brief description of your needs..."
+          ></textarea>
         </div>
         <button type="submit" class="btn btn-primary" disabled={formStatus === 'sending'}>
           {#if formStatus === 'sending'}
@@ -356,7 +371,12 @@
   }
 
   :global(body) {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family:
+      'Inter',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
     background: #0b0e11;
     color: #f5f7fa;
     line-height: 1.6;
@@ -390,8 +410,15 @@
   }
 
   @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.5; }
-    50% { transform: scale(1.1); opacity: 0.8; }
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.8;
+    }
   }
 
   .hero-content {

@@ -1,0 +1,149 @@
+name: CD - Deploy to CloudFlare Pages
+
+on:
+  push:
+    branches:
+      - main  # Production deployment
+  pull_request:
+    branches:
+      - main  # Preview deployment
+
+# Prevent concurrent deployments
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: '20'
+  CLOUDFLARE_PROJECT_NAME: 'zuclubit-site'
+
+jobs:
+  deploy:
+    name: Deploy to CloudFlare Pages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Verify build output
+        run: |
+          echo "📦 Build output:"
+          ls -lh dist/
+          echo ""
+          echo "📊 Total size:"
+          du -sh dist/
+
+      # Production deployment (main branch)
+      - name: Deploy to CloudFlare Pages (Production)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=${{ env.CLOUDFLARE_PROJECT_NAME }} --branch=main
+
+      - name: Post deployment success (Production)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && success()
+        run: |
+          echo "🚀 Deployment successful!"
+          echo ""
+          echo "🌐 URLs:"
+          echo "  → https://zuclubit.com"
+          echo "  → https://www.zuclubit.com"
+          echo "  → https://${{ env.CLOUDFLARE_PROJECT_NAME }}.pages.dev"
+
+      # Preview deployment (PRs)
+      - name: Deploy to CloudFlare Pages (Preview)
+        id: deploy-preview
+        if: github.event_name == 'pull_request'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=${{ env.CLOUDFLARE_PROJECT_NAME }} --branch=preview-${{ github.event.pull_request.number }}
+
+      - name: Comment PR with preview URL
+        if: github.event_name == 'pull_request' && success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const previewUrl = `https://preview-${prNumber}.${{ env.CLOUDFLARE_PROJECT_NAME }}.pages.dev`;
+
+            const body = `## 🚀 Preview Deployment
+
+            Your changes have been deployed to a preview environment!
+
+            🌐 **Preview URL**: [${previewUrl}](${previewUrl})
+
+            This preview will be automatically updated with new commits.
+
+            ### Build Information
+            - **Commit**: ${context.sha.substring(0, 7)}
+            - **Branch**: ${context.payload.pull_request.head.ref}
+            - **Build time**: ${new Date().toUTCString()}
+
+            ---
+            ⚡ Powered by CloudFlare Pages
+            `;
+
+            // Find existing comment
+            const comments = await github.rest.issues.listComments({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+
+            const existingComment = comments.data.find(comment =>
+              comment.body.includes('Preview Deployment')
+            );
+
+            if (existingComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                comment_id: existingComment.id,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                issue_number: prNumber,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body
+              });
+            }
+
+      # Deployment failure notification
+      - name: Handle deployment failure
+        if: failure()
+        run: |
+          echo "❌ Deployment failed!"
+          echo ""
+          echo "Please check the logs above for errors."
+          echo "Common issues:"
+          echo "  - Build errors"
+          echo "  - CloudFlare API token issues"
+          echo "  - Network connectivity"
+          exit 1

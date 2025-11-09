@@ -3,14 +3,59 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Sitio web corporativo para Zuclubit diseñado con Svelte siguiendo la guía de diseño 'The Living Code'.",
+  "author": "Oscar Valois <osvaloismtz@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Osvaloismtz/zuclubit-site.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Osvaloismtz/zuclubit-site/issues"
+  },
+  "homepage": "https://zuclubit.com",
+  "keywords": [
+    "svelte",
+    "vite",
+    "cloudflare-pages",
+    "serverless",
+    "devops",
+    "secops"
+  ],
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "echo \"No tests configured yet\" && exit 0",
+    "test:watch": "echo \"No tests configured yet\"",
+    "test:coverage": "echo \"No tests configured yet\"",
+    "lint": "eslint \"src/**/*.{js,svelte}\" --max-warnings 0",
+    "lint:fix": "eslint \"src/**/*.{js,svelte}\" --fix",
+    "format": "prettier --write \"src/**/*.{js,svelte,css,html}\"",
+    "format:check": "prettier --check \"src/**/*.{js,svelte,css,html}\"",
+    "type-check": "svelte-check --workspace src",
+    "audit": "npm audit --audit-level=moderate",
+    "audit:fix": "npm audit fix",
+    "clean": "rm -rf dist node_modules .svelte-kit",
+    "reinstall": "npm run clean && npm install",
+    "prepare": "echo \"Husky will be configured here\"",
+    "precommit": "npm run lint && npm run format:check",
+    "prepush": "npm run build",
+    "ci": "npm run lint && npm run format:check && npm run build && npm run test",
+    "deploy:manual": "./legacy/scripts/deploy-cloudflare.sh",
+    "verify:domain": "./legacy/scripts/verify-domain.sh"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-svelte": "^2.35.1",
+    "prettier": "^3.2.5",
+    "prettier-plugin-svelte": "^3.1.2",
     "svelte": "^4.2.0",
+    "svelte-check": "^3.6.4",
     "vite": "^5.4.21"
   },
   "dependencies": {

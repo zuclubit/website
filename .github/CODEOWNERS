@@ -1,0 +1,37 @@
+# CODEOWNERS - Automatic code review assignments
+# Lines starting with '#' are comments.
+# Each line is a file pattern followed by one or more owners.
+
+# Default owners for everything in the repo
+* @Osvaloismtz
+
+# Workflow and CI/CD configuration
+/.github/ @Osvaloismtz
+/.github/workflows/ @Osvaloismtz
+
+# Infrastructure and deployment
+/deploy*.sh @Osvaloismtz
+/wrangler.toml @Osvaloismtz
+/.lighthouserc.json @Osvaloismtz
+
+# Security-critical files
+/SECURITY.md @Osvaloismtz
+/.github/workflows/security.yml @Osvaloismtz
+
+# Documentation
+*.md @Osvaloismtz
+/docs/ @Osvaloismtz
+
+# Configuration files
+package.json @Osvaloismtz
+package-lock.json @Osvaloismtz
+vite.config.js @Osvaloismtz
+.eslintrc* @Osvaloismtz
+.prettierrc* @Osvaloismtz
+
+# Source code
+/src/ @Osvaloismtz
+/src/components/ @Osvaloismtz
+
+# Public assets
+/public/ @Osvaloismtz

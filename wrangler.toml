@@ -1,0 +1,35 @@
+# Configuración de CloudFlare Pages para Zuclubit
+# Documentación: https://developers.cloudflare.com/pages/
+
+name = "zuclubit-site"
+compatibility_date = "2024-11-09"
+
+# Pages configuration
+pages_build_output_dir = "dist"
+
+# Build configuration
+[build]
+command = "npm run build"
+cwd = "."
+
+# Build watch paths
+watch_dirs = ["src", "public"]
+
+# Environment variables (si necesitas)
+# [env.production.vars]
+# API_URL = "https://api.zuclubit.com"
+
+# [env.preview.vars]
+# API_URL = "https://api-preview.zuclubit.com"
+
+# Redirects and headers
+# [[redirects]]
+# from = "/old-path"
+# to = "/new-path"
+# status = 301
+
+# [[headers]]
+# for = "/*"
+# [headers.values]
+# X-Frame-Options = "DENY"
+# X-Content-Type-Options = "nosniff"
