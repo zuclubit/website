@@ -1,40 +1,54 @@
 <script>
   import { fade, fly } from 'svelte/transition';
+  import {
+    Building2,
+    Settings,
+    Brain,
+    Cloud,
+    Shield,
+    TrendingUp,
+    ShieldCheck,
+    Lock,
+    Target,
+    ClipboardCheck,
+    CheckCircle2,
+    Check
+  } from 'lucide-svelte';
 
   // Services data
   const services = [
     {
-      icon: '🏗️',
+      icon: Building2,
       title: 'Architecture & Design',
       description: 'Software, data, infrastructure, integration, and security architecture for enterprise systems.',
       tags: ['Microservices', 'Cloud Native', 'Event-Driven'],
     },
     {
-      icon: '⚙️',
+      icon: Settings,
       title: 'DevOps & Operations',
       description: 'DevOps, SecOps, MLOps, DataOps, FinOps, and AIOps implementation with continuous delivery.',
       tags: ['CI/CD', 'IaC', 'Automation'],
     },
     {
-      icon: '🤖',
+      icon: Brain,
       title: 'AI & Machine Learning',
       description: 'Artificial intelligence, machine learning, data science, and predictive analytics solutions.',
       tags: ['Deep Learning', 'NLP', 'Computer Vision'],
     },
     {
-      icon: '☁️',
+      icon: Cloud,
       title: 'Cloud Computing',
       description: 'Multi-cloud, hybrid cloud, edge computing architecture and migration services.',
       tags: ['AWS', 'Azure', 'GCP'],
     },
     {
-      icon: '🔒',
+      icon: Shield,
       title: 'Cybersecurity',
       description: 'Security audits, penetration testing, compliance, and threat detection systems.',
       tags: ['Zero Trust', 'SIEM', 'SOC'],
     },
     {
-      icon: '📊',
+      icon: TrendingUp,
       title: 'Digital Transformation',
       description: 'IT consulting, process automation, business intelligence, and enterprise modernization.',
       tags: ['RPA', 'BI/Analytics', 'Legacy Migration'],
@@ -43,12 +57,12 @@
 
   // Compliance & Standards
   const standards = [
-    { name: 'ISO/IEC 27001', icon: '🛡️', category: 'Security' },
-    { name: 'NIST Framework', icon: '🏛️', category: 'Cybersecurity' },
-    { name: 'OWASP Top 10', icon: '🔐', category: 'AppSec' },
-    { name: 'ITIL v4', icon: '🎯', category: 'Service Mgmt' },
-    { name: 'COBIT', icon: '📋', category: 'IT Governance' },
-    { name: 'CIS Benchmarks', icon: '✅', category: 'Best Practices' },
+    { name: 'ISO/IEC 27001', icon: ShieldCheck, category: 'Security' },
+    { name: 'NIST Framework', icon: Building2, category: 'Cybersecurity' },
+    { name: 'OWASP Top 10', icon: Lock, category: 'AppSec' },
+    { name: 'ITIL v4', icon: Target, category: 'Service Mgmt' },
+    { name: 'COBIT', icon: ClipboardCheck, category: 'IT Governance' },
+    { name: 'CIS Benchmarks', icon: CheckCircle2, category: 'Best Practices' },
   ];
 
   // Expertise Areas
@@ -123,9 +137,9 @@
         <a href="#services" class="btn btn-outline">Explore Services</a>
       </div>
       <div class="trust-indicators" in:fade={{ delay: 400, duration: 800 }}>
-        <span>✓ ISO 27001 Certified</span>
-        <span>✓ 99.9% SLA</span>
-        <span>✓ 24/7 Support</span>
+        <span><Check size={16} class="inline-icon" /> ISO 27001 Certified</span>
+        <span><Check size={16} class="inline-icon" /> 99.9% SLA</span>
+        <span><Check size={16} class="inline-icon" /> 24/7 Support</span>
       </div>
     </div>
   </div>
@@ -143,7 +157,9 @@
     <div class="services-grid">
       {#each services as service, i}
         <div class="service-card" in:fly={{ y: 50, delay: i * 100, duration: 600 }}>
-          <div class="service-icon">{service.icon}</div>
+          <div class="service-icon">
+            <svelte:component this={service.icon} size={48} strokeWidth={1.5} />
+          </div>
           <h3 class="service-title">{service.title}</h3>
           <p class="service-description">{service.description}</p>
           <div class="service-tags">
@@ -193,7 +209,9 @@
     <div class="standards-grid">
       {#each standards as standard}
         <div class="standard-card">
-          <div class="standard-icon">{standard.icon}</div>
+          <div class="standard-icon">
+            <svelte:component this={standard.icon} size={40} strokeWidth={1.5} />
+          </div>
           <div class="standard-name">{standard.name}</div>
           <div class="standard-category">{standard.category}</div>
         </div>
@@ -230,23 +248,23 @@
         <h3>Why Choose Zuclubit?</h3>
         <ul class="benefits-list">
           <li>
-            <span class="check">✓</span>
+            <span class="check"><CheckCircle2 size={20} /></span>
             <span>Proven track record with 100+ enterprise clients</span>
           </li>
           <li>
-            <span class="check">✓</span>
+            <span class="check"><CheckCircle2 size={20} /></span>
             <span>Certified experts in 20+ technologies</span>
           </li>
           <li>
-            <span class="check">✓</span>
+            <span class="check"><CheckCircle2 size={20} /></span>
             <span>Guaranteed 99.9% uptime SLA</span>
           </li>
           <li>
-            <span class="check">✓</span>
+            <span class="check"><CheckCircle2 size={20} /></span>
             <span>24/7 technical support and monitoring</span>
           </li>
           <li>
-            <span class="check">✓</span>
+            <span class="check"><CheckCircle2 size={20} /></span>
             <span>ISO 27001 & NIST compliant processes</span>
           </li>
         </ul>
@@ -284,7 +302,7 @@
           {#if formStatus === 'sending'}
             Sending...
           {:else if formStatus === 'success'}
-            ✓ Message Sent
+            <Check size={20} class="inline-icon" /> Message Sent
           {:else}
             Request Consultation
           {/if}
@@ -360,6 +378,12 @@
     background: #0b0e11;
     color: #f5f7fa;
     line-height: 1.6;
+  }
+
+  :global(.inline-icon) {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.25rem;
   }
 
   .container {
@@ -452,6 +476,13 @@
     justify-content: center;
     font-size: 0.9rem;
     color: #00e5c3;
+    align-items: center;
+  }
+
+  .trust-indicators span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   /* Buttons */
@@ -538,7 +569,7 @@
   }
 
   .service-icon {
-    font-size: 3rem;
+    color: #00cfff;
     margin-bottom: 1rem;
   }
 
@@ -641,8 +672,10 @@
   }
 
   .standard-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+    color: #00cfff;
+    margin-bottom: 0.75rem;
+    display: flex;
+    justify-content: center;
   }
 
   .standard-name {
@@ -715,8 +748,8 @@
 
   .check {
     color: #00e5c3;
-    font-weight: bold;
-    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
   }
 
   /* Form */
@@ -767,6 +800,8 @@
   .contact-form .btn {
     width: 100%;
     margin-top: 1rem;
+    justify-content: center;
+    gap: 0.5rem;
   }
 
   .success-message {
