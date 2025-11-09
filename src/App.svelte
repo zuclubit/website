@@ -437,17 +437,76 @@
     height: 50px;
     object-fit: cover;
     border-radius: 50%;
-    border: 2px solid transparent;
-    background:
-      linear-gradient(135deg, #0b0e11 0%, #0b0e11 100%) padding-box,
-      linear-gradient(135deg, #00cfff 0%, #00e5c3 100%) border-box;
-    box-shadow: 0 4px 16px rgba(0, 207, 255, 0.3);
-    transition: all 0.3s ease;
+    padding: 3px;
+    position: relative;
+    background: linear-gradient(135deg, rgba(0, 207, 255, 0.15) 0%, rgba(0, 229, 195, 0.15) 100%);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow:
+      0 8px 32px rgba(0, 207, 255, 0.25),
+      0 2px 8px rgba(0, 229, 195, 0.2),
+      inset 0 1px 2px rgba(255, 255, 255, 0.1),
+      inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+    background-clip: padding-box;
+  }
+
+  .logo-image::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00cfff 0%, #00e5c3 50%, #00cfff 100%);
+    z-index: -1;
+    opacity: 0.8;
+    transition: opacity 0.4s ease;
+  }
+
+  .logo-image::after {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 30%;
+    height: 30%;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.4) 0%,
+      transparent 70%
+    );
+    filter: blur(4px);
+    pointer-events: none;
   }
 
   .logo-image:hover {
-    box-shadow: 0 6px 20px rgba(0, 207, 255, 0.5);
-    transform: scale(1.05);
+    background: linear-gradient(135deg, rgba(0, 207, 255, 0.25) 0%, rgba(0, 229, 195, 0.25) 100%);
+    box-shadow:
+      0 12px 48px rgba(0, 207, 255, 0.4),
+      0 4px 16px rgba(0, 229, 195, 0.35),
+      inset 0 2px 4px rgba(255, 255, 255, 0.15),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+    transform: scale(1.08) translateY(-2px);
+    backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
+  }
+
+  .logo-image:hover::before {
+    opacity: 1;
+    animation: rotate-gradient 3s linear infinite;
+  }
+
+  @keyframes rotate-gradient {
+    0% {
+      filter: hue-rotate(0deg);
+    }
+    100% {
+      filter: hue-rotate(360deg);
+    }
   }
 
   .nav-links {
@@ -1163,6 +1222,67 @@
     width: 50px;
     height: 50px;
     object-fit: contain;
+    border-radius: 50%;
+    padding: 3px;
+    position: relative;
+    background: linear-gradient(135deg, rgba(0, 207, 255, 0.15) 0%, rgba(0, 229, 195, 0.15) 100%);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow:
+      0 8px 32px rgba(0, 207, 255, 0.25),
+      0 2px 8px rgba(0, 229, 195, 0.2),
+      inset 0 1px 2px rgba(255, 255, 255, 0.1),
+      inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+    background-clip: padding-box;
+  }
+
+  .footer-logo-image::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00cfff 0%, #00e5c3 50%, #00cfff 100%);
+    z-index: -1;
+    opacity: 0.6;
+    transition: opacity 0.4s ease;
+  }
+
+  .footer-logo-image::after {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 30%;
+    height: 30%;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.3) 0%,
+      transparent 70%
+    );
+    filter: blur(4px);
+    pointer-events: none;
+  }
+
+  .footer-logo-image:hover {
+    background: linear-gradient(135deg, rgba(0, 207, 255, 0.25) 0%, rgba(0, 229, 195, 0.25) 100%);
+    box-shadow:
+      0 12px 48px rgba(0, 207, 255, 0.35),
+      0 4px 16px rgba(0, 229, 195, 0.3),
+      inset 0 2px 4px rgba(255, 255, 255, 0.15),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05) translateY(-2px);
+    backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
+  }
+
+  .footer-logo-image:hover::before {
+    opacity: 0.9;
   }
 
   .footer-logo {
