@@ -38,7 +38,7 @@ jobs:
 
       - name: Comment PR with Lighthouse scores
         if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             // This will be populated by Lighthouse CI action
