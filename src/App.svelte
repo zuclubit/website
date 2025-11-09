@@ -19,6 +19,7 @@
   } from 'lucide-svelte';
 
   import logo from '../img/logo-zuclubit.png';
+  import ContactForm from './components/sections/ContactForm.svelte';
 
   let mobileMenuOpen = false;
   let activeService = null;
@@ -108,30 +109,8 @@
     },
   ];
 
-  // Contact form
-  let formData = {
-    name: '',
-    email: '',
-    company: '',
-    service: 'architecture',
-    message: '',
-  };
-
-  let formStatus = null;
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    formStatus = 'sending';
-
-    // Simulate submission
-    setTimeout(() => {
-      formStatus = 'success';
-      formData = { name: '', email: '', company: '', service: 'architecture', message: '' };
-      setTimeout(() => {
-        formStatus = null;
-      }, 5000);
-    }, 1500);
-  }
+  // Mobile menu state
+  // (Contact form logic is now in ContactForm.svelte component)
 
   function toggleMobileMenu() {
     mobileMenuOpen = !mobileMenuOpen;
@@ -307,67 +286,8 @@
           </li>
         </ul>
       </div>
-      <form class="contact-form" on:submit={handleSubmit}>
-        <div class="form-group">
-          <label for="name">Full Name *</label>
-          <input type="text" id="name" bind:value={formData.name} required placeholder="John Doe" />
-        </div>
-        <div class="form-group">
-          <label for="email">Business Email *</label>
-          <input
-            type="email"
-            id="email"
-            bind:value={formData.email}
-            required
-            placeholder="john@company.com"
-          />
-        </div>
-        <div class="form-group">
-          <label for="company">Company *</label>
-          <input
-            type="text"
-            id="company"
-            bind:value={formData.company}
-            required
-            placeholder="Your Company"
-          />
-        </div>
-        <div class="form-group">
-          <label for="service">Service Interest *</label>
-          <select id="service" bind:value={formData.service} required>
-            <option value="architecture">Architecture & Design</option>
-            <option value="devops">DevOps & Operations</option>
-            <option value="ai">AI & Machine Learning</option>
-            <option value="cloud">Cloud Computing</option>
-            <option value="security">Cybersecurity</option>
-            <option value="transformation">Digital Transformation</option>
-            <option value="consulting">General Consulting</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="message">Tell us about your project (optional)</label>
-          <textarea
-            id="message"
-            bind:value={formData.message}
-            rows="4"
-            placeholder="Brief description of your needs..."
-          ></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary" disabled={formStatus === 'sending'}>
-          {#if formStatus === 'sending'}
-            Sending...
-          {:else if formStatus === 'success'}
-            <Check size={20} class="inline-icon" /> Message Sent
-          {:else}
-            Request Consultation
-          {/if}
-        </button>
-        {#if formStatus === 'success'}
-          <p class="success-message" transition:fade>
-            Thank you! We'll contact you within 24 hours.
-          </p>
-        {/if}
-      </form>
+      <!-- Modern Contact Form Component -->
+      <ContactForm />
     </div>
   </div>
 </section>
