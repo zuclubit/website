@@ -109,6 +109,14 @@
     },
   ];
 
+  // Metrics & Achievements
+  const metrics = [
+    { value: '100+', label: 'Projects Delivered', icon: Target },
+    { value: '99.9%', label: 'System Uptime SLA', icon: CheckCircle2 },
+    { value: '40%', label: 'Avg. Cost Reduction', icon: TrendingUp },
+    { value: '24/7', label: 'Support Coverage', icon: Shield },
+  ];
+
   // Mobile menu state
   // (Contact form logic is now in ContactForm.svelte component)
 
@@ -249,6 +257,29 @@
     <div class="section-cta">
       <p class="section-cta-text">Ready to ensure compliance and security?</p>
       <a href="#contact" class="btn btn-primary">Get a Compliance Audit →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Metrics Section -->
+<section class="metrics">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Proven Track Record</h2>
+      <p class="section-subtitle">
+        Measurable results that demonstrate our commitment to excellence
+      </p>
+    </div>
+    <div class="metrics-grid">
+      {#each metrics as metric, i}
+        <div class="metric-card" in:fly={{ y: 30, delay: i * 100, duration: 600 }}>
+          <div class="metric-icon">
+            <svelte:component this={metric.icon} size={40} strokeWidth={1.5} />
+          </div>
+          <div class="metric-value">{metric.value}</div>
+          <div class="metric-label">{metric.label}</div>
+        </div>
+      {/each}
     </div>
   </div>
 </section>
@@ -928,6 +959,86 @@
     letter-spacing: -0.01em;
   }
 
+  /* Metrics */
+  .metrics {
+    background: linear-gradient(135deg, #0b0e11 0%, #1c2024 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .metrics::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      radial-gradient(circle at 30% 50%, rgba(0, 207, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 70% 50%, rgba(0, 229, 195, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .metrics .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .metric-card {
+    background: rgba(28, 32, 36, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+  }
+
+  .metric-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: #00cfff;
+    box-shadow: 0 16px 40px rgba(0, 207, 255, 0.3);
+    background: rgba(0, 207, 255, 0.1);
+  }
+
+  .metric-icon {
+    color: #00cfff;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .metric-card:hover .metric-icon {
+    transform: scale(1.15) rotate(5deg);
+  }
+
+  .metric-value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #00cfff 0%, #00e5c3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+  }
+
+  .metric-label {
+    font-size: 1rem;
+    color: #a0aec0;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
   /* Contact */
   .contact {
     background: #0b0e11;
@@ -1208,7 +1319,8 @@
 
     .services-grid,
     .expertise-grid,
-    .standards-grid {
+    .standards-grid,
+    .metrics-grid {
       grid-template-columns: 1fr;
     }
 
