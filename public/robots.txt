@@ -1,0 +1,56 @@
+# robots.txt for Zuclubit
+# https://zuclubit.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://zuclubit.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Allow all content indexing
+# Important pages
+Allow: /
+Allow: /#services
+Allow: /#expertise
+Allow: /#standards
+Allow: /#contact
+
+# Disallow admin or private areas (if any in the future)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Common bot exclusions for development/testing paths
+Disallow: /test/
+Disallow: /dev/
+Disallow: /_/
+Disallow: /tmp/
+
+# File type exclusions
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /*.log$
+
+# Popular search engines - explicit allow
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /

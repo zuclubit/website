@@ -1,0 +1,64 @@
+{
+  "name": "Zuclubit - The Living Code",
+  "short_name": "Zuclubit",
+  "description": "Complete Technology Integration Platform - From Architecture to Automation",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0e11",
+  "theme_color": "#00cfff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/logo-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["business", "technology", "productivity"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Services",
+      "short_name": "Services",
+      "description": "View our technology services",
+      "url": "/#services",
+      "icons": [
+        {
+          "src": "/logo-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "description": "Get in touch with us",
+      "url": "/#contact",
+      "icons": [
+        {
+          "src": "/logo-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}

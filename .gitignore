@@ -58,3 +58,4 @@ coverage/
 # Security
 *.sarif
 trivy-results.sarif
+img/logo-zuclubit-original.png
