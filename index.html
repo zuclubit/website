@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zuclubit — The Living Code</title>
+    <!-- Las fuentes pueden cargarse desde un CDN si se dispone de internet. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilo base para el cuerpo, definiendo colores y fuentes globales. */
+      :root {
+        --color-primary: #00cfff;
+        --color-secondary: #00e5c3;
+        --color-accent: #35f0ff;
+        --color-bg-dark: #0b0e11;
+        --color-bg-light: #1c2024;
+        --color-text-light: #f5f7fa;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: var(--color-bg-dark);
+        color: var(--color-text-light);
+      }
+      #app {
+        min-height: 100vh;
+      }
+    </style>
+    <script type="module" src="/src/main.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
