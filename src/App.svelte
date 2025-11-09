@@ -406,16 +406,16 @@
     padding: 0 2rem;
   }
 
-  /* Navbar */
+  /* Navbar - Corporate Identity */
   .navbar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(11, 14, 17, 0.95);
+    background: rgba(31, 36, 42, 0.95);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(199, 209, 246, 0.1);
     transition: all 0.3s ease;
   }
 
@@ -439,12 +439,12 @@
     border-radius: 50%;
     padding: 3px;
     position: relative;
-    background: linear-gradient(135deg, rgba(0, 207, 255, 0.15) 0%, rgba(0, 229, 195, 0.15) 100%);
+    background: linear-gradient(135deg, rgba(199, 209, 246, 0.15) 0%, rgba(234, 241, 252, 0.15) 100%);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     box-shadow:
-      0 8px 32px rgba(0, 207, 255, 0.25),
-      0 2px 8px rgba(0, 229, 195, 0.2),
+      0 8px 32px rgba(199, 209, 246, 0.25),
+      0 2px 8px rgba(199, 209, 246, 0.2),
       inset 0 1px 2px rgba(255, 255, 255, 0.1),
       inset 0 -1px 2px rgba(0, 0, 0, 0.1);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -460,7 +460,7 @@
     right: -1px;
     bottom: -1px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #00cfff 0%, #00e5c3 50%, #00cfff 100%);
+    background: linear-gradient(135deg, #C7D1F6 0%, #EAF1FC 50%, #C7D1F6 100%);
     z-index: -1;
     opacity: 0.8;
     transition: opacity 0.4s ease;
@@ -484,10 +484,10 @@
   }
 
   .logo-image:hover {
-    background: linear-gradient(135deg, rgba(0, 207, 255, 0.25) 0%, rgba(0, 229, 195, 0.25) 100%);
+    background: linear-gradient(135deg, rgba(199, 209, 246, 0.25) 0%, rgba(234, 241, 252, 0.25) 100%);
     box-shadow:
-      0 12px 48px rgba(0, 207, 255, 0.4),
-      0 4px 16px rgba(0, 229, 195, 0.35),
+      0 12px 48px rgba(199, 209, 246, 0.4),
+      0 4px 16px rgba(199, 209, 246, 0.35),
       inset 0 2px 4px rgba(255, 255, 255, 0.15),
       inset 0 -2px 4px rgba(0, 0, 0, 0.15);
     transform: scale(1.08) translateY(-2px);
@@ -516,7 +516,7 @@
   }
 
   .nav-links a {
-    color: #f5f7fa;
+    color: #EAF1FC;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s ease;
@@ -524,7 +524,7 @@
   }
 
   .nav-links a:hover {
-    color: #00cfff;
+    color: #C7D1F6;
   }
 
   .nav-links a::after {
@@ -534,7 +534,7 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(135deg, #00cfff 0%, #00e5c3 100%);
+    background: #C7D1F6;
     transition: width 0.3s ease;
   }
 
@@ -546,22 +546,22 @@
     display: none;
     background: none;
     border: none;
-    color: #f5f7fa;
+    color: #EAF1FC;
     cursor: pointer;
     padding: 0.5rem;
     transition: color 0.2s ease;
   }
 
   .mobile-menu-btn:hover {
-    color: #00cfff;
+    color: #C7D1F6;
   }
 
-  /* Hero */
+  /* Hero - Corporate Identity Palette */
   .hero {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background: linear-gradient(135deg, #0b0e11 0%, #1c2024 100%);
+    background: linear-gradient(135deg, #1F242A 0%, #2D333C 100%);
     position: relative;
     overflow: hidden;
     padding-top: 120px;
@@ -575,8 +575,8 @@
     right: 0;
     bottom: 0;
     background:
-      radial-gradient(circle at 20% 50%, rgba(0, 207, 255, 0.15) 0%, transparent 50%),
-      radial-gradient(circle at 80% 50%, rgba(0, 229, 195, 0.15) 0%, transparent 50%);
+      radial-gradient(circle at 20% 50%, rgba(199, 209, 246, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(199, 209, 246, 0.08) 0%, transparent 50%);
     animation: pulse 8s ease-in-out infinite;
     z-index: 0;
   }
@@ -606,10 +606,10 @@
   }
 
   .brand-name {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 4rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #00cfff 0%, #00e5c3 100%);
+    background: linear-gradient(135deg, #C7D1F6 0%, #EAF1FC 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -619,20 +619,20 @@
   }
 
   .brand-tagline {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.5rem;
     font-weight: 500;
-    color: #00e5c3;
+    color: #C7D1F6;
     margin: 0.75rem 0 0;
     letter-spacing: 0.05em;
   }
 
   .headline {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 2.5rem;
     font-weight: 600;
     line-height: 1.3;
-    color: #f5f7fa;
+    color: #EAF1FC;
     margin: 0 0 1.5rem;
     letter-spacing: -0.01em;
   }
@@ -642,7 +642,7 @@
     font-size: 1.2rem;
     font-weight: 400;
     line-height: 1.7;
-    color: #a0aec0;
+    color: #A0A5BE;
     margin: 0 0 2.5rem;
     max-width: 700px;
     margin-left: auto;
@@ -664,8 +664,8 @@
 
   .btn-secondary {
     background: transparent;
-    border: 2px solid #00cfff;
-    color: #00cfff;
+    border: 2px solid #A0A5BE;
+    color: #EAF1FC;
     position: relative;
     overflow: hidden;
   }
@@ -678,7 +678,7 @@
     width: 0;
     height: 0;
     border-radius: 50%;
-    background: rgba(0, 207, 255, 0.2);
+    background: rgba(199, 209, 246, 0.15);
     transform: translate(-50%, -50%);
     transition:
       width 0.6s ease,
@@ -691,9 +691,10 @@
   }
 
   .btn-secondary:hover {
-    background: rgba(0, 207, 255, 0.1);
+    background: rgba(199, 209, 246, 0.1);
+    border-color: #C7D1F6;
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 8px 20px rgba(0, 207, 255, 0.3);
+    box-shadow: 0 8px 20px rgba(199, 209, 246, 0.25);
   }
 
   .btn-secondary:active {
@@ -715,10 +716,11 @@
   }
 
   .btn-primary {
-    background: linear-gradient(135deg, #00cfff 0%, #00e5c3 100%);
-    color: #0b0e11;
+    background: #C7D1F6;
+    color: #12161B;
     position: relative;
     overflow: hidden;
+    font-weight: 600;
   }
 
   .btn-primary::before {
@@ -729,7 +731,7 @@
     width: 0;
     height: 0;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(234, 241, 252, 0.4);
     transform: translate(-50%, -50%);
     transition:
       width 0.6s ease,
@@ -742,8 +744,9 @@
   }
 
   .btn-primary:hover {
+    background: #EAF1FC;
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 8px 20px rgba(0, 207, 255, 0.4);
+    box-shadow: 0 8px 20px rgba(199, 209, 246, 0.4);
   }
 
   .btn-primary:active {
@@ -1374,12 +1377,12 @@
       top: 70px;
       left: 0;
       right: 0;
-      background: rgba(11, 14, 17, 0.98);
+      background: rgba(31, 36, 42, 0.98);
       backdrop-filter: blur(10px);
       flex-direction: column;
       gap: 0;
       padding: 1rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(199, 209, 246, 0.1);
       transform: translateY(-100%);
       opacity: 0;
       visibility: hidden;
