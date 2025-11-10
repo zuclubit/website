@@ -613,7 +613,7 @@
             drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
   }
 
-  /* Translucent Titanium Glass Panel - Dual-Layer Material System */
+  /* Dual-Chamber Glass Panel - Outer Glossy Shell + Inner Matte Diffuser */
   .mobile-nav-pill {
     display: flex;
     align-items: center;
@@ -621,36 +621,36 @@
     gap: 0.75rem;
     position: relative;
 
-    /* Translucent Titanium Glass: Top #1F242A → Bottom #12161B (80% opacity) */
+    /* Frosted Glass-Metal: Top #1F242A → Bottom #12161B (80% translucency) */
     background: linear-gradient(168deg, rgba(31, 36, 42, 0.8) 0%, rgba(18, 22, 27, 0.8) 100%);
-    backdrop-filter: blur(18px) saturate(110%);
-    -webkit-backdrop-filter: blur(18px) saturate(110%);
+    backdrop-filter: blur(17px) saturate(110%);
+    -webkit-backdrop-filter: blur(17px) saturate(110%);
 
     padding: 0.875rem 1.125rem;
-    border-radius: 22px;
+    border-radius: 23px;
 
-    /* Bottom AO Rim - #2D333C */
-    border: 1.5px solid rgba(45, 51, 60, 0.7);
+    /* Inner Bevel - 1.5px Rim in #2D333C */
+    border: 1.5px solid rgba(45, 51, 60, 0.75);
     background-clip: padding-box;
 
-    /* Advanced Lighting System + Top Reflection Band */
+    /* Unified Lighting System + Top Specular Band */
     box-shadow:
-      /* Floating Shadow - y-offset 4px, blur 28px */
-      0 4px 28px rgba(0, 0, 0, 0.45),
-      0 14px 32px rgba(0, 0, 0, 0.38),
+      /* Floating Shadow - rgba(0,0,0,0.38), blur 30px, y-offset 4px, soft spread */
+      0 4px 30px rgba(0, 0, 0, 0.38),
+      0 2px 10px rgba(0, 0, 0, 0.28),
 
-      /* Key Light Top-Left (#EAF1FC 25%) */
-      inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.25),
-      inset 0.5px 0.5px 1.5px rgba(234, 241, 252, 0.15),
+      /* Keylight Cool Top-Left (#EAF1FC) */
+      inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.22),
+      inset 0.5px 0.5px 1.5px rgba(234, 241, 252, 0.14),
 
-      /* Turquoise Rimlight Bottom-Right (#00E5C3) */
-      inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.12),
-      inset -0.5px -0.5px 1.5px rgba(0, 229, 195, 0.08),
+      /* Rimlight Turquoise Bottom-Right (#00E5C3) */
+      inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.14),
+      inset -0.5px -0.5px 1.5px rgba(0, 229, 195, 0.1),
 
-      /* Top Reflection Band (#C7D1F6 10%) */
-      inset 0 1.5px 0 0 rgba(199, 209, 246, 0.1),
+      /* Top Specular Band (#C7D1F6 12%) */
+      inset 0 1.5px 0 0 rgba(199, 209, 246, 0.12),
 
-      /* Global Ambient Tone #A0A5BE (5%) */
+      /* Ambient Tint #A0A5BE @5% */
       inset 0 0 24px rgba(160, 165, 190, 0.05);
 
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -712,7 +712,7 @@
       inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.08);
   }
 
-  /* Circular Icon Buttons - Inactive State (Dark Graphite Circles) */
+  /* Inactive Buttons - Monoline Icons with Inset Seat */
   .mobile-nav-btn {
     width: 52px;
     height: 52px;
@@ -721,13 +721,13 @@
     align-items: center;
     justify-content: center;
 
-    /* Dark Graphite Gradient: #1A1F24 → #12161B */
-    background: linear-gradient(168deg, #1A1F24 0%, #12161B 100%);
+    /* Buttons Base: #1A1F24 */
+    background: #1A1F24;
 
-    /* Subtle Metallic Rim - #A0A5BE */
-    border: 1px solid rgba(160, 165, 190, 0.18);
+    /* Rim in #2D333C */
+    border: 1px solid rgba(45, 51, 60, 0.8);
 
-    /* Clean Monoline Icons - Ice Blue / Polar Mist */
+    /* Monoline Icons - #C7D1F6 / #EAF1FC */
     color: #C7D1F6;
     text-decoration: none;
     cursor: pointer;
@@ -735,20 +735,20 @@
     /* Smooth Micro-Interaction Transitions */
     transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
-    /* Inner AO Softening for Realistic Separation */
+    /* Subtle Ambient Occlusion + Inset Seat (0.75px) + Interior Bevel */
     box-shadow:
-      /* Outer Shadow - Depth & Separation */
-      0 4px 16px rgba(0, 0, 0, 0.42),
-      0 2px 8px rgba(0, 0, 0, 0.32),
+      /* Ambient Occlusion Around Button - Separate Volumes */
+      0 3px 12px rgba(0, 0, 0, 0.35),
+      0 1px 6px rgba(0, 0, 0, 0.28),
 
-      /* Inner AO - Soft Darkening */
-      inset 0 0 8px rgba(0, 0, 0, 0.25),
+      /* Inset Seat - Lower AO */
+      inset 0 0.75px 6px rgba(0, 0, 0, 0.22),
 
-      /* Directional Lighting - Top-left Cool White */
-      inset 1.5px 1.5px 2px rgba(199, 209, 246, 0.06),
+      /* Subtle Interior Bevel - Directional Top-Left */
+      inset 1px 1px 2px rgba(199, 209, 246, 0.08),
 
-      /* Directional Shadow - Bottom-right Deep */
-      inset -1.5px -1.5px 2px rgba(18, 22, 27, 0.9);
+      /* Subtle Interior Bevel - Directional Bottom-Right */
+      inset -1px -1px 2px rgba(18, 22, 27, 0.85);
 
     position: relative;
     overflow: visible;
@@ -775,29 +775,29 @@
     transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Hover: Glow +6%, Scale +1% */
+  /* Hover: Scale +1.5%, Brighten +8%, Shadow Lift */
   .mobile-nav-btn:hover {
-    background: linear-gradient(168deg, #232930 0%, #181D22 100%);
+    background: #232930;
 
-    /* Slight Reflective Rim - Cool Grey #797E95 */
-    border-color: rgba(121, 126, 149, 0.4);
+    /* Rim Brightens */
+    border-color: rgba(45, 51, 60, 0.95);
 
-    /* Precise Scale: +1% */
-    transform: scale(1.01) translateY(-1px);
+    /* Precise Scale: +1.5% */
+    transform: scale(1.015) translateY(-1px);
 
-    /* Glow Enhancement: +6% */
-    filter: brightness(1.06);
+    /* Brighten: +8% */
+    filter: brightness(1.08);
 
     /* Monoline Icons Brighten to Polar Mist */
     color: #EAF1FC;
 
-    /* Inset Depth with Slight Lift */
+    /* Slight Shadow Lift */
     box-shadow:
-      0 6px 18px rgba(0, 0, 0, 0.48),
-      0 3px 10px rgba(199, 209, 246, 0.08),
-      inset 0 0 8px rgba(0, 0, 0, 0.22),
-      inset 2px 2px 3px rgba(234, 241, 252, 0.12),
-      inset -1.5px -1.5px 2.5px rgba(0, 229, 195, 0.06);
+      0 5px 16px rgba(0, 0, 0, 0.42),
+      0 2px 8px rgba(199, 209, 246, 0.1),
+      inset 0 0.75px 6px rgba(0, 0, 0, 0.18),
+      inset 1px 1px 2px rgba(234, 241, 252, 0.14),
+      inset -1px -1px 2px rgba(0, 229, 195, 0.08);
   }
 
   /* Slight Hover Reflection - Enhanced Metallic Sheen */
@@ -811,6 +811,35 @@
     box-shadow:
       0 3px 10px rgba(0, 0, 0, 0.5),
       inset 0 0 10px rgba(18, 22, 27, 0.95);
+  }
+
+  /* Focus (Keyboard): Focus Ring 2px #C7D1F6 with Soft Outer Glow */
+  .mobile-nav-btn:focus-visible {
+    outline: none;
+    box-shadow:
+      /* Focus Ring - 2px #C7D1F6 */
+      0 0 0 2px rgba(199, 209, 246, 0.85),
+      /* Soft Outer Glow */
+      0 0 12px rgba(199, 209, 246, 0.5),
+      0 0 6px rgba(199, 209, 246, 0.35),
+      /* Maintain Base Shadows */
+      0 3px 12px rgba(0, 0, 0, 0.35),
+      inset 0 0.75px 6px rgba(0, 0, 0, 0.22),
+      inset 1px 1px 2px rgba(199, 209, 246, 0.08);
+  }
+
+  /* Disabled: Desaturation 40%, Opacity 60%, No Highlights */
+  .mobile-nav-btn:disabled,
+  .mobile-nav-btn[aria-disabled="true"] {
+    opacity: 0.6;
+    filter: saturate(0.6);
+    cursor: not-allowed;
+    pointer-events: none;
+
+    /* Remove Highlights */
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.28),
+      inset 0 0.75px 6px rgba(0, 0, 0, 0.22);
   }
 
   /* Active Button - Layered Neon Energy with Diffused Aura */
@@ -953,6 +982,39 @@
   .mobile-nav-btn-logo:active {
     transform: scale(0.985) translateY(-1px);
     filter: brightness(1.05);
+  }
+
+  /* Focus (Keyboard): Focus Ring 2px #C7D1F6 with Soft Outer Glow */
+  .mobile-nav-btn-logo:focus-visible {
+    outline: none;
+    box-shadow:
+      /* Focus Ring - 2px #C7D1F6 */
+      0 0 0 2px rgba(199, 209, 246, 0.95),
+      /* Soft Outer Glow */
+      0 0 16px rgba(199, 209, 246, 0.6),
+      0 0 8px rgba(199, 209, 246, 0.45),
+      /* Maintain Diffused Aura */
+      0 0 48px rgba(0, 229, 195, 0.75),
+      0 0 32px rgba(0, 229, 195, 0.55),
+      0 0 20px rgba(199, 209, 246, 0.48),
+      0 4px 22px rgba(0, 0, 0, 0.52),
+      inset 0 0 20px rgba(255, 255, 255, 0.4),
+      inset 0 0 12px rgba(0, 229, 195, 0.5);
+  }
+
+  /* Disabled: Desaturation 40%, Opacity 60%, No Highlights */
+  .mobile-nav-btn-logo:disabled,
+  .mobile-nav-btn-logo[aria-disabled="true"] {
+    opacity: 0.6;
+    filter: saturate(0.6);
+    cursor: not-allowed;
+    pointer-events: none;
+    animation: none;
+
+    /* Remove Highlights - Keep Only Base Shadows */
+    box-shadow:
+      0 3px 16px rgba(0, 0, 0, 0.32),
+      inset 0 0 12px rgba(0, 0, 0, 0.25);
   }
 
   /* Logo Image - Zuclubit Trinity Symbol with Micro-Shadow */
