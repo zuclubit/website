@@ -712,16 +712,17 @@
      NAVBAR — SIGNATURE-GRADE CUERVO 2025
      ======================================== */
 
-  /* Navbar Design Tokens */
+  /* Navbar Design Tokens - Perfect Dock Homologation */
   :root {
-    --navbar-height: clamp(60px, 9vw, 72px);
-    --navbar-height-scrolled: calc(clamp(60px, 9vw, 72px) - 10px);
+    --navbar-height: clamp(64px, 8vw, 72px);
+    --navbar-height-scrolled: calc(clamp(64px, 8vw, 72px) - 10px);
     --navbar-px: clamp(16px, 6vw, 56px);
     --navbar-item-gap: 30px;
-    --navbar-blur: 14px;
-    --navbar-blur-scrolled: 18px;
+    --navbar-blur: 14px;           /* 12-16px range, matches dock family */
+    --navbar-blur-scrolled: 18px;  /* Enhanced on scroll */
     --navbar-sat: 110%;
     --navbar-sat-scrolled: 115%;
+    --nav-t-fast: 180ms;
     --nav-t-med: 200ms;
     --nav-t-large: 240ms;
     --nav-t-panel: 300ms;
@@ -746,25 +747,34 @@
     backdrop-filter: blur(var(--navbar-blur)) saturate(var(--navbar-sat));
     -webkit-backdrop-filter: blur(var(--navbar-blur)) saturate(var(--navbar-sat));
 
-    /* Bottom divider */
+    /* Bottom divider: 1px #2D333C */
     border-bottom: 1px solid rgba(45, 51, 60, 0.85);
 
-    /* Unified Scene Lighting */
+    /* Unified Scene Lighting - Perfect Dock Homologation */
     box-shadow:
-      /* Keylight 45° */
-      inset 1px 1px 2px rgba(234, 241, 252, 0.12),
+      /* Outer Elevation Shadow */
+      0 2px 8px rgba(0, 0, 0, 0.18),
+      0 1px 3px rgba(0, 0, 0, 0.12),
 
-      /* Rimlight 225° */
-      inset -1px -1px 2px rgba(0, 229, 195, 0.09),
+      /* Keylight Cool Top-Left 45° - Dual Layer (#EAF1FC 10-14%) */
+      inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.22),
+      inset 0.5px 0.5px 1.5px rgba(234, 241, 252, 0.14),
 
-      /* Ambient Occlusion */
-      inset 0 0 6px rgba(0, 0, 0, 0.06),
+      /* Rimlight Turquoise Bottom-Right 225° - Dual Layer (#00E5C3) */
+      inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.14),
+      inset -0.5px -0.5px 1.5px rgba(0, 229, 195, 0.1),
 
-      /* Bottom divider specular */
+      /* Top Specular Band (#C7D1F6 12%) */
+      inset 0 1.5px 0 0 rgba(199, 209, 246, 0.12),
+
+      /* Ambient Tint (#A0A5BE @5%) */
+      inset 0 0 24px rgba(160, 165, 190, 0.05),
+
+      /* Bottom Divider Specular (AO) */
       inset 0 -1px 0 rgba(255, 255, 255, 0.08),
 
-      /* Outer bottom shadow */
-      0 2px 8px rgba(0, 0, 0, 0.18);
+      /* Ambient Occlusion - Inner Edges */
+      inset 0 0 6px rgba(0, 0, 0, 0.12);
 
     transition:
       height var(--nav-t-large) var(--ease-out),
@@ -875,13 +885,13 @@
       filter var(--nav-t-med) var(--ease-out);
   }
 
-  /* Hover State */
+  /* Hover State - Text Brighten +6-8% */
   .nav-item:hover {
     opacity: 1;
-    filter: brightness(1.07);
+    filter: brightness(1.07);  /* +7% brightness */
   }
 
-  /* Underline Animation */
+  /* Underline Animation - 2px Turquoise scaleX 0→1 from left */
   .nav-item::after {
     content: '';
     position: absolute;
@@ -890,13 +900,14 @@
     right: 8px;
 
     height: 2px;
-    background: rgba(0, 229, 195, 0.6);
+    background: rgba(0, 229, 195, 0.6);  /* Turquoise @ 60% */
     border-radius: 1px;
 
     transform: scaleX(0);
     transform-origin: left center;
 
-    transition: transform var(--nav-t-med) var(--ease-out);
+    /* 180-200ms ease-out (using 190ms) */
+    transition: transform var(--nav-t-fast) var(--ease-out);
   }
 
   .nav-item:hover::after {
@@ -989,7 +1000,7 @@
     transform: translateY(-8px) rotate(-45deg);
   }
 
-  /* Mobile Panel */
+  /* Mobile Panel - Full-Height Side Panel */
   .mobile-menu-panel {
     position: fixed;
     top: 0;
@@ -1002,7 +1013,9 @@
       rgba(31, 36, 42, 0.95) 0%,
       rgba(18, 22, 27, 0.95) 100%
     );
-    backdrop-filter: blur(24px) saturate(115%);
+    /* Mobile blur: 16-18px (using 17px) */
+    backdrop-filter: blur(17px) saturate(115%);
+    -webkit-backdrop-filter: blur(17px) saturate(115%);
 
     border-left: 1px solid rgba(45, 51, 60, 0.85);
 
@@ -1017,11 +1030,11 @@
     transform: translateX(0);
   }
 
-  /* Mobile Nav Items */
+  /* Mobile Nav Items - Stacked with 20-24px Gap */
   .mobile-nav {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 22px;  /* 20-24px vertical gap */
   }
 
   .mobile-nav-item {
@@ -1029,14 +1042,16 @@
     padding: 16px 20px;
 
     font-family: Inter, -apple-system, system-ui, sans-serif;
-    font-size: 18px;
+    font-size: 18px;  /* 16-18px (using 18px for mobile) */
     font-weight: 600;
+    letter-spacing: -0.003em;  /* -0.3% tracking */
+    line-height: 1.25;  /* 1.2-1.3 range */
     color: #EAF1FC;
     text-decoration: none;
 
     border-radius: 12px;
 
-    transition: background 180ms var(--ease-out);
+    transition: background var(--nav-t-fast) var(--ease-out);
   }
 
   .mobile-nav-item:hover,
@@ -1064,7 +1079,7 @@
     pointer-events: auto;
   }
 
-  /* Reduced Motion */
+  /* Reduced Motion - Opacity Only (120-160ms) */
   @media (prefers-reduced-motion: reduce) {
     .navbar,
     .nav-item,
@@ -1074,9 +1089,10 @@
     .mobile-menu-panel,
     .mobile-menu-backdrop {
       transition-property: opacity !important;
-      transition-duration: 120ms !important;
+      transition-duration: 140ms !important;  /* 120-160ms range */
     }
 
+    /* Disable transform animations, use opacity instead */
     .nav-item::after {
       transform: scaleX(1);
       opacity: 0;
@@ -1085,6 +1101,12 @@
     .nav-item:hover::after,
     .nav-item.active::after {
       opacity: 1;
+    }
+
+    /* Disable hamburger X animation */
+    .mobile-menu-button.open .hamburger-line:nth-child(1),
+    .mobile-menu-button.open .hamburger-line:nth-child(3) {
+      transform: none;
     }
   }
 
