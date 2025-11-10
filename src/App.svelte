@@ -599,7 +599,7 @@
     color: #C7D1F6;
   }
 
-  /* Mobile Floating Navbar - Cuervo 2025 Ultra-Premium Design System */
+  /* Mobile Floating Navbar - Cuervo 2025 Next-Gen Luminous Design */
   .mobile-floating-nav {
     position: fixed;
     bottom: 20px;
@@ -608,12 +608,12 @@
     z-index: 999;
     display: none;
 
-    /* Floating Shadow - Photorealistic Elevation */
-    filter: drop-shadow(0 22px 22px rgba(0, 0, 0, 0.35))
-            drop-shadow(0 2px 2px rgba(0, 0, 0, 0.25));
+    /* Floating Shadow - Cinematic Depth */
+    filter: drop-shadow(0 24px 24px rgba(0, 0, 0, 0.45))
+            drop-shadow(0 3px 3px rgba(0, 0, 0, 0.35));
   }
 
-  /* Brushed Dark Titanium Panel - Realistic Depth & Subsurface Reflection */
+  /* Glass-Metal Hybrid Panel - Neural Aesthetics & Ambient Lighting */
   .mobile-nav-pill {
     display: flex;
     align-items: center;
@@ -621,31 +621,34 @@
     gap: 0.75rem;
     position: relative;
 
-    /* Titanium Gradient: Top #1F242A → Bottom #12161B */
-    background: linear-gradient(168deg, #1F242A 0%, #12161B 100%);
-    backdrop-filter: blur(28px) saturate(110%);
-    -webkit-backdrop-filter: blur(28px) saturate(110%);
+    /* Glass-Metal Gradient: Top #1F242A → Bottom #12161B (80% opacity) */
+    background: linear-gradient(168deg, rgba(31, 36, 42, 0.8) 0%, rgba(18, 22, 27, 0.8) 100%);
+    backdrop-filter: blur(18px) saturate(110%);
+    -webkit-backdrop-filter: blur(18px) saturate(110%);
 
     padding: 0.875rem 1.125rem;
     border-radius: 22px;
 
-    /* Glass-Fusion Border */
-    border: 1px solid rgba(199, 209, 246, 0.1);
+    /* Inner Bevel Rim - #2D333C */
+    border: 1.5px solid rgba(45, 51, 60, 0.6);
     background-clip: padding-box;
 
-    /* Dual-Layer Bevel + AO Shadows */
+    /* Soft Highlight Top-Edge + Global Ambient Tone */
     box-shadow:
-      /* Floating Shadow - Spread 2px */
-      0 22px 44px 2px rgba(0, 0, 0, 0.35),
-      0 14px 28px rgba(0, 0, 0, 0.3),
+      /* Floating Shadow - y-offset 3px, blur 24px */
+      0 3px 24px rgba(0, 0, 0, 0.45),
+      0 14px 28px rgba(0, 0, 0, 0.35),
 
-      /* Dual-Layer Bevel - Upper Reflection (Top-left Cool White) */
-      inset 1.5px 1.5px 3px rgba(199, 209, 246, 0.15),
+      /* Cool Top-Left Keylight (#EAF1FC) */
+      inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.18),
       inset 0.5px 0.5px 1.5px rgba(234, 241, 252, 0.12),
 
-      /* Dual-Layer Bevel - Lower Shadow (Bottom-right Turquoise) */
-      inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.08),
-      inset -0.5px -0.5px 1.5px rgba(18, 22, 27, 0.95);
+      /* Turquoise Rimlight Bottom-Right (#00E5C3) */
+      inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.12),
+      inset -0.5px -0.5px 1.5px rgba(0, 229, 195, 0.08),
+
+      /* Global Ambient Tone #A0A5BE (4%) */
+      inset 0 0 24px rgba(160, 165, 190, 0.04);
 
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -747,23 +750,24 @@
     overflow: visible;
   }
 
-  /* Subtle Top Reflection Highlight (#EAF1FC) */
+  /* Smooth Metallic Sheen - Top Reflection (#EAF1FC / #C7D1F6) */
   .mobile-nav-btn::before {
     content: '';
     position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 16px;
-    height: 16px;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: radial-gradient(
-      circle at top left,
-      rgba(234, 241, 252, 0.12) 0%,
-      rgba(199, 209, 246, 0.06) 50%,
-      transparent 80%
+      circle at 30% 30%,
+      rgba(234, 241, 252, 0.18) 0%,
+      rgba(199, 209, 246, 0.12) 40%,
+      rgba(160, 165, 190, 0.06) 70%,
+      transparent 90%
     );
     pointer-events: none;
-    opacity: 0.8;
+    opacity: 0.85;
     transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -792,8 +796,9 @@
       inset -1.5px -1.5px 2.5px rgba(0, 229, 195, 0.04);
   }
 
+  /* Slight Hover Reflection - Enhanced Metallic Sheen */
   .mobile-nav-btn:hover::before {
-    opacity: 1.2;
+    opacity: 1.35;
   }
 
   .mobile-nav-btn:active {
@@ -804,109 +809,139 @@
       inset 0 0 10px rgba(18, 22, 27, 0.95);
   }
 
-  /* Active Button - Zuclubit Trinity Symbol with Turquoise Aura */
+  /* Active Button - Luminous Trinity Symbol with Double Ring */
   .mobile-nav-btn-logo {
     padding: 0;
+    position: relative;
 
-    /* Turquoise Energy Gradient #00E5C3 → #C7D1F6 */
-    background: linear-gradient(135deg, #00E5C3 0%, #C7D1F6 100%);
+    /* Glowing Inner Triangle - Core Light #00E5C3 → #C7D1F6 */
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(0, 229, 195, 0.95) 0%,
+      rgba(0, 229, 195, 0.8) 30%,
+      rgba(199, 209, 246, 0.85) 100%
+    );
 
-    /* Metallic Inner Rim - Ice Blue #C7D1F6 */
-    border: 2px solid rgba(199, 209, 246, 0.5);
+    /* Metallic Double Ring - Outer Ring */
+    border: 2px solid rgba(234, 241, 252, 0.6);
     box-sizing: border-box;
 
-    /* Photorealistic Lighting & Glow Aura */
+    /* Outer Aura Glow - Radial Gradient (center bright → transparent) */
     box-shadow:
-      /* Soft Turquoise Glow Aura (#00E5C3 → transparent) */
-      0 0 32px rgba(0, 229, 195, 0.5),
-      0 0 18px rgba(0, 229, 195, 0.38),
-      0 0 8px rgba(199, 209, 246, 0.32),
+      /* Radial Aura Glow (#00E5C3 → transparent) */
+      0 0 42px rgba(0, 229, 195, 0.7),
+      0 0 28px rgba(0, 229, 195, 0.5),
+      0 0 16px rgba(199, 209, 246, 0.42),
+      0 0 8px rgba(234, 241, 252, 0.35),
 
       /* Outer Depth Shadow */
       0 4px 20px rgba(0, 0, 0, 0.5),
 
-      /* Soft Inner Glow Around Symbol */
-      inset 0 0 14px rgba(255, 255, 255, 0.28),
-      inset 0 0 7px rgba(0, 229, 195, 0.35),
+      /* Soft Inner Glow Around Symbol - Enhanced */
+      inset 0 0 18px rgba(255, 255, 255, 0.35),
+      inset 0 0 10px rgba(0, 229, 195, 0.45),
 
-      /* Dual-Layer Inner Bevel */
-      inset 2px 2px 4px rgba(255, 255, 255, 0.4),
-      inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.25);
+      /* Dual-Layer Inner Bevel - Cool Keylight */
+      inset 2px 2px 4px rgba(234, 241, 252, 0.5),
+      inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.32);
 
-    /* Inner Glow Pulse - 1.2s ease-in-out */
-    animation: trinity-inner-pulse 1.2s ease-in-out infinite;
+    /* Pulsing Light Emission - 1.2s ease-in-out */
+    animation: luminous-pulse 1.2s ease-in-out infinite;
 
     /* Precise Micro-interaction */
     transition: all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: visible;
   }
 
-  @keyframes trinity-inner-pulse {
+  @keyframes luminous-pulse {
     0%, 100% {
       box-shadow:
-        0 0 32px rgba(0, 229, 195, 0.5),
-        0 0 18px rgba(0, 229, 195, 0.38),
-        0 0 8px rgba(199, 209, 246, 0.32),
+        /* Outer Aura - Base Intensity */
+        0 0 42px rgba(0, 229, 195, 0.7),
+        0 0 28px rgba(0, 229, 195, 0.5),
+        0 0 16px rgba(199, 209, 246, 0.42),
+        0 0 8px rgba(234, 241, 252, 0.35),
         0 4px 20px rgba(0, 0, 0, 0.5),
-        inset 0 0 14px rgba(255, 255, 255, 0.28),
-        inset 0 0 7px rgba(0, 229, 195, 0.35);
-    }
-    50% {
-      box-shadow:
-        0 0 40px rgba(0, 229, 195, 0.65),
-        0 0 22px rgba(0, 229, 195, 0.48),
-        0 0 12px rgba(199, 209, 246, 0.42),
-        0 4px 24px rgba(0, 0, 0, 0.55),
+        /* Inner Glow - Base */
         inset 0 0 18px rgba(255, 255, 255, 0.35),
         inset 0 0 10px rgba(0, 229, 195, 0.45);
     }
+    50% {
+      box-shadow:
+        /* Outer Aura - Peak Intensity (+8% glow) */
+        0 0 54px rgba(0, 229, 195, 0.85),
+        0 0 36px rgba(0, 229, 195, 0.65),
+        0 0 22px rgba(199, 209, 246, 0.52),
+        0 0 12px rgba(234, 241, 252, 0.45),
+        0 4px 24px rgba(0, 0, 0, 0.55),
+        /* Inner Glow - Peak */
+        inset 0 0 24px rgba(255, 255, 255, 0.48),
+        inset 0 0 14px rgba(0, 229, 195, 0.58);
+    }
   }
 
-  /* Subtle Reflection Top Highlight (#EAF1FC) */
+  /* Soft Specular Reflection - Metallic Sheen (#EAF1FC) */
   .mobile-nav-btn-logo::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 35% 35%,
+      rgba(234, 241, 252, 0.65) 0%,
+      rgba(255, 255, 255, 0.42) 25%,
+      rgba(199, 209, 246, 0.22) 50%,
+      transparent 75%
+    );
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0.95;
+  }
+
+  /* Metallic Double Ring - Inner Ring (#A0A5BE + #C7D1F6) */
+  .mobile-nav-btn-logo::after {
     content: '';
     position: absolute;
     top: 3px;
     left: 3px;
-    width: 20px;
-    height: 20px;
+    right: 3px;
+    bottom: 3px;
     border-radius: 50%;
-    background: radial-gradient(
-      circle at 30% 30%,
-      rgba(234, 241, 252, 0.45) 0%,
-      rgba(255, 255, 255, 0.25) 35%,
-      transparent 75%
-    );
+
+    /* Double Ring Effect: Inner ring with gradient */
+    border: 1.5px solid transparent;
+    background:
+      linear-gradient(135deg, rgba(160, 165, 190, 0.5), rgba(199, 209, 246, 0.4)) border-box,
+      linear-gradient(135deg, rgba(0, 229, 195, 0.3), rgba(199, 209, 246, 0.2)) padding-box;
+    background-clip: border-box, padding-box;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
     pointer-events: none;
     z-index: 2;
-    opacity: 0.9;
   }
 
-  /* Metallic Inner Rim Effect */
-  .mobile-nav-btn-logo::after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    right: 2px;
-    bottom: 2px;
-    border-radius: 50%;
-    border: 1px solid rgba(199, 209, 246, 0.3);
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  /* Hover: +1.5% Scale, +8% Brightness, Enhanced Aura */
+  /* Hover: +1.5% Scale, Glow Intensity +8% */
   .mobile-nav-btn-logo:hover {
     transform: scale(1.015) translateY(-2px);
     filter: brightness(1.08);
 
     box-shadow:
-      0 0 48px rgba(0, 229, 195, 0.7),
-      0 0 26px rgba(0, 229, 195, 0.52),
-      0 0 14px rgba(199, 209, 246, 0.48),
+      /* Enhanced Outer Aura (+8% intensity) */
+      0 0 58px rgba(0, 229, 195, 0.85),
+      0 0 38px rgba(0, 229, 195, 0.65),
+      0 0 24px rgba(199, 209, 246, 0.52),
+      0 0 12px rgba(234, 241, 252, 0.45),
       0 6px 28px rgba(0, 0, 0, 0.58),
-      inset 0 0 20px rgba(255, 255, 255, 0.38),
-      inset 0 0 10px rgba(0, 229, 195, 0.48);
+      /* Enhanced Inner Glow */
+      inset 0 0 24px rgba(255, 255, 255, 0.45),
+      inset 0 0 14px rgba(0, 229, 195, 0.55);
   }
 
   .mobile-nav-btn-logo:active {
@@ -914,7 +949,7 @@
     filter: brightness(1.05);
   }
 
-  /* Logo Image - Zuclubit Trinity Symbol */
+  /* Logo Image - Zuclubit Trinity Symbol with Micro-Shadow */
   .mobile-nav-logo {
     width: 48px;
     height: 48px;
@@ -924,8 +959,13 @@
     position: relative;
     z-index: 1;
 
-    /* Photorealistic Image Enhancement */
-    filter: contrast(1.08) saturate(1.15) brightness(1.02);
+    /* Photorealistic Enhancement + Micro-Shadow Under Icon */
+    filter:
+      contrast(1.08)
+      saturate(1.15)
+      brightness(1.02)
+      drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35))
+      drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
   }
 
   /* Hero - Corporate Identity Palette */
