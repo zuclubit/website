@@ -403,7 +403,7 @@
   <div class="navbar-container">
     <!-- Left: Brand Logo -->
     <PremiumLogo
-      size="46px"
+      size="72px"
       alt="Zuclubit"
       ariaLabel="Zuclubit Home"
       href="/"
@@ -672,7 +672,7 @@
       <div class="footer-brand">
         <div class="footer-logo-container">
           <PremiumLogo
-            size="50px"
+            size="80px"
             alt="Zuclubit Logo"
           />
           <div class="footer-logo">ZUCLUBIT</div>
@@ -776,7 +776,7 @@
     --navbar-radius: 22px;  /* 20-24px */
 
     /* Logo medallón circular */
-    --navbar-logo-size: 46px;  /* 44-48px con bevel y halo */
+    --navbar-logo-size: 72px;  /* Aumentado para mayor presencia visual */
 
     /* Typography Premium */
     --navbar-font-size: 19px;  /* 18-20px */
@@ -1647,8 +1647,8 @@
 
   /* Logo Image - Zuclubit Trinity Symbol with Micro-Shadow */
   .mobile-nav-logo {
-    width: 48px;
-    height: 48px;
+    width: 64px;
+    height: 64px;
     object-fit: cover;
     border-radius: 50%;
     display: block;
