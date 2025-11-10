@@ -154,6 +154,35 @@
 
 <!-- Mobile Floating Navbar (Bottom) -->
 <nav class="mobile-floating-nav">
+  <!-- Expandable Menu -->
+  {#if mobileMenuOpen}
+    <div class="mobile-menu-expand" transition:fly={{ y: 20, duration: 300 }}>
+      <div class="mobile-menu-items">
+        <a href="#services" class="mobile-menu-item" on:click={toggleMobileMenu}>
+          <div class="mobile-menu-item-content">
+            <span>Services</span>
+          </div>
+        </a>
+        <a href="#expertise" class="mobile-menu-item" on:click={toggleMobileMenu}>
+          <div class="mobile-menu-item-content">
+            <span>Expertise</span>
+          </div>
+        </a>
+        <a href="#standards" class="mobile-menu-item" on:click={toggleMobileMenu}>
+          <div class="mobile-menu-item-content">
+            <span>Standards</span>
+          </div>
+        </a>
+        <a href="#contact" class="mobile-menu-item" on:click={toggleMobileMenu}>
+          <div class="mobile-menu-item-content">
+            <span>Contact</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  {/if}
+
+  <!-- Navigation Pill -->
   <div class="mobile-nav-pill">
     <a href="/" class="mobile-nav-btn" aria-label="Home">
       <Home size={20} strokeWidth={2} />
@@ -727,6 +756,92 @@
 
   .mobile-nav-btn-primary:active {
     transform: translateY(-2px) scale(1.02);
+  }
+
+  /* Mobile Menu Expand - Glassmorphism */
+  .mobile-menu-expand {
+    position: absolute;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    background: rgba(31, 36, 42, 0.9);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 20px;
+    border: 1px solid rgba(199, 209, 246, 0.15);
+    box-shadow:
+      0 12px 48px rgba(0, 0, 0, 0.5),
+      0 4px 16px rgba(0, 0, 0, 0.4),
+      inset 0 1px 2px rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+  }
+
+  .mobile-menu-items {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    gap: 0.25rem;
+  }
+
+  .mobile-menu-item {
+    display: block;
+    text-decoration: none;
+    color: #EAF1FC;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .mobile-menu-item-content {
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(45, 51, 60, 0.5);
+    border: 1px solid rgba(199, 209, 246, 0.08);
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mobile-menu-item-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(199, 209, 246, 0.1),
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
+
+  .mobile-menu-item:active .mobile-menu-item-content::before {
+    left: 100%;
+  }
+
+  .mobile-menu-item-content span {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .mobile-menu-item:hover .mobile-menu-item-content {
+    background: rgba(199, 209, 246, 0.15);
+    border-color: rgba(199, 209, 246, 0.25);
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(199, 209, 246, 0.2);
+  }
+
+  .mobile-menu-item:active .mobile-menu-item-content {
+    transform: scale(0.98);
   }
 
   /* Hero - Corporate Identity Palette */
@@ -1541,6 +1656,11 @@
 
   /* Responsive */
   @media (max-width: 768px) {
+    /* Hide top navbar in mobile - use bottom floating nav instead */
+    .navbar {
+      display: none;
+    }
+
     .mobile-menu-btn {
       display: block;
     }
@@ -1586,6 +1706,11 @@
     .logo-image {
       width: 40px;
       height: 40px;
+    }
+
+    .hero {
+      padding-top: 2rem;
+      padding-bottom: 6rem;
     }
 
     .brand-name {
