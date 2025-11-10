@@ -195,6 +195,18 @@
         },
       });
 
+      // Navbar Sticky Scroll Behavior: Height shrink + blur increase
+      const navbar = document.querySelector('.navbar');
+      if (navbar) {
+        ScrollTrigger.create({
+          trigger: 'body',
+          start: '50px top',
+          end: '51px top',
+          onEnter: () => navbar.classList.add('scrolled'),
+          onLeaveBack: () => navbar.classList.remove('scrolled'),
+        });
+      }
+
       // Intersection Observer for dock lift and glow
       const dock = document.querySelector('.mobile-floating-nav');
       if (dock) {
@@ -322,32 +334,91 @@
 
   function toggleMobileMenu() {
     mobileMenuOpen = !mobileMenuOpen;
+
+    // Lock body scroll when menu is open
+    if (typeof document !== 'undefined') {
+      if (mobileMenuOpen) {
+        document.body.style.overflow = 'hidden';
+
+        // Focus trap: focus first item in mobile panel
+        setTimeout(() => {
+          const firstItem = document.querySelector('.mobile-nav-item');
+          if (firstItem) firstItem.focus();
+        }, 300);
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
+  }
+
+  // Escape key to close mobile menu
+  if (typeof window !== 'undefined') {
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        toggleMobileMenu();
+      }
+    });
   }
 </script>
 
-<!-- Navbar -->
-<nav class="navbar">
-  <div class="container">
-    <div class="nav-content">
-      <a href="/" class="nav-logo">
-        <img src={logo} alt="Zuclubit Logo" class="logo-image" />
-      </a>
-      <div class="nav-links" class:active={mobileMenuOpen}>
-        <a href="#services" on:click={() => (mobileMenuOpen = false)}>Services</a>
-        <a href="#expertise" on:click={() => (mobileMenuOpen = false)}>Expertise</a>
-        <a href="#standards" on:click={() => (mobileMenuOpen = false)}>Standards</a>
-        <a href="#contact" on:click={() => (mobileMenuOpen = false)}>Contact</a>
+<!-- Navbar: Signature-Grade Glass-Metal Cuervo 2025 -->
+<nav class="navbar" aria-label="Main navigation">
+  <!-- Inner matte diffuser layer -->
+  <div class="navbar-diffuser" aria-hidden="true"></div>
+
+  <!-- Main container -->
+  <div class="navbar-container">
+    <!-- Left: Brand Capsule -->
+    <a href="/" class="navbar-brand" aria-label="Zuclubit Home">
+      <div class="brand-capsule">
+        <img src={logo} alt="Zuclubit" class="brand-logo" />
       </div>
-      <button class="mobile-menu-btn" on:click={toggleMobileMenu} aria-label="Toggle menu">
-        {#if mobileMenuOpen}
-          <X size={24} />
-        {:else}
-          <Menu size={24} />
-        {/if}
-      </button>
+    </a>
+
+    <!-- Right: Desktop Nav Items -->
+    <div class="navbar-items">
+      <a href="/" class="nav-item active">Home</a>
+      <a href="#services" class="nav-item">Services</a>
+      <a href="#expertise" class="nav-item">Expertise</a>
+      <a href="#standards" class="nav-item">Standards</a>
+      <a href="#contact" class="nav-item nav-item-cta">Contact</a>
     </div>
+
+    <!-- Mobile: Hamburger Button -->
+    <button
+      class="mobile-menu-button"
+      on:click={toggleMobileMenu}
+      class:open={mobileMenuOpen}
+      aria-label="Toggle menu"
+      aria-expanded={mobileMenuOpen}
+    >
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
   </div>
 </nav>
+
+<!-- Mobile Menu Panel -->
+<div class="mobile-menu-panel" class:open={mobileMenuOpen} role="dialog" aria-modal="true">
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <a href="/" class="mobile-nav-item active" on:click={toggleMobileMenu}>Home</a>
+    <a href="#services" class="mobile-nav-item" on:click={toggleMobileMenu}>Services</a>
+    <a href="#expertise" class="mobile-nav-item" on:click={toggleMobileMenu}>Expertise</a>
+    <a href="#standards" class="mobile-nav-item" on:click={toggleMobileMenu}>Standards</a>
+    <a href="#contact" class="mobile-nav-item" on:click={toggleMobileMenu}>Contact</a>
+  </nav>
+</div>
+
+<!-- Mobile Menu Backdrop -->
+<div
+  class="mobile-menu-backdrop"
+  class:visible={mobileMenuOpen}
+  on:click={toggleMobileMenu}
+  on:keydown={(e) => e.key === 'Escape' && toggleMobileMenu()}
+  aria-hidden="true"
+  role="presentation"
+></div>
 
 <!-- Mobile Floating Navbar (Bottom) -->
 <nav class="mobile-floating-nav" class:in-view={dockInView}>
@@ -637,174 +708,384 @@
   }
 
   /* Navbar - Corporate Identity Glassmorphism */
+  /* ========================================
+     NAVBAR — SIGNATURE-GRADE CUERVO 2025
+     ======================================== */
+
+  /* Navbar Design Tokens */
+  :root {
+    --navbar-height: clamp(60px, 9vw, 72px);
+    --navbar-height-scrolled: calc(clamp(60px, 9vw, 72px) - 10px);
+    --navbar-px: clamp(16px, 6vw, 56px);
+    --navbar-item-gap: 30px;
+    --navbar-blur: 14px;
+    --navbar-blur-scrolled: 18px;
+    --navbar-sat: 110%;
+    --navbar-sat-scrolled: 115%;
+    --nav-t-med: 200ms;
+    --nav-t-large: 240ms;
+    --nav-t-panel: 300ms;
+    --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  /* Main Navbar Container */
   .navbar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(31, 36, 42, 0.85);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid rgba(199, 209, 246, 0.15);
+
+    height: var(--navbar-height);
+
+    /* Dual-Chamber Frosted Glass */
+    background: linear-gradient(168deg,
+      rgba(31, 36, 42, 0.8) 0%,
+      rgba(18, 22, 27, 0.8) 100%
+    );
+    backdrop-filter: blur(var(--navbar-blur)) saturate(var(--navbar-sat));
+    -webkit-backdrop-filter: blur(var(--navbar-blur)) saturate(var(--navbar-sat));
+
+    /* Bottom divider */
+    border-bottom: 1px solid rgba(45, 51, 60, 0.85);
+
+    /* Unified Scene Lighting */
     box-shadow:
-      0 4px 20px rgba(0, 0, 0, 0.3),
-      0 1px 4px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      /* Keylight 45° */
+      inset 1px 1px 2px rgba(234, 241, 252, 0.12),
+
+      /* Rimlight 225° */
+      inset -1px -1px 2px rgba(0, 229, 195, 0.09),
+
+      /* Ambient Occlusion */
+      inset 0 0 6px rgba(0, 0, 0, 0.06),
+
+      /* Bottom divider specular */
+      inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+
+      /* Outer bottom shadow */
+      0 2px 8px rgba(0, 0, 0, 0.18);
+
+    transition:
+      height var(--nav-t-large) var(--ease-out),
+      backdrop-filter var(--nav-t-large) var(--ease-out);
   }
 
-  .navbar::before {
-    content: '';
+  /* Scrolled state - applied by GSAP */
+  .navbar.scrolled {
+    height: var(--navbar-height-scrolled);
+    backdrop-filter: blur(var(--navbar-blur-scrolled)) saturate(var(--navbar-sat-scrolled));
+    -webkit-backdrop-filter: blur(var(--navbar-blur-scrolled)) saturate(var(--navbar-sat-scrolled));
+  }
+
+  /* Inner Matte Diffuser */
+  .navbar-diffuser {
     position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(199, 209, 246, 0.3) 50%,
-      transparent 100%
-    );
+    inset: 0;
+    background: rgba(199, 209, 246, 0.04);
     pointer-events: none;
   }
 
-  .nav-content {
+  /* Inner Container (Flex Layout) */
+  .navbar-container {
+    position: relative;
+    z-index: 1;
+
+    height: 100%;
+    padding: 0 var(--navbar-px);
+
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 1rem 0;
+    align-items: center;
   }
 
-  .nav-logo {
+  /* Brand Capsule (Left) */
+  .navbar-brand {
     display: flex;
     align-items: center;
     text-decoration: none;
+
+    transition: opacity var(--nav-t-med) var(--ease-out);
   }
 
-  .logo-image {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
+  .navbar-brand:hover {
+    opacity: 0.85;
+  }
+
+  .brand-capsule {
+    width: 44px;
+    height: 44px;
+    padding: 8px;
+
+    background: rgba(31, 36, 42, 0.6);
+    border: 1px solid rgba(45, 51, 60, 0.85);
     border-radius: 50%;
-    padding: 3px;
-    position: relative;
-    background: linear-gradient(135deg, rgba(199, 209, 246, 0.15) 0%, rgba(234, 241, 252, 0.15) 100%);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    box-shadow:
-      0 8px 32px rgba(199, 209, 246, 0.25),
-      0 2px 8px rgba(199, 209, 246, 0.2),
-      inset 0 1px 2px rgba(255, 255, 255, 0.1),
-      inset 0 -1px 2px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid transparent;
-    background-clip: padding-box;
-  }
 
-  .logo-image::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #C7D1F6 0%, #EAF1FC 50%, #C7D1F6 100%);
-    z-index: -1;
-    opacity: 0.8;
-    transition: opacity 0.4s ease;
-  }
-
-  .logo-image::after {
-    content: '';
-    position: absolute;
-    top: 10%;
-    left: 10%;
-    width: 30%;
-    height: 30%;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle at center,
-      rgba(255, 255, 255, 0.4) 0%,
-      transparent 70%
-    );
-    filter: blur(4px);
-    pointer-events: none;
-  }
-
-  .logo-image:hover {
-    background: linear-gradient(135deg, rgba(199, 209, 246, 0.25) 0%, rgba(234, 241, 252, 0.25) 100%);
-    box-shadow:
-      0 12px 48px rgba(199, 209, 246, 0.4),
-      0 4px 16px rgba(199, 209, 246, 0.35),
-      inset 0 2px 4px rgba(255, 255, 255, 0.15),
-      inset 0 -2px 4px rgba(0, 0, 0, 0.15);
-    transform: scale(1.08) translateY(-2px);
-    backdrop-filter: blur(25px) saturate(200%);
-    -webkit-backdrop-filter: blur(25px) saturate(200%);
-  }
-
-  .logo-image:hover::before {
-    opacity: 1;
-    animation: rotate-gradient 3s linear infinite;
-  }
-
-  @keyframes rotate-gradient {
-    0% {
-      filter: hue-rotate(0deg);
-    }
-    100% {
-      filter: hue-rotate(360deg);
-    }
-  }
-
-  .nav-links {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    justify-content: center;
+
+    transition: all var(--nav-t-med) var(--ease-out);
   }
 
-  .nav-links a {
-    color: #EAF1FC;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s ease;
-    position: relative;
+  .navbar-brand:hover .brand-capsule {
+    background: rgba(31, 36, 42, 0.8);
+    box-shadow: 0 4px 12px rgba(0, 229, 195, 0.15);
   }
 
-  .nav-links a:hover {
-    color: #C7D1F6;
-  }
-
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: #C7D1F6;
-    transition: width 0.3s ease;
-  }
-
-  .nav-links a:hover::after {
+  .brand-logo {
     width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
-  .mobile-menu-btn {
-    display: none;
-    background: none;
-    border: none;
+  /* Nav Items Container (Right) */
+  .navbar-items {
+    display: flex;
+    align-items: center;
+    gap: var(--navbar-item-gap);
+  }
+
+  /* Individual Nav Item */
+  .nav-item {
+    position: relative;
+
+    padding: 12px 8px;
+    min-height: 44px;
+    min-width: 44px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: Inter, SF Pro Display, -apple-system, system-ui, sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.003em;
+    line-height: 1.25;
+
     color: #EAF1FC;
-    cursor: pointer;
-    padding: 0.5rem;
-    transition: color 0.2s ease;
+    text-decoration: none;
+    white-space: nowrap;
+
+    opacity: 0.85;
+
+    transition:
+      opacity var(--nav-t-med) var(--ease-out),
+      filter var(--nav-t-med) var(--ease-out);
   }
 
-  .mobile-menu-btn:hover {
-    color: #C7D1F6;
+  /* Hover State */
+  .nav-item:hover {
+    opacity: 1;
+    filter: brightness(1.07);
+  }
+
+  /* Underline Animation */
+  .nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+
+    height: 2px;
+    background: rgba(0, 229, 195, 0.6);
+    border-radius: 1px;
+
+    transform: scaleX(0);
+    transform-origin: left center;
+
+    transition: transform var(--nav-t-med) var(--ease-out);
+  }
+
+  .nav-item:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Active/Current State */
+  .nav-item.active {
+    opacity: 1;
+  }
+
+  .nav-item.active::after {
+    background: #00E5C3;
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  /* Focus State (Keyboard) */
+  .nav-item:focus-visible {
+    outline: none;
+    border-radius: 8px;
+
+    box-shadow:
+      0 0 0 2px rgba(31, 36, 42, 1),
+      0 0 0 4px #C7D1F6,
+      0 0 12px rgba(199, 209, 246, 0.4);
+  }
+
+  /* Mobile: Hide Desktop Nav */
+  @media (max-width: 767px) {
+    .navbar-items {
+      display: none;
+    }
+  }
+
+  /* Mobile: Hamburger Button */
+  .mobile-menu-button {
+    display: none;
+    width: 48px;
+    height: 48px;
+
+    background: linear-gradient(168deg,
+      rgba(31, 36, 42, 0.8) 0%,
+      rgba(18, 22, 27, 0.8) 100%
+    );
+    backdrop-filter: blur(var(--navbar-blur)) saturate(var(--navbar-sat));
+
+    border: 1px solid rgba(45, 51, 60, 0.85);
+    border-radius: 12px;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+
+    cursor: pointer;
+    transition: opacity var(--nav-t-med) var(--ease-out);
+  }
+
+  .mobile-menu-button:hover {
+    opacity: 0.9;
+  }
+
+  @media (max-width: 767px) {
+    .mobile-menu-button {
+      display: flex;
+    }
+  }
+
+  .hamburger-line {
+    width: 24px;
+    height: 2px;
+    background: #EAF1FC;
+    border-radius: 1px;
+    transition:
+      transform var(--nav-t-med) var(--ease-out),
+      opacity var(--nav-t-med) var(--ease-out);
+  }
+
+  /* Open State: X Animation */
+  .mobile-menu-button.open .hamburger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .mobile-menu-button.open .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-menu-button.open .hamburger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  /* Mobile Panel */
+  .mobile-menu-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    height: 100vh;
+    z-index: 1001;
+
+    background: linear-gradient(168deg,
+      rgba(31, 36, 42, 0.95) 0%,
+      rgba(18, 22, 27, 0.95) 100%
+    );
+    backdrop-filter: blur(24px) saturate(115%);
+
+    border-left: 1px solid rgba(45, 51, 60, 0.85);
+
+    padding: 80px 24px 24px;
+    overflow-y: auto;
+
+    transform: translateX(100%);
+    transition: transform var(--nav-t-panel) var(--ease-out);
+  }
+
+  .mobile-menu-panel.open {
+    transform: translateX(0);
+  }
+
+  /* Mobile Nav Items */
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .mobile-nav-item {
+    display: block;
+    padding: 16px 20px;
+
+    font-family: Inter, -apple-system, system-ui, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #EAF1FC;
+    text-decoration: none;
+
+    border-radius: 12px;
+
+    transition: background 180ms var(--ease-out);
+  }
+
+  .mobile-nav-item:hover,
+  .mobile-nav-item.active {
+    background: rgba(0, 229, 195, 0.12);
+  }
+
+  /* Backdrop Overlay */
+  .mobile-menu-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+
+    background: rgba(18, 22, 27, 0.6);
+    backdrop-filter: blur(4px);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity var(--nav-t-panel) var(--ease-out);
+  }
+
+  .mobile-menu-backdrop.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .navbar,
+    .nav-item,
+    .nav-item::after,
+    .mobile-menu-button,
+    .hamburger-line,
+    .mobile-menu-panel,
+    .mobile-menu-backdrop {
+      transition-property: opacity !important;
+      transition-duration: 120ms !important;
+    }
+
+    .nav-item::after {
+      transform: scaleX(1);
+      opacity: 0;
+    }
+
+    .nav-item:hover::after,
+    .nav-item.active::after {
+      opacity: 1;
+    }
   }
 
   /* Mobile Floating Navbar - Cuervo 2025 Ultra-Refined Futuristic Design */
