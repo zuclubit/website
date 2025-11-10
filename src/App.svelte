@@ -1,6 +1,9 @@
 <script>
   import { fade, fly } from 'svelte/transition';
   import { onMount, onDestroy } from 'svelte';
+  import PremiumLogo from './components/PremiumLogo.svelte';
+  import PremiumButton from './components/PremiumButton.svelte';
+  import NavItem from './components/NavItem.svelte';
   import {
     Building2,
     Settings,
@@ -40,6 +43,7 @@
 
   let mobileMenuOpen = false;
   let activeService = null;
+  let activeSection = 'home'; // Track active section for navbar
 
   // Hero animation state
   let heroVisible = false;
@@ -195,13 +199,13 @@
         },
       });
 
-      // Navbar Sticky Scroll Behavior: Height shrink + blur increase
+      // Navbar Sticky Scroll Behavior: A partir de 24px → altura 64px, opacidad 88%
       const navbar = document.querySelector('.navbar');
       if (navbar) {
         ScrollTrigger.create({
           trigger: 'body',
-          start: '50px top',
-          end: '51px top',
+          start: '24px top',  /* Scroll trigger a partir de 24px */
+          end: '25px top',
           onEnter: () => navbar.classList.add('scrolled'),
           onLeaveBack: () => navbar.classList.remove('scrolled'),
         });
@@ -227,6 +231,36 @@
         heroVisible = true;
       }, 100);
     }
+
+    // ========================================
+    // Scroll Spy: Active Section Detection
+    // ========================================
+
+    // IntersectionObserver for active section detection
+    const sections = document.querySelectorAll('section[id]');
+    const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 80;
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // Only update if section is entering viewport (intersecting)
+          if (entry.isIntersecting) {
+            activeSection = entry.target.id;
+          }
+        });
+      },
+      {
+        // Trigger when section is 30% visible from top
+        // Account for navbar height with negative rootMargin
+        rootMargin: `-${navbarHeight}px 0px -50% 0px`,
+        threshold: 0,
+      }
+    );
+
+    // Observe all sections
+    sections.forEach((section) => {
+      sectionObserver.observe(section);
+    });
   });
 
   onDestroy(() => {
@@ -368,20 +402,28 @@
 
   <!-- Main container -->
   <div class="navbar-container">
-    <!-- Left: Brand Capsule -->
-    <a href="/" class="navbar-brand" aria-label="Zuclubit Home">
-      <div class="brand-capsule">
-        <img src={logo} alt="Zuclubit" class="brand-logo" />
-      </div>
-    </a>
+    <!-- Left: Brand Logo -->
+    <PremiumLogo
+      size="46px"
+      alt="Zuclubit"
+      ariaLabel="Zuclubit Home"
+      href="/"
+    />
 
     <!-- Right: Desktop Nav Items -->
     <div class="navbar-items">
-      <a href="/" class="nav-item active">Home</a>
-      <a href="#services" class="nav-item">Services</a>
-      <a href="#expertise" class="nav-item">Expertise</a>
-      <a href="#standards" class="nav-item">Standards</a>
-      <a href="#contact" class="nav-item nav-item-cta">Contact</a>
+      <NavItem href="/" label="Home" isActive={activeSection === 'home'} />
+      <NavItem href="#services" label="Services" isActive={activeSection === 'services'} />
+      <NavItem href="#expertise" label="Expertise" isActive={activeSection === 'expertise'} />
+      <NavItem href="#standards" label="Standards" isActive={activeSection === 'standards'} />
+      <PremiumButton
+        href="#contact"
+        variant="primary"
+        size="md"
+        ariaLabel="Contact us"
+      >
+        Contact
+      </PremiumButton>
     </div>
 
     <!-- Mobile: Hamburger Button -->
@@ -402,11 +444,11 @@
 <!-- Mobile Menu Panel -->
 <div class="mobile-menu-panel" class:open={mobileMenuOpen} role="dialog" aria-modal="true">
   <nav class="mobile-nav" aria-label="Mobile navigation">
-    <a href="/" class="mobile-nav-item active" on:click={toggleMobileMenu}>Home</a>
-    <a href="#services" class="mobile-nav-item" on:click={toggleMobileMenu}>Services</a>
-    <a href="#expertise" class="mobile-nav-item" on:click={toggleMobileMenu}>Expertise</a>
-    <a href="#standards" class="mobile-nav-item" on:click={toggleMobileMenu}>Standards</a>
-    <a href="#contact" class="mobile-nav-item" on:click={toggleMobileMenu}>Contact</a>
+    <a href="/" class="mobile-nav-item" class:active={activeSection === 'home'} on:click={toggleMobileMenu}>Home</a>
+    <a href="#services" class="mobile-nav-item" class:active={activeSection === 'services'} on:click={toggleMobileMenu}>Services</a>
+    <a href="#expertise" class="mobile-nav-item" class:active={activeSection === 'expertise'} on:click={toggleMobileMenu}>Expertise</a>
+    <a href="#standards" class="mobile-nav-item" class:active={activeSection === 'standards'} on:click={toggleMobileMenu}>Standards</a>
+    <a href="#contact" class="mobile-nav-item" class:active={activeSection === 'contact'} on:click={toggleMobileMenu}>Contact</a>
   </nav>
 </div>
 
@@ -439,7 +481,7 @@
 </nav>
 
 <!-- Hero Section -->
-<section class="hero">
+<section id="home" class="hero">
   <div class="hero-bg"></div>
   <div class="container hero-container">
     <div class="hero-content">
@@ -630,7 +672,10 @@
     <div class="footer-content">
       <div class="footer-brand">
         <div class="footer-logo-container">
-          <img src={logo} alt="Zuclubit Logo" class="footer-logo-image" />
+          <PremiumLogo
+            size="50px"
+            alt="Zuclubit Logo"
+          />
           <div class="footer-logo">ZUCLUBIT</div>
         </div>
         <p class="footer-tagline">The Living Code</p>
@@ -712,16 +757,40 @@
      NAVBAR — SIGNATURE-GRADE CUERVO 2025
      ======================================== */
 
-  /* Navbar Design Tokens - Perfect Dock Homologation */
+  /* Navbar Design Tokens - Triple-Layer Glass Premium */
   :root {
-    --navbar-height: clamp(64px, 9vw, 72px);
-    --navbar-height-scrolled: calc(clamp(64px, 9vw, 72px) - 10px);
-    --navbar-px: clamp(16px, 6vw, 56px);
-    --navbar-item-gap: 30px;
-    --navbar-blur: 14px;           /* 12-16px range, matches dock family */
-    --navbar-blur-scrolled: 18px;  /* Enhanced on scroll */
+    /* Dimensiones */
+    --navbar-height: clamp(72px, 8vw, 80px);
+    --navbar-height-scrolled: 64px;  /* Modo scroll: fixed 64px a partir de 24px */
+    --navbar-px: clamp(32px, 5vw, 40px);
+    --navbar-item-gap: 36px;  /* 32-40px */
+
+    /* Material Glass Premium */
+    --navbar-blur: 19px;           /* 18-20px backdrop-blur */
+    --navbar-blur-scrolled: 20px;
+    --navbar-opacity: 0.82;        /* 80-85% opacity */
+    --navbar-opacity-scrolled: 0.88;
     --navbar-sat: 110%;
     --navbar-sat-scrolled: 115%;
+
+    /* Border radius (esquinas como dock) */
+    --navbar-radius: 22px;  /* 20-24px */
+
+    /* Logo medallón circular */
+    --navbar-logo-size: 46px;  /* 44-48px con bevel y halo */
+
+    /* Typography Premium */
+    --navbar-font-size: 19px;  /* 18-20px */
+    --navbar-font-weight: 600;  /* Semibold 600-700 */
+    --navbar-tracking: -0.004em;  /* -0.4% (-0.3% to -0.5%) */
+    --navbar-lh: 1.2;
+
+    /* Active State Pill Translúcida */
+    --pill-bg: rgba(45, 51, 60, 0.40);  /* #2D333C @40% */
+    --pill-radius: 19px;  /* 18-20px */
+    --underline-height: 3.5px;  /* 3-4px con bloom */
+
+    /* Timing */
     --nav-t-fast: 180ms;
     --nav-t-med: 200ms;
     --nav-t-large: 240ms;
@@ -729,7 +798,7 @@
     --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-  /* Main Navbar Container */
+  /* Main Navbar Container - Triple-Layer Glass */
   .navbar {
     position: fixed;
     top: 0;
@@ -739,33 +808,39 @@
 
     height: var(--navbar-height);
 
-    /* Dual-Chamber Frosted Glass */
+    /* Shell brillante exterior (Capa 1) - 82% opacity */
     background: linear-gradient(168deg,
-      rgba(31, 36, 42, 0.8) 0%,
-      rgba(18, 22, 27, 0.8) 100%
+      rgba(31, 36, 42, 0.82) 0%,
+      rgba(18, 22, 27, 0.82) 100%
     );
     backdrop-filter: blur(var(--navbar-blur)) saturate(var(--navbar-sat));
     -webkit-backdrop-filter: blur(var(--navbar-blur)) saturate(var(--navbar-sat));
 
-    /* Bottom divider: 1px #2D333C */
-    border-bottom: 1px solid rgba(45, 51, 60, 0.85);
+    /* Inner-bevel premium: 1.2px #A0A5BE @18% */
+    border: 1.2px solid rgba(160, 165, 190, 0.18);
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(45, 51, 60, 0.85);
 
-    /* Unified Scene Lighting - Perfect Dock Homologation */
+    /* Triple-Layer Lighting System + Glow Perimetral Controlado */
     box-shadow:
+      /* Glow Perimetral Turquoise (controlado, sin sobre-exposición) */
+      0 0 12px rgba(0, 229, 195, 0.08),
+      0 0 24px rgba(0, 229, 195, 0.04),
+
       /* Outer Elevation Shadow */
       0 2px 8px rgba(0, 0, 0, 0.18),
       0 1px 3px rgba(0, 0, 0, 0.12),
+
+      /* Micro-Specular Top (Capa 3) */
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.15),
 
       /* Keylight Cool Top-Left 45° - Dual Layer (#EAF1FC 10-14%) */
       inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.22),
       inset 0.5px 0.5px 1.5px rgba(234, 241, 252, 0.14),
 
-      /* Rimlight Turquoise Bottom-Right 225° - Dual Layer (#00E5C3) */
+      /* Rimlight Turquoise Direccional 225° (#00E5C3) */
       inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.14),
       inset -0.5px -0.5px 1.5px rgba(0, 229, 195, 0.1),
-
-      /* Top Specular Band (#C7D1F6 12%) */
-      inset 0 1.5px 0 0 rgba(199, 209, 246, 0.12),
 
       /* Ambient Tint (#A0A5BE @5%) */
       inset 0 0 24px rgba(160, 165, 190, 0.05),
@@ -778,22 +853,38 @@
 
     transition:
       height var(--nav-t-large) var(--ease-out),
-      backdrop-filter var(--nav-t-large) var(--ease-out);
+      backdrop-filter var(--nav-t-large) var(--ease-out),
+      opacity var(--nav-t-large) var(--ease-out),
+      border-bottom var(--nav-t-large) var(--ease-out);
   }
 
-  /* Scrolled state - applied by GSAP */
+  /* Scrolled state (a partir de 24px) */
   .navbar.scrolled {
     height: var(--navbar-height-scrolled);
     backdrop-filter: blur(var(--navbar-blur-scrolled)) saturate(var(--navbar-sat-scrolled));
     -webkit-backdrop-filter: blur(var(--navbar-blur-scrolled)) saturate(var(--navbar-sat-scrolled));
+
+    /* Opacidad 88%, borde 1px visible */
+    background: linear-gradient(168deg,
+      rgba(31, 36, 42, 0.88) 0%,
+      rgba(18, 22, 27, 0.88) 100%
+    );
+    border-bottom-color: rgba(45, 51, 60, 1);  /* Borde visible en scroll */
   }
 
-  /* Inner Matte Diffuser */
+  /* Difusor Mate Interior (Capa 2) - Triple-Layer */
   .navbar-diffuser {
     position: absolute;
     inset: 0;
-    background: rgba(199, 209, 246, 0.04);
+    /* Difusor mate más pronunciado con tinte frío */
+    background: radial-gradient(
+      ellipse at 50% 0%,
+      rgba(199, 209, 246, 0.08) 0%,
+      rgba(199, 209, 246, 0.04) 50%,
+      rgba(0, 229, 195, 0.02) 100%
+    );
     pointer-events: none;
+    z-index: 0;
   }
 
   /* Inner Container (Flex Layout) */
@@ -809,46 +900,6 @@
     align-items: center;
   }
 
-  /* Brand Capsule (Left) */
-  .navbar-brand {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-
-    transition: opacity var(--nav-t-med) var(--ease-out);
-  }
-
-  .navbar-brand:hover {
-    opacity: 0.85;
-  }
-
-  .brand-capsule {
-    width: 44px;
-    height: 44px;
-    padding: 8px;
-
-    background: rgba(31, 36, 42, 0.6);
-    border: 1px solid rgba(45, 51, 60, 0.85);
-    border-radius: 50%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    transition: all var(--nav-t-med) var(--ease-out);
-  }
-
-  .navbar-brand:hover .brand-capsule {
-    background: rgba(31, 36, 42, 0.8);
-    box-shadow: 0 4px 12px rgba(0, 229, 195, 0.15);
-  }
-
-  .brand-logo {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
   /* Nav Items Container (Right) */
   .navbar-items {
     display: flex;
@@ -856,11 +907,12 @@
     gap: var(--navbar-item-gap);
   }
 
-  /* Individual Nav Item */
-  .nav-item {
+  /* Individual Nav Item - Premium Typography */
+  /* GLOBAL: Necesario para que se aplique a NavItem component */
+  :global(.nav-item) {
     position: relative;
 
-    padding: 12px 8px;
+    padding: 14px 18px;
     min-height: 44px;
     min-width: 44px;
 
@@ -868,72 +920,114 @@
     align-items: center;
     justify-content: center;
 
+    /* Typography Premium: Inter/SF Semibold 600-700, 18-20px */
     font-family: Inter, SF Pro Display, -apple-system, system-ui, sans-serif;
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: -0.003em;
-    line-height: 1.25;
+    font-size: var(--navbar-font-size);  /* 19px */
+    font-weight: var(--navbar-font-weight);  /* 600 */
+    letter-spacing: var(--navbar-tracking);  /* -0.4% */
+    line-height: var(--navbar-lh);  /* 1.2 */
 
-    color: #EAF1FC;
+    /* Color: reposo #C7D1F6 (alto contraste AA) */
+    color: #C7D1F6;
     text-decoration: none;
     white-space: nowrap;
 
-    opacity: 0.85;
+    opacity: 0.9;
 
     transition:
       opacity var(--nav-t-med) var(--ease-out),
-      filter var(--nav-t-med) var(--ease-out);
+      filter var(--nav-t-med) var(--ease-out),
+      background var(--nav-t-med) var(--ease-out),
+      transform var(--nav-t-med) var(--ease-out);
   }
 
-  /* Hover State - Text Brighten +6-8% */
-  .nav-item:hover {
+  /* Hover State - Incremento de specular y elevación */
+  :global(.nav-item:hover) {
     opacity: 1;
-    filter: brightness(1.07);  /* +7% brightness */
+    color: #EAF1FC;  /* Texto activo en hover */
+    filter: brightness(1.07);
+
+    /* Elevación: y-offset 2px, blur 8px */
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   }
 
-  /* Underline Animation - 2px Turquoise scaleX 0→1 from left */
-  .nav-item::after {
+  /* Underline Animation - 3.5px con bloom controlado */
+  :global(.nav-item::after) {
     content: '';
     position: absolute;
     bottom: 8px;
-    left: 8px;
-    right: 8px;
+    left: 18px;
+    right: 18px;
 
-    height: 2px;
-    background: rgba(0, 229, 195, 0.6);  /* Turquoise @ 60% */
-    border-radius: 1px;
+    height: var(--underline-height);  /* 3.5px (3-4px) */
+    background: rgba(0, 229, 195, 0.6);
+    border-radius: 2px;
+
+    /* Bloom controlado (sin sobre-exposición) */
+    box-shadow: 0 0 6px rgba(0, 229, 195, 0.4);
 
     transform: scaleX(0);
     transform-origin: left center;
 
-    /* 180-200ms ease-out (using 190ms) */
     transition: transform var(--nav-t-fast) var(--ease-out);
   }
 
-  .nav-item:hover::after {
+  :global(.nav-item:hover::after) {
     transform: scaleX(1);
   }
 
-  /* Active/Current State */
-  .nav-item.active {
+  /* Active/Current State - Pill Translúcida + Underline */
+  :global(.nav-item.active) {
     opacity: 1;
+    color: #EAF1FC;  /* Texto activo #EAF1FC */
+
+    /* Pill translúcida: radius 18-20px, fondo #2D333C @40% */
+    background: var(--pill-bg);
+    border-radius: var(--pill-radius);
+
+    /* Elevación +1 */
+    transform: translateY(-1px);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
   }
 
-  .nav-item.active::after {
+  :global(.nav-item.active::after) {
+    /* Underline 3-4px #00E5C3 con bloom */
     background: #00E5C3;
+    box-shadow: 0 0 8px rgba(0, 229, 195, 0.5);
     transform: scaleX(1);
     opacity: 1;
   }
 
-  /* Focus State (Keyboard) */
-  .nav-item:focus-visible {
+  /* Focus State (Keyboard) - Anillo 2px #00E5C3 + 1px #EAF1FC */
+  :global(.nav-item:focus-visible) {
     outline: none;
-    border-radius: 8px;
+    border-radius: var(--pill-radius);
 
+    /* Anillo compuesto: contraste 3:1 no-text */
     box-shadow:
-      0 0 0 2px rgba(31, 36, 42, 1),
-      0 0 0 4px #C7D1F6,
-      0 0 12px rgba(199, 209, 246, 0.4);
+      /* Inner ring: 1px #EAF1FC */
+      0 0 0 1px #EAF1FC,
+
+      /* Outer ring: 2px #00E5C3 */
+      0 0 0 3px #00E5C3,
+
+      /* Soft glow */
+      0 0 12px rgba(0, 229, 195, 0.4);
+  }
+
+  /* Tablet Responsive (≤1024px) */
+  @media (max-width: 1024px) {
+    :root {
+      --navbar-item-gap: 26px;  /* 24-28px range - reduced from 36px */
+      --navbar-px: clamp(24px, 4vw, 32px);  /* Reduce padding slightly */
+    }
+
+    :global(.nav-item) {
+      font-size: 18px;  /* Slightly smaller on tablet */
+      padding: 12px 16px;
+      letter-spacing: -0.003em;  /* -0.3% */
+    }
   }
 
   /* Mobile: Hide Desktop Nav */
@@ -1082,8 +1176,8 @@
   /* Reduced Motion - Opacity Only (120-160ms) */
   @media (prefers-reduced-motion: reduce) {
     .navbar,
-    .nav-item,
-    .nav-item::after,
+    :global(.nav-item),
+    :global(.nav-item::after),
     .mobile-menu-button,
     .hamburger-line,
     .mobile-menu-panel,
@@ -1093,13 +1187,13 @@
     }
 
     /* Disable transform animations, use opacity instead */
-    .nav-item::after {
+    :global(.nav-item::after) {
       transform: scaleX(1);
       opacity: 0;
     }
 
-    .nav-item:hover::after,
-    .nav-item.active::after {
+    :global(.nav-item:hover::after),
+    :global(.nav-item.active::after) {
       opacity: 1;
     }
 
@@ -2628,73 +2722,6 @@
     align-items: center;
     gap: 0.75rem;
     margin-bottom: 0.5rem;
-  }
-
-  .footer-logo-image {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
-    border-radius: 50%;
-    padding: 3px;
-    position: relative;
-    background: linear-gradient(135deg, rgba(0, 207, 255, 0.15) 0%, rgba(0, 229, 195, 0.15) 100%);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    box-shadow:
-      0 8px 32px rgba(0, 207, 255, 0.25),
-      0 2px 8px rgba(0, 229, 195, 0.2),
-      inset 0 1px 2px rgba(255, 255, 255, 0.1),
-      inset 0 -1px 2px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid transparent;
-    background-clip: padding-box;
-  }
-
-  .footer-logo-image::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #00cfff 0%, #00e5c3 50%, #00cfff 100%);
-    z-index: -1;
-    opacity: 0.6;
-    transition: opacity 0.4s ease;
-  }
-
-  .footer-logo-image::after {
-    content: '';
-    position: absolute;
-    top: 10%;
-    left: 10%;
-    width: 30%;
-    height: 30%;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle at center,
-      rgba(255, 255, 255, 0.3) 0%,
-      transparent 70%
-    );
-    filter: blur(4px);
-    pointer-events: none;
-  }
-
-  .footer-logo-image:hover {
-    background: linear-gradient(135deg, rgba(0, 207, 255, 0.25) 0%, rgba(0, 229, 195, 0.25) 100%);
-    box-shadow:
-      0 12px 48px rgba(0, 207, 255, 0.35),
-      0 4px 16px rgba(0, 229, 195, 0.3),
-      inset 0 2px 4px rgba(255, 255, 255, 0.15),
-      inset 0 -2px 4px rgba(0, 0, 0, 0.15);
-    transform: scale(1.05) translateY(-2px);
-    backdrop-filter: blur(25px) saturate(200%);
-    -webkit-backdrop-filter: blur(25px) saturate(200%);
-  }
-
-  .footer-logo-image:hover::before {
-    opacity: 0.9;
   }
 
   .footer-logo {
