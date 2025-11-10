@@ -1333,15 +1333,20 @@
     /* Separation from Bottom Dock: 24-32px + safe-area-inset-bottom */
     margin-bottom: max(28px, env(safe-area-inset-bottom, 0px));
 
-    /* CTA Appear: 300ms mount animation, 150ms delay, Micro-Elevation */
+    /* Hero Entry: opacity + Y(10→0) + blur(3→0) ≈300ms */
     opacity: 0;
-    transform: translateY(8px);
-    transition: opacity var(--t-mount) ease-out 150ms, transform var(--t-mount) ease-out 150ms;
+    transform: translateY(10px);
+    filter: blur(3px);
+    transition:
+      opacity var(--t-mount) ease-out 150ms,
+      transform var(--t-mount) ease-out 150ms,
+      filter var(--t-mount) ease-out 150ms;
   }
 
   .hero-cta-group.visible {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 
   /* ========================================
@@ -1395,9 +1400,9 @@
     /* Line-height ≈1.18 for multi-line support */
     line-height: 1.18;
 
-    /* Text can wrap to 2 lines if needed */
+    /* Text can wrap to 2 lines: 26-30ch per line */
     text-align: center;
-    max-width: 280px;
+    max-width: 30ch;  /* ~510px at 17px = ~30 characters per line */
 
     /* Rounded 18-20px (using 20px) */
     border-radius: var(--cta-radius);
@@ -1612,6 +1617,7 @@
     .hero-cta-group {
       opacity: 1 !important;
       transform: translateY(0) !important;
+      filter: none !important;  /* Disable blur effect */
     }
 
     /* Disable Heavy Motion: Parallax Background */
