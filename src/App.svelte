@@ -124,18 +124,26 @@
             }
           );
 
-          // Scroll-Down: CTA fade/slide-out 24–30px to hand focus to dock
-          gsap.to(ctaGroup, {
-            opacity: 0,
-            y: 25,
-            scrollTrigger: {
-              trigger: '.hero',
-              start: '30% top',
-              end: '50% top',
-              scrub: 1,
-              markers: false,
+          // Scroll-Down: CTA fade/slide-out (reversible on scroll up)
+          gsap.fromTo(ctaGroup,
+            {
+              // FROM: Visible state (cuando está arriba)
+              opacity: 1,
+              y: 0,
             },
-          });
+            {
+              // TO: Hidden state (cuando hace scroll down)
+              opacity: 0,
+              y: 25,
+              scrollTrigger: {
+                trigger: '.hero',
+                start: '30% top',      // Empieza a desaparecer a 30vh
+                end: '50% top',        // Completamente invisible a 50vh
+                scrub: 1,              // Smooth scrub - reversible
+                markers: false,
+              },
+            }
+          );
         } else {
           // Fallback if element not found
           heroVisible = true;
