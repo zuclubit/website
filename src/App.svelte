@@ -599,7 +599,7 @@
     color: #C7D1F6;
   }
 
-  /* Mobile Floating Navbar - Cuervo 2025 Official Design System */
+  /* Mobile Floating Navbar - Cuervo 2025 Ultra-Premium Design System */
   .mobile-floating-nav {
     position: fixed;
     bottom: 20px;
@@ -608,11 +608,12 @@
     z-index: 999;
     display: none;
 
-    /* Outer Shadow - Depth & Elevation */
-    filter: drop-shadow(0 22px 22px rgba(0, 0, 0, 0.35));
+    /* Floating Shadow - Photorealistic Elevation */
+    filter: drop-shadow(0 22px 22px rgba(0, 0, 0, 0.35))
+            drop-shadow(0 2px 2px rgba(0, 0, 0, 0.25));
   }
 
-  /* Dark Titanium Panel - Brushed Metal Surface */
+  /* Brushed Dark Titanium Panel - Realistic Depth & Subsurface Reflection */
   .mobile-nav-pill {
     display: flex;
     align-items: center;
@@ -620,31 +621,31 @@
     gap: 0.75rem;
     position: relative;
 
-    /* Official Cuervo Gradient Background */
-    background: linear-gradient(145deg, #1F242A 0%, #12161B 100%);
+    /* Titanium Gradient: Top #1F242A → Bottom #12161B */
+    background: linear-gradient(168deg, #1F242A 0%, #12161B 100%);
     backdrop-filter: blur(28px) saturate(110%);
     -webkit-backdrop-filter: blur(28px) saturate(110%);
 
     padding: 0.875rem 1.125rem;
-    border-radius: 24px;
+    border-radius: 22px;
 
-    /* Subtle Border for Glass-Fusion Effect */
-    border: 1px solid rgba(199, 209, 246, 0.08);
+    /* Glass-Fusion Border */
+    border: 1px solid rgba(199, 209, 246, 0.1);
     background-clip: padding-box;
 
-    /* Fine Ambient Occlusion for Visual Separation */
+    /* Dual-Layer Bevel + AO Shadows */
     box-shadow:
-      /* Primary Outer Shadow */
-      0 22px 44px rgba(0, 0, 0, 0.35),
-      0 12px 24px rgba(0, 0, 0, 0.28),
+      /* Floating Shadow - Spread 2px */
+      0 22px 44px 2px rgba(0, 0, 0, 0.35),
+      0 14px 28px rgba(0, 0, 0, 0.3),
 
-      /* Directional Lighting - Top-left Cool White */
-      inset 1px 1px 2px rgba(199, 209, 246, 0.12),
-      inset 0.5px 0.5px 1px rgba(234, 241, 252, 0.08),
+      /* Dual-Layer Bevel - Upper Reflection (Top-left Cool White) */
+      inset 1.5px 1.5px 3px rgba(199, 209, 246, 0.15),
+      inset 0.5px 0.5px 1.5px rgba(234, 241, 252, 0.12),
 
-      /* Directional Lighting - Bottom-right Turquoise */
-      inset -1px -1px 2px rgba(0, 229, 195, 0.06),
-      inset -0.5px -0.5px 1px rgba(18, 22, 27, 0.9);
+      /* Dual-Layer Bevel - Lower Shadow (Bottom-right Turquoise) */
+      inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.08),
+      inset -0.5px -0.5px 1.5px rgba(18, 22, 27, 0.95);
 
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -664,7 +665,7 @@
     mix-blend-mode: overlay;
   }
 
-  /* Metallic Rim Gradient */
+  /* Subsurface Reflection - Photorealistic Depth Layer */
   .mobile-nav-pill::after {
     content: '';
     position: absolute;
@@ -672,16 +673,28 @@
     left: -1px;
     right: -1px;
     bottom: -1px;
-    border-radius: 24px;
-    background: linear-gradient(
-      135deg,
-      rgba(199, 209, 246, 0.15) 0%,
-      rgba(160, 165, 190, 0.08) 35%,
-      rgba(0, 229, 195, 0.05) 65%,
-      rgba(18, 22, 27, 0.25) 100%
-    );
+    border-radius: 22px;
+
+    /* Metallic Rim Gradient + Subsurface Scattering */
+    background:
+      /* Outer Metallic Rim */
+      linear-gradient(
+        135deg,
+        rgba(199, 209, 246, 0.18) 0%,
+        rgba(160, 165, 190, 0.1) 30%,
+        rgba(0, 229, 195, 0.06) 60%,
+        rgba(18, 22, 27, 0.28) 100%
+      ),
+      /* Subsurface Reflection Scattering */
+      radial-gradient(
+        ellipse at 50% 100%,
+        rgba(0, 229, 195, 0.04) 0%,
+        transparent 50%
+      );
+
     z-index: -1;
     pointer-events: none;
+    opacity: 0.95;
   }
 
   .mobile-nav-pill:hover {
@@ -692,7 +705,7 @@
       inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.08);
   }
 
-  /* Circular Icon Buttons - Outlined Metallic Semi-Illuminated */
+  /* Circular Icon Buttons - Inactive State (Dark Graphite Circles) */
   .mobile-nav-btn {
     width: 52px;
     height: 52px;
@@ -701,188 +714,218 @@
     align-items: center;
     justify-content: center;
 
-    /* Metallic Dark Surface - Cuervo Palette */
-    background: linear-gradient(145deg, #2D333C 0%, #1A1F24 100%);
+    /* Dark Graphite Gradient: #1A1F24 → #12161B */
+    background: linear-gradient(168deg, #1A1F24 0%, #12161B 100%);
 
-    /* Rim Highlight - Official Palette #A0A5BE */
-    border: 1.5px solid rgba(160, 165, 190, 0.25);
+    /* Subtle Metallic Rim - #A0A5BE */
+    border: 1px solid rgba(160, 165, 190, 0.18);
 
-    /* Stroke Color - Polar Mist #EAF1FC */
-    color: #EAF1FC;
+    /* Clean Monoline Icons - Ice Blue / Polar Mist */
+    color: #C7D1F6;
     text-decoration: none;
     cursor: pointer;
 
     /* Smooth Micro-Interaction Transitions */
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
-    /* Ambient Occlusion & Depth */
+    /* Inner AO Softening for Realistic Separation */
     box-shadow:
-      /* Outer Shadow for Separation */
-      0 4px 14px rgba(0, 0, 0, 0.38),
-      0 2px 6px rgba(0, 0, 0, 0.28),
+      /* Outer Shadow - Depth & Separation */
+      0 4px 16px rgba(0, 0, 0, 0.42),
+      0 2px 8px rgba(0, 0, 0, 0.32),
 
-      /* Directional Lighting - Top-left Cool */
-      inset 1px 1px 1.5px rgba(199, 209, 246, 0.08),
+      /* Inner AO - Soft Darkening */
+      inset 0 0 8px rgba(0, 0, 0, 0.25),
 
-      /* Directional Shadow - Bottom-right */
-      inset -1px -1px 1.5px rgba(18, 22, 27, 0.85);
+      /* Directional Lighting - Top-left Cool White */
+      inset 1.5px 1.5px 2px rgba(199, 209, 246, 0.06),
+
+      /* Directional Shadow - Bottom-right Deep */
+      inset -1.5px -1.5px 2px rgba(18, 22, 27, 0.9);
 
     position: relative;
     overflow: visible;
   }
 
-  /* Semi-Illuminated Top-left Reflection */
+  /* Subtle Top Reflection Highlight (#EAF1FC) */
   .mobile-nav-btn::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at top left,
+      rgba(234, 241, 252, 0.12) 0%,
+      rgba(199, 209, 246, 0.06) 50%,
+      transparent 80%
+    );
+    pointer-events: none;
+    opacity: 0.8;
+    transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Hover: +1.5% Scale, +8% Brightness, Soft Shadow Lift */
+  .mobile-nav-btn:hover {
+    background: linear-gradient(168deg, #232930 0%, #181D22 100%);
+
+    /* Rim Brightens - Cool Grey #797E95 */
+    border-color: rgba(121, 126, 149, 0.35);
+
+    /* Precise Scale: +1.5% */
+    transform: scale(1.015) translateY(-2px);
+
+    /* Enhanced Brightness: +8% */
+    filter: brightness(1.08);
+
+    /* Monoline Icons Brighten to Polar Mist */
+    color: #EAF1FC;
+
+    /* Soft Shadow Lift */
+    box-shadow:
+      0 8px 22px rgba(0, 0, 0, 0.45),
+      0 4px 12px rgba(199, 209, 246, 0.06),
+      inset 0 0 8px rgba(0, 0, 0, 0.2),
+      inset 2px 2px 3px rgba(234, 241, 252, 0.1),
+      inset -1.5px -1.5px 2.5px rgba(0, 229, 195, 0.04);
+  }
+
+  .mobile-nav-btn:hover::before {
+    opacity: 1.2;
+  }
+
+  .mobile-nav-btn:active {
+    transform: scale(0.985) translateY(-1px);
+    filter: brightness(1.04);
+    box-shadow:
+      0 3px 10px rgba(0, 0, 0, 0.5),
+      inset 0 0 10px rgba(18, 22, 27, 0.95);
+  }
+
+  /* Active Button - Zuclubit Trinity Symbol with Turquoise Aura */
+  .mobile-nav-btn-logo {
+    padding: 0;
+
+    /* Turquoise Energy Gradient #00E5C3 → #C7D1F6 */
+    background: linear-gradient(135deg, #00E5C3 0%, #C7D1F6 100%);
+
+    /* Metallic Inner Rim - Ice Blue #C7D1F6 */
+    border: 2px solid rgba(199, 209, 246, 0.5);
+    box-sizing: border-box;
+
+    /* Photorealistic Lighting & Glow Aura */
+    box-shadow:
+      /* Soft Turquoise Glow Aura (#00E5C3 → transparent) */
+      0 0 32px rgba(0, 229, 195, 0.5),
+      0 0 18px rgba(0, 229, 195, 0.38),
+      0 0 8px rgba(199, 209, 246, 0.32),
+
+      /* Outer Depth Shadow */
+      0 4px 20px rgba(0, 0, 0, 0.5),
+
+      /* Soft Inner Glow Around Symbol */
+      inset 0 0 14px rgba(255, 255, 255, 0.28),
+      inset 0 0 7px rgba(0, 229, 195, 0.35),
+
+      /* Dual-Layer Inner Bevel */
+      inset 2px 2px 4px rgba(255, 255, 255, 0.4),
+      inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.25);
+
+    /* Inner Glow Pulse - 1.2s ease-in-out */
+    animation: trinity-inner-pulse 1.2s ease-in-out infinite;
+
+    /* Precise Micro-interaction */
+    transition: all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes trinity-inner-pulse {
+    0%, 100% {
+      box-shadow:
+        0 0 32px rgba(0, 229, 195, 0.5),
+        0 0 18px rgba(0, 229, 195, 0.38),
+        0 0 8px rgba(199, 209, 246, 0.32),
+        0 4px 20px rgba(0, 0, 0, 0.5),
+        inset 0 0 14px rgba(255, 255, 255, 0.28),
+        inset 0 0 7px rgba(0, 229, 195, 0.35);
+    }
+    50% {
+      box-shadow:
+        0 0 40px rgba(0, 229, 195, 0.65),
+        0 0 22px rgba(0, 229, 195, 0.48),
+        0 0 12px rgba(199, 209, 246, 0.42),
+        0 4px 24px rgba(0, 0, 0, 0.55),
+        inset 0 0 18px rgba(255, 255, 255, 0.35),
+        inset 0 0 10px rgba(0, 229, 195, 0.45);
+    }
+  }
+
+  /* Subtle Reflection Top Highlight (#EAF1FC) */
+  .mobile-nav-btn-logo::before {
     content: '';
     position: absolute;
     top: 3px;
     left: 3px;
-    width: 14px;
-    height: 14px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: radial-gradient(
-      circle at top left,
-      rgba(234, 241, 252, 0.18) 0%,
-      rgba(199, 209, 246, 0.08) 50%,
+      circle at 30% 30%,
+      rgba(234, 241, 252, 0.45) 0%,
+      rgba(255, 255, 255, 0.25) 35%,
       transparent 75%
     );
     pointer-events: none;
-    transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
+    opacity: 0.9;
   }
 
-  /* Micro-Interaction: Hover State (+8% brightness, +1% scale) */
-  .mobile-nav-btn:hover {
-    background: linear-gradient(145deg, #353C47 0%, #222830 100%);
-
-    /* Rim brightens - Steel #797E95 */
-    border-color: rgba(121, 126, 149, 0.4);
-
-    /* Precise Scale: +1% */
-    transform: scale(1.01) translateY(-1px);
-
-    /* Enhanced Brightness Filter: +8% */
-    filter: brightness(1.08);
-
-    /* Subtle Glow Enhancement */
-    box-shadow:
-      0 6px 18px rgba(0, 0, 0, 0.42),
-      0 0 16px rgba(199, 209, 246, 0.08),
-      inset 1.5px 1.5px 2px rgba(234, 241, 252, 0.12),
-      inset -1px -1px 2px rgba(0, 229, 195, 0.05);
-  }
-
-  .mobile-nav-btn:hover::before {
-    opacity: 1.4;
-  }
-
-  .mobile-nav-btn:active {
-    transform: scale(0.99) translateY(0);
-    filter: brightness(1.05);
-    box-shadow:
-      0 2px 8px rgba(0, 0, 0, 0.55),
-      inset 0 0 6px rgba(18, 22, 27, 0.9);
-  }
-
-  /* Active Logo Button - Turquoise Inner Light */
-  .mobile-nav-btn-logo {
-    padding: 0;
-
-    /* Soft Inner Turquoise Gradient #00E5C3 → #C7D1F6 */
-    background: linear-gradient(135deg, #00E5C3 0%, #C7D1F6 100%);
-
-    /* Subtle Border Glow */
-    border: 1.5px solid rgba(0, 229, 195, 0.45);
-
-    /* Active State Luminous Glow with Inner Light */
-    box-shadow:
-      /* Outer Turquoise Glow */
-      0 0 28px rgba(0, 229, 195, 0.42),
-      0 0 14px rgba(199, 209, 246, 0.32),
-      0 4px 18px rgba(0, 0, 0, 0.48),
-
-      /* Soft Inner Glow Around Icon */
-      inset 0 0 12px rgba(255, 255, 255, 0.25),
-      inset 0 0 6px rgba(0, 229, 195, 0.3),
-
-      /* Directional Inner Highlights */
-      inset 1px 1px 3px rgba(255, 255, 255, 0.35),
-      inset -1px -1px 2px rgba(0, 229, 195, 0.2);
-
-    /* Subtle Pulsing Animation */
-    animation: logo-ambient-pulse 3s ease-in-out infinite;
-
-    /* Micro-interaction Ready */
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  @keyframes logo-ambient-pulse {
-    0%, 100% {
-      box-shadow:
-        0 0 28px rgba(0, 229, 195, 0.42),
-        0 0 14px rgba(199, 209, 246, 0.32),
-        0 4px 18px rgba(0, 0, 0, 0.48),
-        inset 0 0 12px rgba(255, 255, 255, 0.25),
-        inset 0 0 6px rgba(0, 229, 195, 0.3);
-    }
-    50% {
-      box-shadow:
-        0 0 36px rgba(0, 229, 195, 0.55),
-        0 0 18px rgba(199, 209, 246, 0.4),
-        0 4px 22px rgba(0, 0, 0, 0.52),
-        inset 0 0 16px rgba(255, 255, 255, 0.32),
-        inset 0 0 8px rgba(0, 229, 195, 0.38);
-    }
-  }
-
-  /* Soft Inner Glow Ring - Ambient Reflection */
-  .mobile-nav-btn-logo::before {
+  /* Metallic Inner Rim Effect */
+  .mobile-nav-btn-logo::after {
     content: '';
     position: absolute;
-    top: 4px;
-    left: 4px;
-    right: 4px;
-    bottom: 4px;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
     border-radius: 50%;
-    background: radial-gradient(
-      circle at 35% 35%,
-      rgba(255, 255, 255, 0.35) 0%,
-      rgba(234, 241, 252, 0.15) 40%,
-      transparent 70%
-    );
+    border: 1px solid rgba(199, 209, 246, 0.3);
     pointer-events: none;
-    z-index: 2;
+    z-index: 1;
   }
 
-  /* Hover: Enhanced Brightness (+8%) and Scale (+1%) */
+  /* Hover: +1.5% Scale, +8% Brightness, Enhanced Aura */
   .mobile-nav-btn-logo:hover {
-    transform: scale(1.01) translateY(-2px);
+    transform: scale(1.015) translateY(-2px);
     filter: brightness(1.08);
 
     box-shadow:
-      0 0 40px rgba(0, 229, 195, 0.6),
-      0 0 20px rgba(199, 209, 246, 0.48),
-      0 6px 26px rgba(0, 0, 0, 0.55),
-      inset 0 0 16px rgba(255, 255, 255, 0.35),
-      inset 0 0 8px rgba(0, 229, 195, 0.4);
+      0 0 48px rgba(0, 229, 195, 0.7),
+      0 0 26px rgba(0, 229, 195, 0.52),
+      0 0 14px rgba(199, 209, 246, 0.48),
+      0 6px 28px rgba(0, 0, 0, 0.58),
+      inset 0 0 20px rgba(255, 255, 255, 0.38),
+      inset 0 0 10px rgba(0, 229, 195, 0.48);
   }
 
   .mobile-nav-btn-logo:active {
-    transform: scale(0.99) translateY(-1px);
+    transform: scale(0.985) translateY(-1px);
     filter: brightness(1.05);
   }
 
-  /* Logo Image - Zuclubit Symbol */
+  /* Logo Image - Zuclubit Trinity Symbol */
   .mobile-nav-logo {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     object-fit: cover;
     border-radius: 50%;
     display: block;
     position: relative;
     z-index: 1;
 
-    /* Subtle Image Enhancement for Clarity */
-    filter: contrast(1.05) saturate(1.1);
+    /* Photorealistic Image Enhancement */
+    filter: contrast(1.08) saturate(1.15) brightness(1.02);
   }
 
   /* Hero - Corporate Identity Palette */
