@@ -714,8 +714,8 @@
 
   /* Navbar Design Tokens - Perfect Dock Homologation */
   :root {
-    --navbar-height: clamp(64px, 8vw, 72px);
-    --navbar-height-scrolled: calc(clamp(64px, 8vw, 72px) - 10px);
+    --navbar-height: clamp(64px, 9vw, 72px);
+    --navbar-height-scrolled: calc(clamp(64px, 9vw, 72px) - 10px);
     --navbar-px: clamp(16px, 6vw, 56px);
     --navbar-item-gap: 30px;
     --navbar-blur: 14px;           /* 12-16px range, matches dock family */
