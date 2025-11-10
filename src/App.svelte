@@ -599,7 +599,7 @@
     color: #C7D1F6;
   }
 
-  /* Mobile Floating Navbar - Glassmorphism Pill Design */
+  /* Mobile Floating Navbar - Cuervo 2025 Premium Futuristic Design */
   .mobile-floating-nav {
     position: fixed;
     bottom: 20px;
@@ -607,102 +607,238 @@
     transform: translateX(-50%);
     z-index: 999;
     display: none;
+    filter: drop-shadow(0 16px 48px rgba(0, 0, 0, 0.6));
   }
 
+  /* Brushed Titanium Panel with Dual-Layer Lighting */
   .mobile-nav-pill {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    background: rgba(31, 36, 42, 0.85);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    padding: 0.75rem 1rem;
-    border-radius: 999px;
-    border: 1px solid rgba(199, 209, 246, 0.15);
+    gap: 0.625rem;
+    position: relative;
+
+    /* Brushed Dark Titanium Base */
+    background: linear-gradient(145deg, #1F242A 0%, #12161B 100%);
+    backdrop-filter: blur(24px) saturate(120%);
+    -webkit-backdrop-filter: blur(24px) saturate(120%);
+
+    padding: 0.875rem 1.125rem;
+    border-radius: 24px;
+
+    /* Metallic Border with Gradient */
+    border: 1px solid transparent;
+    background-clip: padding-box;
+
+    /* Dual-Layer Depth Lighting */
     box-shadow:
-      0 10px 40px rgba(0, 0, 0, 0.4),
-      0 4px 12px rgba(0, 0, 0, 0.3),
-      inset 0 1px 2px rgba(255, 255, 255, 0.05);
+      /* AO (Ambient Occlusion) Blur */
+      0 20px 60px rgba(0, 0, 0, 0.5),
+      0 8px 24px rgba(0, 0, 0, 0.4),
+      /* Bottom-right Soft Shadow */
+      4px 4px 12px rgba(18, 22, 27, 0.8),
+      -1px -1px 4px rgba(26, 31, 36, 0.6),
+      /* Top-left Cool Highlight */
+      inset -1px -1px 3px rgba(18, 22, 27, 0.9),
+      inset 1px 1px 3px rgba(199, 209, 246, 0.08),
+      inset 0 0 1px rgba(234, 241, 252, 0.12);
+
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Grain Texture Overlay (0.5%) */
+  .mobile-nav-pill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.015'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+  }
+
+  /* Metallic Border Gradient */
+  .mobile-nav-pill::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border-radius: 24px;
+    background: linear-gradient(
+      135deg,
+      rgba(199, 209, 246, 0.18) 0%,
+      rgba(234, 241, 252, 0.08) 30%,
+      rgba(45, 51, 60, 0.05) 60%,
+      rgba(18, 22, 27, 0.3) 100%
+    );
+    z-index: -1;
+    pointer-events: none;
   }
 
   .mobile-nav-pill:hover {
     box-shadow:
-      0 12px 48px rgba(0, 0, 0, 0.5),
-      0 6px 16px rgba(199, 209, 246, 0.2),
-      inset 0 1px 2px rgba(255, 255, 255, 0.08);
+      0 24px 72px rgba(0, 0, 0, 0.6),
+      0 10px 32px rgba(0, 229, 195, 0.08),
+      4px 4px 14px rgba(18, 22, 27, 0.9),
+      inset 1px 1px 4px rgba(199, 209, 246, 0.12),
+      inset 0 0 2px rgba(234, 241, 252, 0.15);
   }
 
+  /* Circular Icon Buttons - Metallic Minimal */
   .mobile-nav-btn {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(45, 51, 60, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+
+    /* Metallic Dark Surface */
+    background: linear-gradient(145deg, #2D333C 0%, #1A1F24 100%);
+    border: 1px solid rgba(234, 241, 252, 0.06);
+
+    /* White-Cold Icon Color */
     color: #EAF1FC;
     text-decoration: none;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Smooth Transitions */
+    transition: all 0.2s ease-in-out;
+
+    /* Subtle Depth */
     box-shadow:
-      0 4px 12px rgba(0, 0, 0, 0.3),
-      inset 0 1px 2px rgba(255, 255, 255, 0.05);
+      0 4px 12px rgba(0, 0, 0, 0.4),
+      inset -1px -1px 2px rgba(18, 22, 27, 0.8),
+      inset 1px 1px 2px rgba(234, 241, 252, 0.04);
+
     position: relative;
-    overflow: hidden;
+    overflow: visible;
   }
 
+  /* Top-left Highlight Edge */
   .mobile-nav-btn::before {
     content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    background: rgba(199, 209, 246, 0.15);
-    transform: translate(-50%, -50%);
-    transition:
-      width 0.4s ease,
-      height 0.4s ease;
+    background: radial-gradient(
+      circle at top left,
+      rgba(234, 241, 252, 0.15) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
   }
 
-  .mobile-nav-btn:active::before {
-    width: 100%;
-    height: 100%;
-  }
-
+  /* Hover Glow Effect */
   .mobile-nav-btn:hover {
-    background: rgba(45, 51, 60, 1);
+    background: linear-gradient(145deg, #363D48 0%, #242931 100%);
     border-color: rgba(199, 209, 246, 0.2);
     transform: translateY(-2px);
+
+    /* Luminous Glow */
     box-shadow:
-      0 6px 16px rgba(0, 0, 0, 0.4),
-      inset 0 1px 2px rgba(255, 255, 255, 0.08);
+      0 6px 20px rgba(0, 0, 0, 0.5),
+      0 0 20px rgba(199, 209, 246, 0.12),
+      inset 1px 1px 3px rgba(234, 241, 252, 0.08);
+  }
+
+  .mobile-nav-btn:hover::before {
+    opacity: 1.5;
   }
 
   .mobile-nav-btn:active {
     transform: translateY(0);
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.6),
+      inset 0 0 4px rgba(18, 22, 27, 0.9);
   }
 
-  /* Mobile Logo Button */
+  /* Active Logo Button - Turquoise Energy Glow */
   .mobile-nav-btn-logo {
-    padding: 6px;
-    background: linear-gradient(135deg, rgba(199, 209, 246, 0.12) 0%, rgba(234, 241, 252, 0.12) 100%);
+    padding: 0;
+
+    /* Glowing Turquoise Gradient */
+    background: linear-gradient(135deg, #00E5C3 0%, #C7D1F6 100%);
+    border: 1px solid rgba(0, 229, 195, 0.4);
+
+    /* Luminous Active State */
+    box-shadow:
+      0 0 24px rgba(0, 229, 195, 0.4),
+      0 0 12px rgba(199, 209, 246, 0.3),
+      0 4px 16px rgba(0, 0, 0, 0.5),
+      inset 0 0 8px rgba(255, 255, 255, 0.2),
+      inset 1px 1px 3px rgba(255, 255, 255, 0.3);
+
+    /* Pulsing Animation */
+    animation: logo-pulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes logo-pulse {
+    0%, 100% {
+      box-shadow:
+        0 0 24px rgba(0, 229, 195, 0.4),
+        0 0 12px rgba(199, 209, 246, 0.3),
+        0 4px 16px rgba(0, 0, 0, 0.5),
+        inset 0 0 8px rgba(255, 255, 255, 0.2);
+    }
+    50% {
+      box-shadow:
+        0 0 32px rgba(0, 229, 195, 0.6),
+        0 0 16px rgba(199, 209, 246, 0.4),
+        0 4px 20px rgba(0, 0, 0, 0.6),
+        inset 0 0 12px rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  /* Inner Glow Ring for Active State */
+  .mobile-nav-btn-logo::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    bottom: 3px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.3) 0%,
+      transparent 60%
+    );
+    pointer-events: none;
   }
 
   .mobile-nav-btn-logo:hover {
-    background: linear-gradient(135deg, rgba(199, 209, 246, 0.2) 0%, rgba(234, 241, 252, 0.2) 100%);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow:
+      0 0 36px rgba(0, 229, 195, 0.6),
+      0 0 18px rgba(199, 209, 246, 0.5),
+      0 6px 24px rgba(0, 0, 0, 0.6),
+      inset 0 0 12px rgba(255, 255, 255, 0.3);
   }
 
+  .mobile-nav-btn-logo:active {
+    transform: translateY(-1px) scale(1.02);
+  }
+
+  /* Logo Image Styling */
   .mobile-nav-logo {
-    width: 32px;
-    height: 32px;
+    width: 52px;
+    height: 52px;
     object-fit: cover;
     border-radius: 50%;
     display: block;
+    position: relative;
+    z-index: 1;
   }
 
   /* Hero - Corporate Identity Palette */
