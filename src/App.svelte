@@ -599,7 +599,7 @@
     color: #C7D1F6;
   }
 
-  /* Mobile Floating Navbar - Cuervo 2025 Next-Gen Luminous Design */
+  /* Mobile Floating Navbar - Cuervo 2025 Ultra-Refined Futuristic Design */
   .mobile-floating-nav {
     position: fixed;
     bottom: 20px;
@@ -608,12 +608,12 @@
     z-index: 999;
     display: none;
 
-    /* Floating Shadow - Cinematic Depth */
-    filter: drop-shadow(0 24px 24px rgba(0, 0, 0, 0.45))
-            drop-shadow(0 3px 3px rgba(0, 0, 0, 0.35));
+    /* Floating Shadow - Cinematic Realism (blur 28px, y-offset 4px) */
+    filter: drop-shadow(0 4px 28px rgba(0, 0, 0, 0.45))
+            drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
   }
 
-  /* Glass-Metal Hybrid Panel - Neural Aesthetics & Ambient Lighting */
+  /* Translucent Titanium Glass Panel - Dual-Layer Material System */
   .mobile-nav-pill {
     display: flex;
     align-items: center;
@@ -621,7 +621,7 @@
     gap: 0.75rem;
     position: relative;
 
-    /* Glass-Metal Gradient: Top #1F242A → Bottom #12161B (80% opacity) */
+    /* Translucent Titanium Glass: Top #1F242A → Bottom #12161B (80% opacity) */
     background: linear-gradient(168deg, rgba(31, 36, 42, 0.8) 0%, rgba(18, 22, 27, 0.8) 100%);
     backdrop-filter: blur(18px) saturate(110%);
     -webkit-backdrop-filter: blur(18px) saturate(110%);
@@ -629,26 +629,29 @@
     padding: 0.875rem 1.125rem;
     border-radius: 22px;
 
-    /* Inner Bevel Rim - #2D333C */
-    border: 1.5px solid rgba(45, 51, 60, 0.6);
+    /* Bottom AO Rim - #2D333C */
+    border: 1.5px solid rgba(45, 51, 60, 0.7);
     background-clip: padding-box;
 
-    /* Soft Highlight Top-Edge + Global Ambient Tone */
+    /* Advanced Lighting System + Top Reflection Band */
     box-shadow:
-      /* Floating Shadow - y-offset 3px, blur 24px */
-      0 3px 24px rgba(0, 0, 0, 0.45),
-      0 14px 28px rgba(0, 0, 0, 0.35),
+      /* Floating Shadow - y-offset 4px, blur 28px */
+      0 4px 28px rgba(0, 0, 0, 0.45),
+      0 14px 32px rgba(0, 0, 0, 0.38),
 
-      /* Cool Top-Left Keylight (#EAF1FC) */
-      inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.18),
-      inset 0.5px 0.5px 1.5px rgba(234, 241, 252, 0.12),
+      /* Key Light Top-Left (#EAF1FC 25%) */
+      inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.25),
+      inset 0.5px 0.5px 1.5px rgba(234, 241, 252, 0.15),
 
       /* Turquoise Rimlight Bottom-Right (#00E5C3) */
       inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.12),
       inset -0.5px -0.5px 1.5px rgba(0, 229, 195, 0.08),
 
-      /* Global Ambient Tone #A0A5BE (4%) */
-      inset 0 0 24px rgba(160, 165, 190, 0.04);
+      /* Top Reflection Band (#C7D1F6 10%) */
+      inset 0 1.5px 0 0 rgba(199, 209, 246, 0.1),
+
+      /* Global Ambient Tone #A0A5BE (5%) */
+      inset 0 0 24px rgba(160, 165, 190, 0.05);
 
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -668,7 +671,7 @@
     mix-blend-mode: overlay;
   }
 
-  /* Subsurface Reflection - Photorealistic Depth Layer */
+  /* Dual-Layer Glass Effect: Outer Gloss + Inner Matte Diffusion */
   .mobile-nav-pill::after {
     content: '';
     position: absolute;
@@ -678,26 +681,27 @@
     bottom: -1px;
     border-radius: 22px;
 
-    /* Metallic Rim Gradient + Subsurface Scattering */
+    /* Outer Gloss Layer + Inner Matte Diffusion */
     background:
-      /* Outer Metallic Rim */
+      /* Outer Gloss - Metallic Rim Gradient */
       linear-gradient(
         135deg,
-        rgba(199, 209, 246, 0.18) 0%,
-        rgba(160, 165, 190, 0.1) 30%,
-        rgba(0, 229, 195, 0.06) 60%,
-        rgba(18, 22, 27, 0.28) 100%
+        rgba(199, 209, 246, 0.22) 0%,
+        rgba(160, 165, 190, 0.12) 30%,
+        rgba(0, 229, 195, 0.08) 60%,
+        rgba(45, 51, 60, 0.35) 100%
       ),
-      /* Subsurface Reflection Scattering */
+      /* Inner Matte Diffusion - Subsurface Scattering */
       radial-gradient(
         ellipse at 50% 100%,
-        rgba(0, 229, 195, 0.04) 0%,
-        transparent 50%
+        rgba(0, 229, 195, 0.06) 0%,
+        rgba(160, 165, 190, 0.02) 40%,
+        transparent 70%
       );
 
     z-index: -1;
     pointer-events: none;
-    opacity: 0.95;
+    opacity: 1;
   }
 
   .mobile-nav-pill:hover {
@@ -771,29 +775,29 @@
     transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Hover: +1.5% Scale, +8% Brightness, Soft Shadow Lift */
+  /* Hover: Glow +6%, Scale +1% */
   .mobile-nav-btn:hover {
     background: linear-gradient(168deg, #232930 0%, #181D22 100%);
 
-    /* Rim Brightens - Cool Grey #797E95 */
-    border-color: rgba(121, 126, 149, 0.35);
+    /* Slight Reflective Rim - Cool Grey #797E95 */
+    border-color: rgba(121, 126, 149, 0.4);
 
-    /* Precise Scale: +1.5% */
-    transform: scale(1.015) translateY(-2px);
+    /* Precise Scale: +1% */
+    transform: scale(1.01) translateY(-1px);
 
-    /* Enhanced Brightness: +8% */
-    filter: brightness(1.08);
+    /* Glow Enhancement: +6% */
+    filter: brightness(1.06);
 
     /* Monoline Icons Brighten to Polar Mist */
     color: #EAF1FC;
 
-    /* Soft Shadow Lift */
+    /* Inset Depth with Slight Lift */
     box-shadow:
-      0 8px 22px rgba(0, 0, 0, 0.45),
-      0 4px 12px rgba(199, 209, 246, 0.06),
-      inset 0 0 8px rgba(0, 0, 0, 0.2),
-      inset 2px 2px 3px rgba(234, 241, 252, 0.1),
-      inset -1.5px -1.5px 2.5px rgba(0, 229, 195, 0.04);
+      0 6px 18px rgba(0, 0, 0, 0.48),
+      0 3px 10px rgba(199, 209, 246, 0.08),
+      inset 0 0 8px rgba(0, 0, 0, 0.22),
+      inset 2px 2px 3px rgba(234, 241, 252, 0.12),
+      inset -1.5px -1.5px 2.5px rgba(0, 229, 195, 0.06);
   }
 
   /* Slight Hover Reflection - Enhanced Metallic Sheen */
@@ -809,74 +813,76 @@
       inset 0 0 10px rgba(18, 22, 27, 0.95);
   }
 
-  /* Active Button - Luminous Trinity Symbol with Double Ring */
+  /* Active Button - Layered Neon Energy with Diffused Aura */
   .mobile-nav-btn-logo {
     padding: 0;
     position: relative;
 
-    /* Glowing Inner Triangle - Core Light #00E5C3 → #C7D1F6 */
+    /* Layered Neon Energy: #00E5C3 Inner → #C7D1F6 Outer */
     background: radial-gradient(
       circle at 50% 50%,
-      rgba(0, 229, 195, 0.95) 0%,
-      rgba(0, 229, 195, 0.8) 30%,
-      rgba(199, 209, 246, 0.85) 100%
+      rgba(0, 229, 195, 1) 0%,
+      rgba(0, 229, 195, 0.88) 25%,
+      rgba(0, 229, 195, 0.72) 45%,
+      rgba(199, 209, 246, 0.9) 75%,
+      rgba(199, 209, 246, 0.82) 100%
     );
 
-    /* Metallic Double Ring - Outer Ring */
-    border: 2px solid rgba(234, 241, 252, 0.6);
+    /* Metallic Double Ring - Outer Ring (#EAF1FC) */
+    border: 2px solid rgba(234, 241, 252, 0.65);
     box-sizing: border-box;
 
-    /* Outer Aura Glow - Radial Gradient (center bright → transparent) */
+    /* Diffused Aura Extending Across Panel Surface */
     box-shadow:
-      /* Radial Aura Glow (#00E5C3 → transparent) */
-      0 0 42px rgba(0, 229, 195, 0.7),
-      0 0 28px rgba(0, 229, 195, 0.5),
-      0 0 16px rgba(199, 209, 246, 0.42),
-      0 0 8px rgba(234, 241, 252, 0.35),
+      /* Outer Diffused Aura (#00E5C3 → transparent) */
+      0 0 48px rgba(0, 229, 195, 0.75),
+      0 0 32px rgba(0, 229, 195, 0.55),
+      0 0 20px rgba(199, 209, 246, 0.48),
+      0 0 10px rgba(234, 241, 252, 0.38),
 
       /* Outer Depth Shadow */
-      0 4px 20px rgba(0, 0, 0, 0.5),
+      0 4px 22px rgba(0, 0, 0, 0.52),
 
-      /* Soft Inner Glow Around Symbol - Enhanced */
-      inset 0 0 18px rgba(255, 255, 255, 0.35),
-      inset 0 0 10px rgba(0, 229, 195, 0.45),
+      /* Soft Inner Glow Around Symbol */
+      inset 0 0 20px rgba(255, 255, 255, 0.4),
+      inset 0 0 12px rgba(0, 229, 195, 0.5),
 
-      /* Dual-Layer Inner Bevel - Cool Keylight */
-      inset 2px 2px 4px rgba(234, 241, 252, 0.5),
-      inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.32);
+      /* Dual-Layer Inner Bevel - Key Light (#EAF1FC 25%) */
+      inset 2px 2px 4px rgba(234, 241, 252, 0.58),
+      inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.35);
 
-    /* Pulsing Light Emission - 1.2s ease-in-out */
-    animation: luminous-pulse 1.2s ease-in-out infinite;
+    /* Active Pulse Animation - 1.2s ease-in-out */
+    animation: layered-neon-pulse 1.2s ease-in-out infinite;
 
     /* Precise Micro-interaction */
     transition: all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: visible;
   }
 
-  @keyframes luminous-pulse {
+  @keyframes layered-neon-pulse {
     0%, 100% {
       box-shadow:
-        /* Outer Aura - Base Intensity */
-        0 0 42px rgba(0, 229, 195, 0.7),
-        0 0 28px rgba(0, 229, 195, 0.5),
-        0 0 16px rgba(199, 209, 246, 0.42),
-        0 0 8px rgba(234, 241, 252, 0.35),
-        0 4px 20px rgba(0, 0, 0, 0.5),
+        /* Diffused Aura - Base Intensity */
+        0 0 48px rgba(0, 229, 195, 0.75),
+        0 0 32px rgba(0, 229, 195, 0.55),
+        0 0 20px rgba(199, 209, 246, 0.48),
+        0 0 10px rgba(234, 241, 252, 0.38),
+        0 4px 22px rgba(0, 0, 0, 0.52),
         /* Inner Glow - Base */
-        inset 0 0 18px rgba(255, 255, 255, 0.35),
-        inset 0 0 10px rgba(0, 229, 195, 0.45);
+        inset 0 0 20px rgba(255, 255, 255, 0.4),
+        inset 0 0 12px rgba(0, 229, 195, 0.5);
     }
     50% {
       box-shadow:
-        /* Outer Aura - Peak Intensity (+8% glow) */
-        0 0 54px rgba(0, 229, 195, 0.85),
-        0 0 36px rgba(0, 229, 195, 0.65),
-        0 0 22px rgba(199, 209, 246, 0.52),
-        0 0 12px rgba(234, 241, 252, 0.45),
-        0 4px 24px rgba(0, 0, 0, 0.55),
+        /* Diffused Aura - Peak Intensity (Light Bloom +8%) */
+        0 0 62px rgba(0, 229, 195, 0.88),
+        0 0 42px rgba(0, 229, 195, 0.68),
+        0 0 28px rgba(199, 209, 246, 0.58),
+        0 0 14px rgba(234, 241, 252, 0.48),
+        0 4px 26px rgba(0, 0, 0, 0.58),
         /* Inner Glow - Peak */
-        inset 0 0 24px rgba(255, 255, 255, 0.48),
-        inset 0 0 14px rgba(0, 229, 195, 0.58);
+        inset 0 0 26px rgba(255, 255, 255, 0.52),
+        inset 0 0 16px rgba(0, 229, 195, 0.62);
     }
   }
 
@@ -927,21 +933,21 @@
     z-index: 2;
   }
 
-  /* Hover: +1.5% Scale, Glow Intensity +8% */
+  /* Hover: Glow +6%, Scale +1%, Lift +1px, Light Bloom +8% */
   .mobile-nav-btn-logo:hover {
-    transform: scale(1.015) translateY(-2px);
+    transform: scale(1.01) translateY(-1px);
     filter: brightness(1.08);
 
     box-shadow:
-      /* Enhanced Outer Aura (+8% intensity) */
-      0 0 58px rgba(0, 229, 195, 0.85),
-      0 0 38px rgba(0, 229, 195, 0.65),
-      0 0 24px rgba(199, 209, 246, 0.52),
-      0 0 12px rgba(234, 241, 252, 0.45),
-      0 6px 28px rgba(0, 0, 0, 0.58),
+      /* Enhanced Diffused Aura (Glow +6%, Light Bloom +8%) */
+      0 0 64px rgba(0, 229, 195, 0.9),
+      0 0 44px rgba(0, 229, 195, 0.7),
+      0 0 28px rgba(199, 209, 246, 0.6),
+      0 0 16px rgba(234, 241, 252, 0.5),
+      0 5px 30px rgba(0, 0, 0, 0.6),
       /* Enhanced Inner Glow */
-      inset 0 0 24px rgba(255, 255, 255, 0.45),
-      inset 0 0 14px rgba(0, 229, 195, 0.55);
+      inset 0 0 26px rgba(255, 255, 255, 0.52),
+      inset 0 0 16px rgba(0, 229, 195, 0.62);
   }
 
   .mobile-nav-btn-logo:active {
