@@ -1178,15 +1178,15 @@
     transform: translateY(0);
   }
 
-  /* Benefit-Driven H1: Tight Tracking, Fluid Scale */
+  /* Benefit-Driven H1: Tight Tracking, Fluid Scale, 2-3 Lines on Mobile */
   .hero-headline {
     font-family: 'Inter', sans-serif;
 
-    /* Fluid Scale: clamp(28px, 6.2vw, 56px) */
-    font-size: clamp(28px, 6.2vw, 56px);
+    /* Fluid Scale: clamp(30px, 6.2vw, 56px) */
+    font-size: clamp(30px, 6.2vw, 56px);
     font-weight: 700;
 
-    /* Tight Tracking, lh ~1.18 */
+    /* Tight Tracking, lh ≈1.18 */
     letter-spacing: -0.01em;
     line-height: 1.18;
 
@@ -1223,12 +1223,12 @@
     filter: blur(0);
   }
 
-  /* Lead Paragraph: ≤66ch, Body 16-20px, lh 1.6-1.75 */
+  /* Lead Paragraph: ≤66ch, Body 16-20px, lh 1.65-1.75 */
   .hero-lead {
     font-family: 'Inter', sans-serif;
 
-    /* Fluid Scale: clamp(16px, 2.9vw, 20px) */
-    font-size: clamp(16px, 2.9vw, 20px);
+    /* Fluid Scale: clamp(16px, 2.8vw, 20px) */
+    font-size: clamp(16px, 2.8vw, 20px);
     font-weight: 400;
     line-height: 1.7;
 
@@ -1240,10 +1240,10 @@
     /* Maximum 66 characters */
     max-width: 66ch;
 
-    /* Fade After H1: 220ms */
+    /* Fade After H1: 240ms (within 220-260ms spec) */
     opacity: 0;
     transform: translateY(8px);
-    transition: opacity 220ms ease-out 150ms, transform 220ms ease-out 150ms;
+    transition: opacity 240ms ease-out 150ms, transform 240ms ease-out 150ms;
   }
 
   .hero-lead.visible {
@@ -1251,16 +1251,19 @@
     transform: translateY(0);
   }
 
-  /* CTA Group: Single Primary Button */
+  /* CTA Group: Single Primary Button with Safe-Area Separation from Dock */
   .hero-cta-group {
     display: flex;
     justify-content: center;
     align-items: center;
 
+    /* Separation from Bottom Dock: 24-32px + safe-area-inset-bottom */
+    margin-bottom: max(28px, env(safe-area-inset-bottom, 0px));
+
     /* CTA Appear: Delay 150ms, Micro-Elevation */
     opacity: 0;
     transform: translateY(8px);
-    transition: opacity 220ms ease-out 300ms, transform 220ms ease-out 300ms;
+    transition: opacity 240ms ease-out 300ms, transform 240ms ease-out 300ms;
   }
 
   .hero-cta-group.visible {
@@ -1268,7 +1271,7 @@
     transform: translateY(0);
   }
 
-  /* Hero CTA Button: Large Tappable Target, High Contrast */
+  /* Hero CTA Button: Large Tappable Target, Dual-Chamber Frosted Glass */
   .btn-hero {
     display: inline-flex;
     align-items: center;
@@ -1290,39 +1293,44 @@
     text-decoration: none;
     cursor: pointer;
 
-    /* Optimized Timing: 220ms ease-out */
-    transition: all 220ms ease-out;
+    /* Optimized Timing: 180-200ms ease-out */
+    transition: all 190ms ease-out;
   }
 
-  /* Primary CTA: High Contrast Solid Background */
+  /* Primary CTA: Dual-Chamber Frosted Glass with High Contrast */
   .btn-hero-primary {
-    /* Solid High-Contrast Background - #C7D1F6 */
-    background: #C7D1F6;
+    /* Dual-Chamber Frosted Glass: Outer Glossy Shell + Inner Matte Diffuser */
+    /* Gradient overlay for depth: #C7D1F6 (80% opacity) */
+    background: linear-gradient(168deg, rgba(199, 209, 246, 0.82) 0%, rgba(199, 209, 246, 0.78) 100%);
+    backdrop-filter: blur(17px) saturate(105%);
+    -webkit-backdrop-filter: blur(17px) saturate(105%);
 
-    /* Dark Text for Maximum Legibility - #12161B on #C7D1F6 = 8.45:1 */
+    /* Dark Text for Maximum Legibility - #12161B on translucent #C7D1F6 ≈7.2:1 */
     color: #12161B;
 
-    /* Subtle Inner Bevel */
-    border: 1px solid rgba(234, 241, 252, 0.6);
+    /* Inner Bevel: 1-1.5px rim in #2D333C */
+    border: 1.5px solid rgba(45, 51, 60, 0.85);
     background-clip: padding-box;
 
     position: relative;
     overflow: visible;
 
-    /* Unified Lighting System + Edge Definition */
+    /* Unified Scene Lighting: Cool Keylight 45° + Turquoise Rimlight 225° + AO */
     box-shadow:
-      /* Keylight Cool Top-Left (#EAF1FC) - Subtle Specular */
-      inset 1px 1px 2px rgba(255, 255, 255, 0.5),
+      /* Keylight Cool Top-Left 45° (#EAF1FC 10-14%, using 12%) */
+      inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.12),
+      inset 0.5px 0.5px 1.5px rgba(234, 241, 252, 0.08),
 
-      /* Rimlight Turquoise Bottom-Right (#00E5C3) - Subtle Accent */
-      inset -1px -1px 2px rgba(0, 229, 195, 0.08),
+      /* Rimlight Turquoise Bottom-Right 225° (#00E5C3) */
+      inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.1),
+      inset -0.5px -0.5px 1.5px rgba(0, 229, 195, 0.06),
 
-      /* Outer Depth Shadow for Elevation */
-      0 3px 12px rgba(0, 0, 0, 0.35),
-      0 1px 6px rgba(0, 0, 0, 0.28),
+      /* Subtle Ambient Occlusion (edges) */
+      inset 0 0 8px rgba(0, 0, 0, 0.08),
 
-      /* Soft Outer Glow (Brand Color Aura) */
-      0 0 20px rgba(199, 209, 246, 0.25);
+      /* Outer Depth Shadow for Base Elevation */
+      0 3px 12px rgba(0, 0, 0, 0.28),
+      0 1px 6px rgba(0, 0, 0, 0.22);
   }
 
   .btn-hero-primary:hover {
@@ -1332,41 +1340,61 @@
     /* Elevation +1 (soft lift) */
     transform: translateY(-1px);
 
-    /* Enhanced Elevation Shadow + Stronger Outer Glow */
+    /* Enhanced Elevation Shadow: 0 8px 22px rgba(0,0,0,.25) */
     box-shadow:
-      inset 1px 1px 2px rgba(255, 255, 255, 0.6),
-      inset -1px -1px 2px rgba(0, 229, 195, 0.12),
-      0 4px 16px rgba(0, 0, 0, 0.42),
-      0 2px 8px rgba(0, 0, 0, 0.32),
-      0 0 28px rgba(199, 209, 246, 0.38);
+      inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.14),
+      inset 0.5px 0.5px 1.5px rgba(234, 241, 252, 0.1),
+      inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.12),
+      inset -0.5px -0.5px 1.5px rgba(0, 229, 195, 0.08),
+      inset 0 0 8px rgba(0, 0, 0, 0.08),
+      0 8px 22px rgba(0, 0, 0, 0.25),
+      0 4px 12px rgba(0, 0, 0, 0.18);
   }
 
   .btn-hero-primary:active {
+    /* Return to Base Elevation */
     transform: translateY(0);
     filter: brightness(1.04);
 
-    /* Pressed State - Reduced Elevation */
+    /* Pressed Shadow: Shorter, Base Level */
     box-shadow:
-      inset 1px 1px 2px rgba(255, 255, 255, 0.5),
-      inset -1px -1px 2px rgba(0, 229, 195, 0.08),
-      0 2px 8px rgba(0, 0, 0, 0.3),
-      0 0 16px rgba(199, 209, 246, 0.2);
+      inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.12),
+      inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.1),
+      inset 0 0 8px rgba(0, 0, 0, 0.08),
+      0 2px 8px rgba(0, 0, 0, 0.22);
   }
 
-  /* Focus Ring: 2px with Soft Outer Glow + Micro-Elevation */
+  /* Focus Ring: 2px #C7D1F6 with Soft Outer Glow */
   .btn-hero-primary:focus-visible {
     outline: none;
     box-shadow:
-      /* Focus Ring - 2px #EAF1FC (Brighter for visibility) */
-      0 0 0 2px rgba(234, 241, 252, 0.95),
-      0 0 16px rgba(234, 241, 252, 0.6),
+      /* Focus Ring - 2px #C7D1F6 */
+      0 0 0 2px rgba(199, 209, 246, 0.9),
+      0 0 14px rgba(199, 209, 246, 0.55),
 
       /* Inner Lighting Preserved */
-      inset 1px 1px 2px rgba(255, 255, 255, 0.5),
-      inset -1px -1px 2px rgba(0, 229, 195, 0.08),
+      inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.12),
+      inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.1),
+      inset 0 0 8px rgba(0, 0, 0, 0.08),
 
       /* Outer Depth */
-      0 3px 12px rgba(0, 0, 0, 0.35);
+      0 3px 12px rgba(0, 0, 0, 0.28);
+  }
+
+  /* Disabled State: 60% Opacity, No Specular Highlights */
+  .btn-hero-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+
+    /* Remove Specular Highlights - Keep Only Base AO */
+    box-shadow:
+      inset 0 0 8px rgba(0, 0, 0, 0.12),
+      0 2px 8px rgba(0, 0, 0, 0.18);
+
+    /* Disable Hover/Active Effects */
+    filter: none;
+    transform: none;
   }
 
   /* ========================================
@@ -1378,14 +1406,15 @@
     .headline-line,
     .hero-lead,
     .hero-cta-group {
-      transition: none;
+      /* Replace with Short Opacity Transitions */
+      transition: opacity 150ms ease-out;
       opacity: 1;
       transform: none;
       filter: none;
     }
 
     .btn-hero {
-      transition: background-color 150ms ease, box-shadow 150ms ease;
+      transition: opacity 150ms ease, box-shadow 150ms ease;
     }
   }
 
