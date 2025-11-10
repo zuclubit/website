@@ -60,6 +60,9 @@
       heroVisible = true;
     }, 100);
 
+    // Initialize dock as visible immediately
+    dockInView = true;
+
     // Parallax background effect (only if motion not reduced)
     if (!prefersReducedMotion) {
       const handleScroll = () => {
@@ -73,31 +76,21 @@
       };
 
       window.addEventListener('scroll', handleScroll, { passive: true });
-
-      // Cleanup
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
     }
 
-    // Intersection Observer for dock lift and glow
+    // Intersection Observer for dock lift and glow (optional enhancement)
     const dock = document.querySelector('.mobile-floating-nav');
-    if (dock) {
+    if (dock && !prefersReducedMotion) {
       const dockObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             dockInView = entry.isIntersecting;
           });
         },
-        { threshold: 0.1 }
+        { threshold: 0.1, rootMargin: '50px' }
       );
 
       dockObserver.observe(dock);
-
-      // Cleanup
-      return () => {
-        dockObserver.disconnect();
-      };
     }
   });
 
@@ -697,14 +690,13 @@
     filter: drop-shadow(0 4px 28px rgba(0, 0, 0, 0.45))
             drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
 
-    /* Initial State for Viewport Enter Animation */
-    opacity: 0;
-    transition: opacity 350ms ease-out, transform 350ms ease-out, filter 350ms ease-out;
+    /* Visible by default, smooth transitions for enhancements */
+    opacity: 1;
+    transition: transform 350ms ease-out, filter 350ms ease-out;
   }
 
   /* Dock In-View: Subtle Lift and Glow (only if motion not reduced) */
   .mobile-floating-nav.in-view {
-    opacity: 1;
     transform: translateX(-50%) translateY(-2px);  /* Subtle lift */
 
     /* Enhanced Glow - Turquoise Rimlight Accent */
@@ -1487,13 +1479,13 @@
 
     /* Disable Heavy Motion: Dock Lift and Glow */
     .mobile-floating-nav {
-      opacity: 1;
       transform: translateX(-50%) !important;
-      transition: opacity 200ms ease-out;
+      transition: none;
     }
 
     .mobile-floating-nav.in-view {
-      /* Simple fade-in only, no lift or glow */
+      /* No lift or glow effects, keep base shadow */
+      transform: translateX(-50%) !important;
       filter: drop-shadow(0 4px 28px rgba(0, 0, 0, 0.45))
               drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
     }
