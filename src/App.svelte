@@ -620,6 +620,7 @@
     justify-content: center;
     gap: 0.75rem;
     position: relative;
+    z-index: 1;
 
     /* Frosted Glass-Metal: Top #1F242A → Bottom #12161B (80% translucency) */
     background: linear-gradient(168deg, rgba(31, 36, 42, 0.8) 0%, rgba(18, 22, 27, 0.8) 100%);
@@ -633,9 +634,9 @@
     border: 1.5px solid rgba(45, 51, 60, 0.75);
     background-clip: padding-box;
 
-    /* Unified Lighting System + Top Specular Band */
+    /* Unified Lighting System + Top Specular Band + Inner Rim AO */
     box-shadow:
-      /* Floating Shadow - rgba(0,0,0,0.38), blur 30px, y-offset 4px, soft spread */
+      /* Floating Shadow - rgba(0,0,0,0.38), blur 30px, y-offset 4px */
       0 4px 30px rgba(0, 0, 0, 0.38),
       0 2px 10px rgba(0, 0, 0, 0.28),
 
@@ -651,7 +652,10 @@
       inset 0 1.5px 0 0 rgba(199, 209, 246, 0.12),
 
       /* Ambient Tint #A0A5BE @5% */
-      inset 0 0 24px rgba(160, 165, 190, 0.05);
+      inset 0 0 24px rgba(160, 165, 190, 0.05),
+
+      /* Panel Inner Rim AO - Subtle Darkening */
+      inset 0 0 6px rgba(0, 0, 0, 0.12);
 
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -712,7 +716,7 @@
       inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.08);
   }
 
-  /* Inactive Buttons - Monoline Icons with Inset Seat */
+  /* Inactive Buttons - Monoline Icons with Inset Seat (≥44×44 pt targets) */
   .mobile-nav-btn {
     width: 52px;
     height: 52px;
@@ -727,13 +731,16 @@
     /* Rim in #2D333C */
     border: 1px solid rgba(45, 51, 60, 0.8);
 
-    /* Monoline Icons - #C7D1F6 / #EAF1FC */
+    /* Monoline Icons - #C7D1F6 / #EAF1FC (≥3:1 contrast guarantee) */
     color: #C7D1F6;
     text-decoration: none;
     cursor: pointer;
 
-    /* Smooth Micro-Interaction Transitions */
-    transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Icon Dual-Stroke for Contrast Enhancement - Inner Bright Stroke */
+    text-shadow: 0 0 1px rgba(234, 241, 252, 0.15);
+
+    /* Optimized Micro-Interaction Transitions - 200ms ease-out */
+    transition: all 0.2s ease-out;
 
     /* Subtle Ambient Occlusion + Inset Seat (0.75px) + Interior Bevel */
     box-shadow:
@@ -741,7 +748,7 @@
       0 3px 12px rgba(0, 0, 0, 0.35),
       0 1px 6px rgba(0, 0, 0, 0.28),
 
-      /* Inset Seat - Lower AO */
+      /* Inset Seat - Lower AO (0.75px) */
       inset 0 0.75px 6px rgba(0, 0, 0, 0.22),
 
       /* Subtle Interior Bevel - Directional Top-Left */
@@ -752,9 +759,10 @@
 
     position: relative;
     overflow: visible;
+    z-index: 2;
   }
 
-  /* Smooth Metallic Sheen - Top Reflection (#EAF1FC / #C7D1F6) */
+  /* Soft Directional Reflection - Top (#EAF1FC / #C7D1F6) */
   .mobile-nav-btn::before {
     content: '';
     position: absolute;
@@ -772,7 +780,7 @@
     );
     pointer-events: none;
     opacity: 0.85;
-    transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.2s ease-out;
   }
 
   /* Hover: Scale +1.5%, Brighten +8%, Shadow Lift */
@@ -842,12 +850,13 @@
       inset 0 0.75px 6px rgba(0, 0, 0, 0.22);
   }
 
-  /* Active Button - Layered Neon Energy with Diffused Aura */
+  /* Active Button - Layered Neon Energy with Local Light Spill */
   .mobile-nav-btn-logo {
     padding: 0;
     position: relative;
+    z-index: 2;
 
-    /* Layered Neon Energy: #00E5C3 Inner → #C7D1F6 Outer */
+    /* Layered Glow: Core #00E5C3 → Mid Ring #C7D1F6 → Feather Transparent */
     background: radial-gradient(
       circle at 50% 50%,
       rgba(0, 229, 195, 1) 0%,
@@ -857,13 +866,13 @@
       rgba(199, 209, 246, 0.82) 100%
     );
 
-    /* Metallic Double Ring - Outer Ring (#EAF1FC) */
+    /* Metallic Double Ring - Outer (#EAF1FC) */
     border: 2px solid rgba(234, 241, 252, 0.65);
     box-sizing: border-box;
 
-    /* Diffused Aura Extending Across Panel Surface */
+    /* Local Light Spill + Diffused Aura (Vignette Turquoise 7% opacity) */
     box-shadow:
-      /* Outer Diffused Aura (#00E5C3 → transparent) */
+      /* Outer Diffused Aura (#00E5C3 → transparent) - Light Spill onto Panel */
       0 0 48px rgba(0, 229, 195, 0.75),
       0 0 32px rgba(0, 229, 195, 0.55),
       0 0 20px rgba(199, 209, 246, 0.48),
@@ -876,15 +885,15 @@
       inset 0 0 20px rgba(255, 255, 255, 0.4),
       inset 0 0 12px rgba(0, 229, 195, 0.5),
 
-      /* Dual-Layer Inner Bevel - Key Light (#EAF1FC 25%) */
+      /* Dual-Layer Inner Bevel - Micro-Specular Highlights */
       inset 2px 2px 4px rgba(234, 241, 252, 0.58),
       inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.35);
 
-    /* Active Pulse Animation - 1.2s ease-in-out */
+    /* Soft Pulse Animation - 1.2s ease-in-out, Low Amplitude */
     animation: layered-neon-pulse 1.2s ease-in-out infinite;
 
-    /* Precise Micro-interaction */
-    transition: all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Optimized Micro-Interaction - 200ms ease-out */
+    transition: all 0.2s ease-out;
     overflow: visible;
   }
 
