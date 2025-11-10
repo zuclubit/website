@@ -32,9 +32,16 @@
   // Hero animation state
   let heroVisible = false;
   let headlineLines = [];
+  let dockInView = false;
+  let parallaxOffset = 0;
 
   // Split headline into lines for staggered animation
   const headlineText = "Technology That Evolves With Purpose";
+
+  // Check motion preferences
+  const prefersReducedMotion = typeof window !== 'undefined'
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    : false;
 
   onMount(() => {
     // Split headline into words and create lines (mobile-friendly breakpoints)
@@ -52,6 +59,46 @@
     setTimeout(() => {
       heroVisible = true;
     }, 100);
+
+    // Parallax background effect (only if motion not reduced)
+    if (!prefersReducedMotion) {
+      const handleScroll = () => {
+        const scrolled = window.pageYOffset;
+        const heroHeight = window.innerHeight;
+
+        // Parallax: background moves slower than scroll (0.5x speed)
+        if (scrolled < heroHeight) {
+          parallaxOffset = scrolled * 0.5;
+        }
+      };
+
+      window.addEventListener('scroll', handleScroll, { passive: true });
+
+      // Cleanup
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }
+
+    // Intersection Observer for dock lift and glow
+    const dock = document.querySelector('.mobile-floating-nav');
+    if (dock) {
+      const dockObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            dockInView = entry.isIntersecting;
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      dockObserver.observe(dock);
+
+      // Cleanup
+      return () => {
+        dockObserver.disconnect();
+      };
+    }
   });
 
   // Services data
@@ -180,7 +227,7 @@
 </nav>
 
 <!-- Mobile Floating Navbar (Bottom) -->
-<nav class="mobile-floating-nav">
+<nav class="mobile-floating-nav" class:in-view={dockInView}>
   <div class="mobile-nav-pill">
     <a href="/" class="mobile-nav-btn mobile-nav-btn-logo" aria-label="Home">
       <img src={logo} alt="Zuclubit" class="mobile-nav-logo" />
@@ -199,7 +246,7 @@
 
 <!-- Hero Section -->
 <section class="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-bg" style="transform: translateY({parallaxOffset}px);"></div>
   <div class="container hero-container">
     <div class="hero-content">
       <!-- Eyebrow/Tagline: Small and Subtle -->
@@ -649,6 +696,22 @@
     /* Floating Shadow - Cinematic Realism (blur 28px, y-offset 4px) */
     filter: drop-shadow(0 4px 28px rgba(0, 0, 0, 0.45))
             drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
+
+    /* Initial State for Viewport Enter Animation */
+    opacity: 0;
+    transition: opacity 350ms ease-out, transform 350ms ease-out, filter 350ms ease-out;
+  }
+
+  /* Dock In-View: Subtle Lift and Glow (only if motion not reduced) */
+  .mobile-floating-nav.in-view {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-2px);  /* Subtle lift */
+
+    /* Enhanced Glow - Turquoise Rimlight Accent */
+    filter:
+      drop-shadow(0 6px 32px rgba(0, 0, 0, 0.48))
+      drop-shadow(0 3px 12px rgba(0, 0, 0, 0.38))
+      drop-shadow(0 0 20px rgba(0, 229, 195, 0.15));  /* Turquoise glow */
   }
 
   /* Dual-Chamber Glass Panel - Outer Glossy Shell + Inner Matte Diffuser */
@@ -1153,13 +1216,13 @@
     gap: clamp(16px, 3.5vw, 32px);
   }
 
-  /* Eyebrow/Tagline: Small and Subtle */
+  /* Eyebrow/Tagline: Small and Subtle with Positive Tracking */
   .hero-eyebrow {
     font-family: 'Inter', sans-serif;
     font-size: clamp(11px, 2.2vw, 13px);
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.02em;  /* Positive tracking +0.02em */
 
     /* WCAG AA Compliant - #797E95 on #1F242A = 4.51:1 contrast */
     color: #797E95;
@@ -1415,6 +1478,24 @@
 
     .btn-hero {
       transition: opacity 150ms ease, box-shadow 150ms ease;
+    }
+
+    /* Disable Heavy Motion: Parallax Background */
+    .hero-bg {
+      transform: none !important;
+    }
+
+    /* Disable Heavy Motion: Dock Lift and Glow */
+    .mobile-floating-nav {
+      opacity: 1;
+      transform: translateX(-50%) !important;
+      transition: opacity 200ms ease-out;
+    }
+
+    .mobile-floating-nav.in-view {
+      /* Simple fade-in only, no lift or glow */
+      filter: drop-shadow(0 4px 28px rgba(0, 0, 0, 0.45))
+              drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
     }
   }
 
