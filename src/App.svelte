@@ -357,7 +357,6 @@
 
   // Metrics & Achievements
   const metrics = [
-    { value: '100+', label: 'Projects Delivered', icon: Target },
     { value: '99.9%', label: 'System Uptime SLA', icon: CheckCircle2 },
     { value: '40%', label: 'Avg. Cost Reduction', icon: TrendingUp },
     { value: '24/7', label: 'Support Coverage', icon: Shield },
