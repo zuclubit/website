@@ -156,8 +156,8 @@
 <!-- Mobile Floating Navbar (Bottom) -->
 <nav class="mobile-floating-nav">
   <div class="mobile-nav-pill">
-    <a href="#services" class="mobile-nav-btn" aria-label="Services">
-      <Settings size={20} strokeWidth={2} />
+    <a href="/" class="mobile-nav-btn mobile-nav-btn-logo" aria-label="Home">
+      <img src={logo} alt="Zuclubit" class="mobile-nav-logo" />
     </a>
     <a href="#expertise" class="mobile-nav-btn" aria-label="Expertise">
       <Target size={20} strokeWidth={2} />
@@ -685,6 +685,24 @@
 
   .mobile-nav-btn:active {
     transform: translateY(0);
+  }
+
+  /* Mobile Logo Button */
+  .mobile-nav-btn-logo {
+    padding: 6px;
+    background: linear-gradient(135deg, rgba(199, 209, 246, 0.12) 0%, rgba(234, 241, 252, 0.12) 100%);
+  }
+
+  .mobile-nav-btn-logo:hover {
+    background: linear-gradient(135deg, rgba(199, 209, 246, 0.2) 0%, rgba(234, 241, 252, 0.2) 100%);
+  }
+
+  .mobile-nav-logo {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
   }
 
   /* Hero - Corporate Identity Palette */
