@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "git": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-git",
+        "/Users/oscarvalois/Documents/Github/zuclubit-site"
+      ]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/oscarvalois/Documents/Github/zuclubit-site"
+      ],
+      "env": {
+        "WORKSPACE_ROOT": "/Users/oscarvalois/Documents/Github/zuclubit-site"
+      }
+    }
+  },
+  "globalShortcut": "Cmd+Shift+Space"
+}

@@ -1,6 +1,6 @@
 <script>
   import { fade, fly } from 'svelte/transition';
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import {
     Building2,
     Settings,
@@ -23,8 +23,20 @@
     Mail,
   } from 'lucide-svelte';
 
+  // GSAP + ScrollTrigger + Lenis smooth scroll
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import Lenis from 'lenis';
+  import 'lenis/dist/lenis.css';
+  import SplitType from 'split-type';
+
   import logo from '../img/logo-zuclubit.png';
   import ContactForm from './components/sections/ContactForm.svelte';
+
+  // Register GSAP plugins
+  if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+  }
 
   let mobileMenuOpen = false;
   let activeService = null;
@@ -33,8 +45,7 @@
   let heroVisible = false;
   let headlineLines = [];
   let dockInView = false;
-  let parallaxOffset = 0;
-  let ctaScrollProgress = 0; // Track CTA fade & slide out (0 = visible, 1 = hidden)
+  let lenis; // Lenis smooth scroll instance
 
   // Split headline into lines for staggered animation
   const headlineText = "Technology That Evolves With Purpose";
@@ -56,55 +67,128 @@
       headlineLines.push(words.slice(i, i + wordsPerLine).join(' '));
     }
 
-    // Trigger hero animation after mount
-    setTimeout(() => {
-      heroVisible = true;
-    }, 100);
-
     // Initialize dock as visible immediately
     dockInView = true;
 
-    // Parallax background & CTA scroll effects (only if motion not reduced)
+    // ========================================
+    // GSAP ScrollTrigger + Lenis Smooth Scroll
+    // ========================================
+
     if (!prefersReducedMotion) {
-      const handleScroll = () => {
-        const scrolled = window.pageYOffset;
-        const heroHeight = window.innerHeight;
+      // Initialize Lenis smooth scroll
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+        infinite: false,
+      });
 
-        // Parallax: background moves slower than scroll (0.5x speed)
-        if (scrolled < heroHeight) {
-          parallaxOffset = scrolled * 0.5;
-        }
+      // Connect Lenis to GSAP ScrollTrigger
+      lenis.on('scroll', ScrollTrigger.update);
 
-        // CTA fade & slide out: starts at 30vh, fully hidden by 50vh
-        const fadeStartScroll = heroHeight * 0.3;
-        const fadeEndScroll = heroHeight * 0.5;
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
 
-        if (scrolled < fadeStartScroll) {
-          ctaScrollProgress = 0; // Fully visible
-        } else if (scrolled > fadeEndScroll) {
-          ctaScrollProgress = 1; // Fully hidden
-        } else {
-          // Linear interpolation between 0 and 1
-          ctaScrollProgress = (scrolled - fadeStartScroll) / (fadeEndScroll - fadeStartScroll);
-        }
-      };
+      gsap.ticker.lagSmoothing(0);
 
-      window.addEventListener('scroll', handleScroll, { passive: true });
-    }
-
-    // Intersection Observer for dock lift and glow (optional enhancement)
-    const dock = document.querySelector('.mobile-floating-nav');
-    if (dock && !prefersReducedMotion) {
-      const dockObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            dockInView = entry.isIntersecting;
-          });
+      // Hero Entry: CTA reveals with opacity + Y(10→0) + blur(3→0) (~300ms)
+      gsap.from('.hero-cta-group', {
+        opacity: 0,
+        y: 10,
+        filter: 'blur(3px)',
+        duration: 0.3,
+        delay: 0.15,
+        ease: 'power2.out',
+        onComplete: () => {
+          heroVisible = true;
         },
-        { threshold: 0.1, rootMargin: '50px' }
-      );
+      });
 
-      dockObserver.observe(dock);
+      // SplitType: Per-word animation for CTA label
+      const ctaButton = document.querySelector('.btn-hero-primary');
+      if (ctaButton) {
+        // Clone text content without the arrow icon
+        const textContent = ctaButton.childNodes[0]?.textContent?.trim();
+        if (textContent) {
+          // Create a temporary span for SplitType
+          const tempSpan = document.createElement('span');
+          tempSpan.textContent = textContent;
+          tempSpan.style.display = 'inline-block';
+
+          // Replace text node with span
+          ctaButton.childNodes[0].replaceWith(tempSpan);
+
+          // Apply SplitType
+          const split = new SplitType(tempSpan, { types: 'words' });
+
+          // Animate words
+          gsap.from(split.words, {
+            opacity: 0,
+            y: 8,
+            duration: 0.4,
+            stagger: 0.05,
+            delay: 0.3,
+            ease: 'power2.out',
+          });
+        }
+      }
+
+      // Scroll-Down: CTA fade/slide-out 24–30px to hand focus to dock
+      gsap.to('.hero-cta-group', {
+        opacity: 0,
+        y: 25,
+        scrollTrigger: {
+          trigger: '.hero',
+          start: '30% top',
+          end: '50% top',
+          scrub: 1,
+          markers: false, // Set to true for debugging
+        },
+      });
+
+      // Parallax: Background scrub
+      gsap.to('.hero-bg', {
+        y: 200,
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.5,
+        },
+      });
+
+      // Intersection Observer for dock lift and glow
+      const dock = document.querySelector('.mobile-floating-nav');
+      if (dock) {
+        const dockObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              dockInView = entry.isIntersecting;
+            });
+          },
+          { threshold: 0.1, rootMargin: '50px' }
+        );
+
+        dockObserver.observe(dock);
+      }
+    } else {
+      // Reduced motion: Simple reveal
+      setTimeout(() => {
+        heroVisible = true;
+      }, 100);
+    }
+  });
+
+  onDestroy(() => {
+    // Cleanup Lenis instance
+    if (lenis) {
+      lenis.destroy();
     }
   });
 
@@ -253,7 +337,7 @@
 
 <!-- Hero Section -->
 <section class="hero">
-  <div class="hero-bg" style="transform: translateY({parallaxOffset}px);"></div>
+  <div class="hero-bg"></div>
   <div class="container hero-container">
     <div class="hero-content">
       <!-- Eyebrow/Tagline: Small and Subtle -->
@@ -275,11 +359,7 @@
       </p>
 
       <!-- Primary CTA: Large Tappable Target, High Contrast -->
-      <div
-        class="hero-cta-group"
-        class:visible={heroVisible}
-        style="opacity: {1 - ctaScrollProgress}; transform: translateY({ctaScrollProgress * 25}px);"
-      >
+      <div class="hero-cta-group" class:visible={heroVisible}>
         <a href="#contact" class="btn-hero btn-hero-primary">
           Start Your Transformation
           <ArrowRight size={20} strokeWidth={2} />
