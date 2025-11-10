@@ -34,6 +34,7 @@
   let headlineLines = [];
   let dockInView = false;
   let parallaxOffset = 0;
+  let ctaScrollProgress = 0; // Track CTA fade & slide out (0 = visible, 1 = hidden)
 
   // Split headline into lines for staggered animation
   const headlineText = "Technology That Evolves With Purpose";
@@ -63,7 +64,7 @@
     // Initialize dock as visible immediately
     dockInView = true;
 
-    // Parallax background effect (only if motion not reduced)
+    // Parallax background & CTA scroll effects (only if motion not reduced)
     if (!prefersReducedMotion) {
       const handleScroll = () => {
         const scrolled = window.pageYOffset;
@@ -72,6 +73,19 @@
         // Parallax: background moves slower than scroll (0.5x speed)
         if (scrolled < heroHeight) {
           parallaxOffset = scrolled * 0.5;
+        }
+
+        // CTA fade & slide out: starts at 30vh, fully hidden by 50vh
+        const fadeStartScroll = heroHeight * 0.3;
+        const fadeEndScroll = heroHeight * 0.5;
+
+        if (scrolled < fadeStartScroll) {
+          ctaScrollProgress = 0; // Fully visible
+        } else if (scrolled > fadeEndScroll) {
+          ctaScrollProgress = 1; // Fully hidden
+        } else {
+          // Linear interpolation between 0 and 1
+          ctaScrollProgress = (scrolled - fadeStartScroll) / (fadeEndScroll - fadeStartScroll);
         }
       };
 
@@ -261,7 +275,11 @@
       </p>
 
       <!-- Primary CTA: Large Tappable Target, High Contrast -->
-      <div class="hero-cta-group" class:visible={heroVisible}>
+      <div
+        class="hero-cta-group"
+        class:visible={heroVisible}
+        style="opacity: {1 - ctaScrollProgress}; transform: translateY({ctaScrollProgress * 25}px);"
+      >
         <a href="#contact" class="btn-hero btn-hero-primary">
           Start Your Transformation
           <ArrowRight size={20} strokeWidth={2} />
@@ -1315,10 +1333,10 @@
     /* Separation from Bottom Dock: 24-32px + safe-area-inset-bottom */
     margin-bottom: max(28px, env(safe-area-inset-bottom, 0px));
 
-    /* CTA Appear: Delay 150ms, Micro-Elevation */
+    /* CTA Appear: 300ms mount animation, 150ms delay, Micro-Elevation */
     opacity: 0;
     transform: translateY(8px);
-    transition: opacity 240ms ease-out 300ms, transform 240ms ease-out 300ms;
+    transition: opacity var(--t-mount) ease-out 150ms, transform var(--t-mount) ease-out 150ms;
   }
 
   .hero-cta-group.visible {
@@ -1340,8 +1358,15 @@
 
     /* Duration Tokens */
     --t-fast: 120ms;
-    --t-med: 200ms;
+    --t-med: 180ms;        /* Updated: hover 180ms (was 200ms) */
+    --t-mount: 300ms;      /* New: mount animation */
     --t-large: 320ms;
+
+    /* Material Tokens - Glass-Metal Homologation */
+    --glass-blur: 17px;
+    --glass-sat: 110%;
+    --glow-turquoise: rgba(0, 229, 195, 0.12);  /* #00E5C3 @ 12% */
+    --bevel-color: rgba(160, 165, 190, 0.85);   /* #A0A5BE @ 85% */
 
     /* Easing: Pleasant ease-out */
     --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -1401,19 +1426,19 @@
     transition: transform var(--t-med) var(--ease-out);
   }
 
-  /* Primary CTA: Dual-Chamber Frosted Glass with High Contrast */
+  /* Primary CTA: Glass-Metal Dual-Chamber - Homologated with Dock */
   .btn-hero-primary {
-    /* Dual-Chamber Frosted Glass: Outer Glossy Shell + Inner Matte Diffuser */
-    /* Blur 16-18px (using 17px), opacity 78-82% (using 80%) */
-    background: linear-gradient(168deg, rgba(199, 209, 246, 0.82) 0%, rgba(199, 209, 246, 0.78) 100%);
-    backdrop-filter: blur(17px) saturate(105%);
-    -webkit-backdrop-filter: blur(17px) saturate(105%);
+    /* Dual-Chamber Frosted Glass: Dark Gradient (Matching Dock) */
+    /* Top #1F242A → Bottom #12161B @ 80% translucency */
+    background: linear-gradient(168deg, rgba(31, 36, 42, 0.8) 0%, rgba(18, 22, 27, 0.8) 100%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
 
-    /* WCAG AA Contrast: #12161B on #C7D1F6 = 8.45:1 */
-    color: #12161B;
+    /* WCAG AA Contrast: #EAF1FC on dark glass = 13.94:1 */
+    color: #EAF1FC;
 
-    /* Inner Bevel: 1-1.5px rim in #2D333C (using 1.5px) */
-    border: 1.5px solid rgba(45, 51, 60, 0.85);
+    /* Inner Bevel: 1.5px rim in #A0A5BE (Updated from #2D333C) */
+    border: 1.5px solid var(--bevel-color);
     background-clip: padding-box;
 
     position: relative;
@@ -1432,6 +1457,10 @@
       /* Subtle Ambient Occlusion (edges) */
       inset 0 0 8px rgba(0, 0, 0, 0.08),
 
+      /* Outer Turquoise Glow: 10-12px @ 12-16% (#00E5C3) */
+      0 0 10px var(--glow-turquoise),
+      0 0 16px rgba(0, 229, 195, 0.08),
+
       /* Outer Depth Shadow for Base Elevation */
       0 3px 12px rgba(0, 0, 0, 0.28),
       0 1px 6px rgba(0, 0, 0, 0.22);
@@ -1449,7 +1478,7 @@
     pointer-events: none;
   }
 
-  /* Hover State: 180-200ms ease-out */
+  /* Hover State: 180ms ease-out */
   .btn-hero-primary:hover {
     /* Brighten +8% */
     filter: brightness(1.08);
@@ -1457,26 +1486,37 @@
     /* Elevation +1 (soft lift) */
     transform: translateY(-1px);
 
-    /* Enhanced Elevation Shadow: 0 8px 22px rgba(0,0,0,.25) */
+    /* Enhanced Lighting + Glow Intensifies +20% */
     box-shadow:
+      /* Enhanced Keylight */
       inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.14),
       inset 0.5px 0.5px 1.5px rgba(234, 241, 252, 0.1),
+
+      /* Enhanced Rimlight */
       inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.12),
       inset -0.5px -0.5px 1.5px rgba(0, 229, 195, 0.08),
+
+      /* AO */
       inset 0 0 8px rgba(0, 0, 0, 0.08),
+
+      /* Intensified Turquoise Glow +20% (from 12% to ~14%) */
+      0 0 12px rgba(0, 229, 195, 0.14),
+      0 0 18px rgba(0, 229, 195, 0.1),
+
+      /* Elevated Depth Shadow */
       var(--cta-shadow),
       0 4px 12px rgba(0, 0, 0, 0.18);
   }
 
-  /* Arrow Nudge +2-3px on Hover */
+  /* Arrow Slides +3px on Hover */
   .btn-hero-primary:hover :global(svg) {
-    transform: translateX(2.5px);
+    transform: translateX(3px);
   }
 
-  /* Pressed State: 120-160ms, scale(0.99) */
+  /* Pressed State: 120ms, scale(0.985) */
   .btn-hero-primary:active {
-    /* Pressed scale */
-    transform: translateY(0) scale(0.99);
+    /* Pressed scale 0.985 */
+    transform: translateY(0) scale(0.985);
     filter: brightness(1.04);
 
     /* Transition override for faster pressed feedback */
@@ -1485,11 +1525,14 @@
       filter var(--t-fast) var(--ease-out),
       box-shadow var(--t-fast) var(--ease-out);
 
-    /* Pressed Shadow: Shorter, Base Level */
+    /* Pressed Shadow: Shorter, Base Level (no outer glow) */
     box-shadow:
+      /* Base Inner Lighting */
       inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.12),
       inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.1),
       inset 0 0 8px rgba(0, 0, 0, 0.08),
+
+      /* Shorter Depth Shadow */
       0 2px 8px rgba(0, 0, 0, 0.22);
   }
 
@@ -1497,7 +1540,7 @@
   .btn-hero-primary:focus-visible {
     outline: none;
 
-    /* 2px offset from button edge */
+    /* Focus Ring + Turquoise Glow Preserved */
     box-shadow:
       /* Focus Ring - 2px #C7D1F6 with 2px offset */
       0 0 0 2px rgba(31, 36, 42, 1),  /* Background gap */
@@ -1508,6 +1551,10 @@
       inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.12),
       inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.1),
       inset 0 0 8px rgba(0, 0, 0, 0.08),
+
+      /* Turquoise Glow Preserved */
+      0 0 10px var(--glow-turquoise),
+      0 0 16px rgba(0, 229, 195, 0.08),
 
       /* Outer Depth */
       0 3px 12px rgba(0, 0, 0, 0.28);
@@ -1545,9 +1592,9 @@
       filter: none;
     }
 
-    /* CTA Button: Replace Transforms with Brief Opacity (120-160ms) */
+    /* CTA Button: Replace Transforms with Brief Opacity (160ms) */
     .btn-hero {
-      transition: opacity var(--t-fast) ease-out, box-shadow var(--t-fast) ease-out;
+      transition: opacity 160ms ease-out, box-shadow 160ms ease-out;
     }
 
     .btn-hero-primary:hover,
@@ -1559,6 +1606,12 @@
     .btn-hero-primary:hover :global(svg),
     .btn-hero-primary:active :global(svg) {
       transform: none !important;  /* No arrow nudge */
+    }
+
+    /* Disable CTA scroll-based fade & slide */
+    .hero-cta-group {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
     }
 
     /* Disable Heavy Motion: Parallax Background */
