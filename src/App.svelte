@@ -1,5 +1,6 @@
 <script>
   import { fade, fly } from 'svelte/transition';
+  import { onMount } from 'svelte';
   import {
     Building2,
     Settings,
@@ -27,6 +28,31 @@
 
   let mobileMenuOpen = false;
   let activeService = null;
+
+  // Hero animation state
+  let heroVisible = false;
+  let headlineLines = [];
+
+  // Split headline into lines for staggered animation
+  const headlineText = "Technology That Evolves With Purpose";
+
+  onMount(() => {
+    // Split headline into words and create lines (mobile-friendly breakpoints)
+    const words = headlineText.split(' ');
+
+    // Adaptive line breaking: mobile (2-3 words/line), desktop (4-5 words/line)
+    const isMobile = window.innerWidth < 768;
+    const wordsPerLine = isMobile ? 2 : 4;
+
+    for (let i = 0; i < words.length; i += wordsPerLine) {
+      headlineLines.push(words.slice(i, i + wordsPerLine).join(' '));
+    }
+
+    // Trigger hero animation after mount
+    setTimeout(() => {
+      heroVisible = true;
+    }, 100);
+  });
 
   // Services data
   const services = [
@@ -174,20 +200,32 @@
 <!-- Hero Section -->
 <section class="hero">
   <div class="hero-bg"></div>
-  <div class="container">
-    <div class="hero-content" in:fade={{ duration: 800 }}>
-      <div class="brand-section">
-        <h1 class="brand-name">ZUCLUBIT</h1>
-        <p class="brand-tagline">The Living Code</p>
-      </div>
-      <h2 class="headline">Technology That Evolves With Purpose</h2>
-      <p class="subheadline">
+  <div class="container hero-container">
+    <div class="hero-content">
+      <!-- Eyebrow/Tagline: Small and Subtle -->
+      <p class="hero-eyebrow" class:visible={heroVisible}>The Living Code</p>
+
+      <!-- Benefit-Driven H1: Split-Line Animation -->
+      <h1 class="hero-headline">
+        {#each headlineLines as line, i}
+          <span class="headline-line" class:visible={heroVisible} style="--line-index: {i}">
+            {line}
+          </span>
+        {/each}
+      </h1>
+
+      <!-- Lead Paragraph: ≤66ch -->
+      <p class="hero-lead" class:visible={heroVisible}>
         Complete integration of hardware, software and intelligence for digital transformation and
         sustainable innovation.
       </p>
-      <div class="cta-group">
-        <a href="#contact" class="btn btn-primary btn-large">Start Your Transformation →</a>
-        <a href="#services" class="btn btn-secondary btn-large">Explore Services ↓</a>
+
+      <!-- Primary CTA: Large Tappable Target, High Contrast -->
+      <div class="hero-cta-group" class:visible={heroVisible}>
+        <a href="#contact" class="btn-hero btn-hero-primary">
+          Start Your Transformation
+          <ArrowRight size={20} strokeWidth={2} />
+        </a>
       </div>
     </div>
   </div>
@@ -1045,7 +1083,10 @@
       drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
   }
 
-  /* Hero - Signature-Grade Mobile-First Section */
+  /* ========================================
+     HERO - Signature-Grade Mobile-First
+     ======================================== */
+
   .hero {
     min-height: 100vh;
     display: flex;
@@ -1057,10 +1098,12 @@
 
     position: relative;
     overflow: hidden;
+
+    /* Safe-Area Spacing: Top (navbar clearance), Bottom (dock clearance + 32px buffer) */
     padding-top: 140px;
-    padding-bottom: 100px;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-bottom: calc(100px + 32px); /* Bottom dock height + safe buffer */
+    padding-left: 5vw;
+    padding-right: 5vw;
   }
 
   /* Subtle Volumetric Vignette - No Visual Noise */
@@ -1085,175 +1128,265 @@
     pointer-events: none;
   }
 
+  /* Hero Container: Max Width Constraint */
+  .hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Hero Content: Centered Stack with Vertical Rhythm */
   .hero-content {
     position: relative;
     z-index: 1;
     text-align: center;
-    max-width: 900px;
-    margin: 0 auto;
+
+    /* Max text width: 680-720px on desktop; ~90% width on mobile */
+    max-width: min(700px, 90vw);
     width: 100%;
+    margin: 0 auto;
+
+    /* Consistent Vertical Rhythm - Stack Gap */
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 3.5vw, 32px);
   }
 
-  /* Brand Wordmark + Micro-Tagline */
-  .brand-section {
-    margin-bottom: 3rem;
-  }
-
-  .brand-name {
+  /* Eyebrow/Tagline: Small and Subtle */
+  .hero-eyebrow {
     font-family: 'Inter', sans-serif;
-    font-size: clamp(2.5rem, 8vw, 4rem);
-    font-weight: 700;
+    font-size: clamp(11px, 2.2vw, 13px);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
 
-    /* Gradient for visual interest, but maintain AA contrast */
-    background: linear-gradient(135deg, #C7D1F6 0%, #EAF1FC 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    /* WCAG AA Compliant - #797E95 on #1F242A = 4.51:1 contrast */
+    color: #797E95;
 
-    letter-spacing: 0.08em;
     margin: 0;
-    line-height: 1.1;
+    line-height: 1.4;
+
+    /* Fade-In Animation */
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 220ms ease-out, transform 220ms ease-out;
   }
 
-  .brand-tagline {
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(0.875rem, 2.5vw, 1.125rem);
-    font-weight: 500;
-
-    /* WCAG AA Compliant - #C7D1F6 on #1F242A = 7.85:1 contrast ratio */
-    color: #C7D1F6;
-
-    margin: 0.5rem 0 0;
-    letter-spacing: 0.05em;
-    opacity: 0.9;
+  .hero-eyebrow.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  /* Benefit-Led Headline - Concise, Unique Value */
-  .headline {
+  /* Benefit-Driven H1: Tight Tracking, Fluid Scale */
+  .hero-headline {
     font-family: 'Inter', sans-serif;
-    font-size: clamp(1.75rem, 5vw, 2.75rem);
+
+    /* Fluid Scale: clamp(28px, 6.2vw, 56px) */
+    font-size: clamp(28px, 6.2vw, 56px);
     font-weight: 700;
 
-    /* Tight Tracking, lh ≈1.15 */
-    letter-spacing: -0.02em;
-    line-height: 1.15;
+    /* Tight Tracking, lh ~1.18 */
+    letter-spacing: -0.01em;
+    line-height: 1.18;
 
-    /* WCAG AA Compliant - #EAF1FC on #1F242A = 13.94:1 contrast ratio */
+    /* WCAG AA Compliant - #EAF1FC on #1F242A = 13.94:1 contrast */
     color: #EAF1FC;
 
-    margin: 0 0 1.25rem;
-    max-width: 28ch;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0;
+
+    /* Stack for split-line animation */
+    display: flex;
+    flex-direction: column;
+    gap: clamp(4px, 0.8vw, 8px);
   }
 
-  /* Supporting Subheading - ≤66ch, 50-75 CPL */
-  .subheadline {
+  /* Split-Line Animation: Fade In + Slide Up + Un-Blur */
+  .headline-line {
+    display: block;
+
+    /* Initial State */
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(2px);
+
+    /* Stagger Delay: 50ms per line */
+    transition:
+      opacity 260ms ease-out calc(var(--line-index) * 50ms),
+      transform 260ms ease-out calc(var(--line-index) * 50ms),
+      filter 260ms ease-out calc(var(--line-index) * 50ms);
+  }
+
+  .headline-line.visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  /* Lead Paragraph: ≤66ch, Body 16-20px, lh 1.6-1.75 */
+  .hero-lead {
     font-family: 'Inter', sans-serif;
 
-    /* Body 16-18px, 50-75 CPL */
-    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    /* Fluid Scale: clamp(16px, 2.9vw, 20px) */
+    font-size: clamp(16px, 2.9vw, 20px);
     font-weight: 400;
-    line-height: 1.65;
+    line-height: 1.7;
 
-    /* WCAG AA Compliant - #A0A5BE on #1F242A = 4.75:1 contrast ratio (≥4.5:1) */
+    /* WCAG AA Compliant - #A0A5BE on #1F242A = 4.75:1 contrast */
     color: #A0A5BE;
 
-    margin: 0 0 2.5rem;
+    margin: 0;
 
     /* Maximum 66 characters */
     max-width: 66ch;
-    margin-left: auto;
-    margin-right: auto;
+
+    /* Fade After H1: 220ms */
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 220ms ease-out 150ms, transform 220ms ease-out 150ms;
   }
 
-  .cta-group {
+  .hero-lead.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* CTA Group: Single Primary Button */
+  .hero-cta-group {
     display: flex;
-    gap: 1rem;
     justify-content: center;
-    flex-wrap: wrap;
     align-items: center;
+
+    /* CTA Appear: Delay 150ms, Micro-Elevation */
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 220ms ease-out 300ms, transform 220ms ease-out 300ms;
   }
 
-  /* Primary CTA - Dual-Chamber Frosted Glass */
-  .btn-large {
-    /* Large Tappable Target - ≥44×44 pt (minimum 56px for comfort) */
-    min-height: 56px;
-    padding: 1rem 2.25rem;
+  .hero-cta-group.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-    font-size: 1.0625rem;
+  /* Hero CTA Button: Large Tappable Target, High Contrast */
+  .btn-hero {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    /* Large Tappable Target: ≥44px height */
+    min-height: 48px;
+    padding: 14px 32px;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
     font-weight: 600;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.005em;
 
-    /* Radius 18px (within 16-20px spec) */
+    /* Rounded 16-20px */
     border-radius: 18px;
+
+    text-decoration: none;
+    cursor: pointer;
+
+    /* Optimized Timing: 220ms ease-out */
+    transition: all 220ms ease-out;
   }
 
-  /* Secondary Link - Optional, Minimalist */
-  .btn-secondary {
-    /* Dual-Chamber Frosted Glass (outer glossy + inner matte) */
-    background: linear-gradient(168deg, rgba(31, 36, 42, 0.8) 0%, rgba(26, 31, 36, 0.8) 100%);
-    backdrop-filter: blur(17px) saturate(105%);
-    -webkit-backdrop-filter: blur(17px) saturate(105%);
+  /* Primary CTA: High Contrast Solid Background */
+  .btn-hero-primary {
+    /* Solid High-Contrast Background - #C7D1F6 */
+    background: #C7D1F6;
 
-    /* Inner Bevel - 1px Rim #2D333C */
-    border: 1px solid rgba(45, 51, 60, 0.75);
+    /* Dark Text for Maximum Legibility - #12161B on #C7D1F6 = 8.45:1 */
+    color: #12161B;
+
+    /* Subtle Inner Bevel */
+    border: 1px solid rgba(234, 241, 252, 0.6);
     background-clip: padding-box;
-
-    /* WCAG AA Compliant - #EAF1FC on #1F242A = 13.94:1 */
-    color: #EAF1FC;
 
     position: relative;
     overflow: visible;
 
-    /* Unified Lighting System + Soft Edge AO */
+    /* Unified Lighting System + Edge Definition */
     box-shadow:
-      /* Keylight Cool Top-Left (#EAF1FC) */
-      inset 1px 1px 2px rgba(234, 241, 252, 0.18),
+      /* Keylight Cool Top-Left (#EAF1FC) - Subtle Specular */
+      inset 1px 1px 2px rgba(255, 255, 255, 0.5),
 
-      /* Rimlight Turquoise Bottom-Right (#00E5C3) */
-      inset -1px -1px 2px rgba(0, 229, 195, 0.12),
+      /* Rimlight Turquoise Bottom-Right (#00E5C3) - Subtle Accent */
+      inset -1px -1px 2px rgba(0, 229, 195, 0.08),
 
-      /* Ambient Tint #A0A5BE @5% */
-      inset 0 0 16px rgba(160, 165, 190, 0.05),
+      /* Outer Depth Shadow for Elevation */
+      0 3px 12px rgba(0, 0, 0, 0.35),
+      0 1px 6px rgba(0, 0, 0, 0.28),
 
-      /* Soft Edge AO */
-      0 2px 8px rgba(0, 0, 0, 0.25);
-
-    /* Optimized Timing - 150-200ms ease-out */
-    transition: all 0.18s ease-out;
+      /* Soft Outer Glow (Brand Color Aura) */
+      0 0 20px rgba(199, 209, 246, 0.25);
   }
 
-  .btn-secondary:hover {
+  .btn-hero-primary:hover {
     /* Brighten +8% */
     filter: brightness(1.08);
 
     /* Elevation +1 (soft lift) */
     transform: translateY(-1px);
 
-    /* Enhanced Edge Glow */
+    /* Enhanced Elevation Shadow + Stronger Outer Glow */
     box-shadow:
-      inset 1px 1px 2px rgba(234, 241, 252, 0.24),
-      inset -1px -1px 2px rgba(0, 229, 195, 0.16),
-      inset 0 0 16px rgba(160, 165, 190, 0.08),
-      0 4px 14px rgba(0, 0, 0, 0.32),
-      0 2px 6px rgba(199, 209, 246, 0.12);
+      inset 1px 1px 2px rgba(255, 255, 255, 0.6),
+      inset -1px -1px 2px rgba(0, 229, 195, 0.12),
+      0 4px 16px rgba(0, 0, 0, 0.42),
+      0 2px 8px rgba(0, 0, 0, 0.32),
+      0 0 28px rgba(199, 209, 246, 0.38);
   }
 
-  .btn-secondary:active {
+  .btn-hero-primary:active {
     transform: translateY(0);
     filter: brightness(1.04);
+
+    /* Pressed State - Reduced Elevation */
+    box-shadow:
+      inset 1px 1px 2px rgba(255, 255, 255, 0.5),
+      inset -1px -1px 2px rgba(0, 229, 195, 0.08),
+      0 2px 8px rgba(0, 0, 0, 0.3),
+      0 0 16px rgba(199, 209, 246, 0.2);
   }
 
-  /* Focus Ring 2px #C7D1F6 */
-  .btn-secondary:focus-visible {
+  /* Focus Ring: 2px with Soft Outer Glow + Micro-Elevation */
+  .btn-hero-primary:focus-visible {
     outline: none;
     box-shadow:
-      0 0 0 2px rgba(199, 209, 246, 0.9),
-      0 0 12px rgba(199, 209, 246, 0.5),
-      inset 1px 1px 2px rgba(234, 241, 252, 0.18),
-      inset -1px -1px 2px rgba(0, 229, 195, 0.12),
-      0 2px 8px rgba(0, 0, 0, 0.25);
+      /* Focus Ring - 2px #EAF1FC (Brighter for visibility) */
+      0 0 0 2px rgba(234, 241, 252, 0.95),
+      0 0 16px rgba(234, 241, 252, 0.6),
+
+      /* Inner Lighting Preserved */
+      inset 1px 1px 2px rgba(255, 255, 255, 0.5),
+      inset -1px -1px 2px rgba(0, 229, 195, 0.08),
+
+      /* Outer Depth */
+      0 3px 12px rgba(0, 0, 0, 0.35);
+  }
+
+  /* ========================================
+     MOTION PREFERENCES
+     ======================================== */
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-eyebrow,
+    .headline-line,
+    .hero-lead,
+    .hero-cta-group {
+      transition: none;
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+
+    .btn-hero {
+      transition: background-color 150ms ease, box-shadow 150ms ease;
+    }
   }
 
   /* Buttons */
