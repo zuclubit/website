@@ -784,10 +784,8 @@
     --navbar-tracking: -0.004em;  /* -0.4% (-0.3% to -0.5%) */
     --navbar-lh: 1.2;
 
-    /* Active State Pill Translúcida */
-    --pill-bg: rgba(45, 51, 60, 0.40);  /* #2D333C @40% */
-    --pill-radius: 19px;  /* 18-20px */
-    --underline-height: 3.5px;  /* 3-4px con bloom */
+    /* Active State Underline */
+    --underline-height: 2px;  /* Más delgado para aspecto minimalista */
 
     /* Timing */
     --nav-t-fast: 180ms;
@@ -976,24 +974,16 @@
     transform: scaleX(1);
   }
 
-  /* Active/Current State - Pill Translúcida + Underline */
+  /* Active/Current State - Solo Underline Verde Delgado */
   :global(.nav-item.active) {
     opacity: 1;
     color: #EAF1FC;  /* Texto activo #EAF1FC */
-
-    /* Pill translúcida: radius 18-20px, fondo #2D333C @40% */
-    background: var(--pill-bg);
-    border-radius: var(--pill-radius);
-
-    /* Elevación +1 */
-    transform: translateY(-1px);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
   }
 
   :global(.nav-item.active::after) {
-    /* Underline 3-4px #00E5C3 con bloom */
+    /* Underline delgado 2px #00E5C3 sin bloom excesivo */
     background: #00E5C3;
-    box-shadow: 0 0 8px rgba(0, 229, 195, 0.5);
+    box-shadow: 0 0 4px rgba(0, 229, 195, 0.3);
     transform: scaleX(1);
     opacity: 1;
   }
