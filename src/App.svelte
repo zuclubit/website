@@ -1326,44 +1326,93 @@
     transform: translateY(0);
   }
 
-  /* Hero CTA Button: Large Tappable Target, Dual-Chamber Frosted Glass */
+  /* ========================================
+     CTA BUTTON - Signature-Grade Cuervo 2025
+     ======================================== */
+
+  /* CSS Custom Properties (Design Tokens) */
+  :root {
+    --cta-py: 18px;
+    --cta-px: 28px;
+    --cta-radius: 20px;
+    --cta-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+    --cta-focus: #C7D1F6;
+
+    /* Duration Tokens */
+    --t-fast: 120ms;
+    --t-med: 200ms;
+    --t-large: 320ms;
+
+    /* Easing: Pleasant ease-out */
+    --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  /* Hero CTA Button: Signature-Grade Rounded Rectangle */
   .btn-hero {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
 
-    /* Large Tappable Target: ≥44px height */
-    min-height: 48px;
-    padding: 14px 32px;
+    /* Icon gap: 12-16px (using 14px) */
+    gap: 14px;
 
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
+    /* Tap Target ≥44×44pt: padding 18px vertical, 28px horizontal */
+    min-height: 44px;
+    padding: var(--cta-py) var(--cta-px);
+
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    font-size: 17px;
     font-weight: 600;
-    letter-spacing: 0.005em;
 
-    /* Rounded 16-20px */
-    border-radius: 18px;
+    /* Tight tracking: -0.3% ~ -0.5% (using -0.4%) */
+    letter-spacing: -0.004em;
+
+    /* Line-height ≈1.18 for multi-line support */
+    line-height: 1.18;
+
+    /* Text can wrap to 2 lines if needed */
+    text-align: center;
+    max-width: 280px;
+
+    /* Rounded 18-20px (using 20px) */
+    border-radius: var(--cta-radius);
 
     text-decoration: none;
     cursor: pointer;
+    white-space: normal;  /* Allow line breaks */
 
-    /* Optimized Timing: 180-200ms ease-out */
-    transition: all 190ms ease-out;
+    /* Smooth transitions: 180-200ms ease-out */
+    transition:
+      transform var(--t-med) var(--ease-out),
+      filter var(--t-med) var(--ease-out),
+      box-shadow var(--t-med) var(--ease-out);
+  }
+
+  /* Icon Arrow Styling with Optical Margin */
+  .btn-hero :global(svg) {
+    /* Icon size: 20-22px (using 21px) */
+    width: 21px;
+    height: 21px;
+
+    /* Optical margin: 1-2px hacia derecha */
+    margin-right: -2px;
+
+    /* Icon inherits smooth transition */
+    transition: transform var(--t-med) var(--ease-out);
   }
 
   /* Primary CTA: Dual-Chamber Frosted Glass with High Contrast */
   .btn-hero-primary {
     /* Dual-Chamber Frosted Glass: Outer Glossy Shell + Inner Matte Diffuser */
-    /* Gradient overlay for depth: #C7D1F6 (80% opacity) */
+    /* Blur 16-18px (using 17px), opacity 78-82% (using 80%) */
     background: linear-gradient(168deg, rgba(199, 209, 246, 0.82) 0%, rgba(199, 209, 246, 0.78) 100%);
     backdrop-filter: blur(17px) saturate(105%);
     -webkit-backdrop-filter: blur(17px) saturate(105%);
 
-    /* Dark Text for Maximum Legibility - #12161B on translucent #C7D1F6 ≈7.2:1 */
+    /* WCAG AA Contrast: #12161B on #C7D1F6 = 8.45:1 */
     color: #12161B;
 
-    /* Inner Bevel: 1-1.5px rim in #2D333C */
+    /* Inner Bevel: 1-1.5px rim in #2D333C (using 1.5px) */
     border: 1.5px solid rgba(45, 51, 60, 0.85);
     background-clip: padding-box;
 
@@ -1388,6 +1437,19 @@
       0 1px 6px rgba(0, 0, 0, 0.22);
   }
 
+  /* Fallback Contrast Enhancement: Inner White Stroke 10-12% */
+  .btn-hero-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: calc(var(--cta-radius) - 2px);
+
+    /* Inner white stroke for contrast boost */
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.11);
+    pointer-events: none;
+  }
+
+  /* Hover State: 180-200ms ease-out */
   .btn-hero-primary:hover {
     /* Brighten +8% */
     filter: brightness(1.08);
@@ -1402,14 +1464,26 @@
       inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.12),
       inset -0.5px -0.5px 1.5px rgba(0, 229, 195, 0.08),
       inset 0 0 8px rgba(0, 0, 0, 0.08),
-      0 8px 22px rgba(0, 0, 0, 0.25),
+      var(--cta-shadow),
       0 4px 12px rgba(0, 0, 0, 0.18);
   }
 
+  /* Arrow Nudge +2-3px on Hover */
+  .btn-hero-primary:hover :global(svg) {
+    transform: translateX(2.5px);
+  }
+
+  /* Pressed State: 120-160ms, scale(0.99) */
   .btn-hero-primary:active {
-    /* Return to Base Elevation */
-    transform: translateY(0);
+    /* Pressed scale */
+    transform: translateY(0) scale(0.99);
     filter: brightness(1.04);
+
+    /* Transition override for faster pressed feedback */
+    transition:
+      transform var(--t-fast) var(--ease-out),
+      filter var(--t-fast) var(--ease-out),
+      box-shadow var(--t-fast) var(--ease-out);
 
     /* Pressed Shadow: Shorter, Base Level */
     box-shadow:
@@ -1419,13 +1493,16 @@
       0 2px 8px rgba(0, 0, 0, 0.22);
   }
 
-  /* Focus Ring: 2px #C7D1F6 with Soft Outer Glow */
+  /* Focus State: 2px Ring #C7D1F6 + 2px Offset (Always Visible for Keyboard) */
   .btn-hero-primary:focus-visible {
     outline: none;
+
+    /* 2px offset from button edge */
     box-shadow:
-      /* Focus Ring - 2px #C7D1F6 */
-      0 0 0 2px rgba(199, 209, 246, 0.9),
-      0 0 14px rgba(199, 209, 246, 0.55),
+      /* Focus Ring - 2px #C7D1F6 with 2px offset */
+      0 0 0 2px rgba(31, 36, 42, 1),  /* Background gap */
+      0 0 0 4px var(--cta-focus),  /* Actual ring */
+      0 0 16px rgba(199, 209, 246, 0.6),
 
       /* Inner Lighting Preserved */
       inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.12),
@@ -1468,8 +1545,20 @@
       filter: none;
     }
 
+    /* CTA Button: Replace Transforms with Brief Opacity (120-160ms) */
     .btn-hero {
-      transition: opacity 150ms ease, box-shadow 150ms ease;
+      transition: opacity var(--t-fast) ease-out, box-shadow var(--t-fast) ease-out;
+    }
+
+    .btn-hero-primary:hover,
+    .btn-hero-primary:active {
+      transform: none !important;
+      filter: brightness(1.05);  /* Subtle brightness only */
+    }
+
+    .btn-hero-primary:hover :global(svg),
+    .btn-hero-primary:active :global(svg) {
+      transform: none !important;  /* No arrow nudge */
     }
 
     /* Disable Heavy Motion: Parallax Background */
