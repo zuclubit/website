@@ -19,6 +19,7 @@
     Home,
     Plus,
     User,
+    Mail,
   } from 'lucide-svelte';
 
   import logo from '../img/logo-zuclubit.png';
@@ -154,48 +155,18 @@
 
 <!-- Mobile Floating Navbar (Bottom) -->
 <nav class="mobile-floating-nav">
-  <!-- Expandable Menu -->
-  {#if mobileMenuOpen}
-    <div class="mobile-menu-expand" transition:fly={{ y: 20, duration: 300 }}>
-      <div class="mobile-menu-items">
-        <a href="#services" class="mobile-menu-item" on:click={toggleMobileMenu}>
-          <div class="mobile-menu-item-content">
-            <span>Services</span>
-          </div>
-        </a>
-        <a href="#expertise" class="mobile-menu-item" on:click={toggleMobileMenu}>
-          <div class="mobile-menu-item-content">
-            <span>Expertise</span>
-          </div>
-        </a>
-        <a href="#standards" class="mobile-menu-item" on:click={toggleMobileMenu}>
-          <div class="mobile-menu-item-content">
-            <span>Standards</span>
-          </div>
-        </a>
-        <a href="#contact" class="mobile-menu-item" on:click={toggleMobileMenu}>
-          <div class="mobile-menu-item-content">
-            <span>Contact</span>
-          </div>
-        </a>
-      </div>
-    </div>
-  {/if}
-
-  <!-- Navigation Pill -->
   <div class="mobile-nav-pill">
-    <a href="/" class="mobile-nav-btn" aria-label="Home">
-      <Home size={20} strokeWidth={2} />
+    <a href="#services" class="mobile-nav-btn" aria-label="Services">
+      <Settings size={20} strokeWidth={2} />
     </a>
-    <button class="mobile-nav-btn mobile-nav-btn-primary" on:click={toggleMobileMenu} aria-label="Menu">
-      {#if mobileMenuOpen}
-        <X size={20} strokeWidth={2} />
-      {:else}
-        <Plus size={20} strokeWidth={2} />
-      {/if}
-    </button>
+    <a href="#expertise" class="mobile-nav-btn" aria-label="Expertise">
+      <Target size={20} strokeWidth={2} />
+    </a>
+    <a href="#standards" class="mobile-nav-btn" aria-label="Standards">
+      <ShieldCheck size={20} strokeWidth={2} />
+    </a>
     <a href="#contact" class="mobile-nav-btn" aria-label="Contact">
-      <User size={20} strokeWidth={2} />
+      <Mail size={20} strokeWidth={2} />
     </a>
   </div>
 </nav>
@@ -642,11 +613,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     background: rgba(31, 36, 42, 0.85);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    padding: 0.75rem 1.25rem;
+    padding: 0.75rem 1rem;
     border-radius: 999px;
     border: 1px solid rgba(199, 209, 246, 0.15);
     box-shadow:
@@ -714,134 +685,6 @@
 
   .mobile-nav-btn:active {
     transform: translateY(0);
-  }
-
-  .mobile-nav-btn-primary {
-    background: linear-gradient(135deg, #C7D1F6 0%, #EAF1FC 100%);
-    color: #12161B;
-    border-color: transparent;
-    box-shadow:
-      0 6px 20px rgba(199, 209, 246, 0.4),
-      0 2px 8px rgba(199, 209, 246, 0.3),
-      inset 0 1px 2px rgba(255, 255, 255, 0.3);
-    position: relative;
-    z-index: 1;
-  }
-
-  .mobile-nav-btn-primary::after {
-    content: '';
-    position: absolute;
-    top: 15%;
-    left: 15%;
-    width: 30%;
-    height: 30%;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle at center,
-      rgba(255, 255, 255, 0.6) 0%,
-      transparent 70%
-    );
-    filter: blur(4px);
-    pointer-events: none;
-  }
-
-  .mobile-nav-btn-primary:hover {
-    background: linear-gradient(135deg, #EAF1FC 0%, #C7D1F6 100%);
-    transform: translateY(-4px) scale(1.05);
-    box-shadow:
-      0 8px 28px rgba(199, 209, 246, 0.5),
-      0 4px 12px rgba(199, 209, 246, 0.4),
-      inset 0 1px 2px rgba(255, 255, 255, 0.4);
-  }
-
-  .mobile-nav-btn-primary:active {
-    transform: translateY(-2px) scale(1.02);
-  }
-
-  /* Mobile Menu Expand - Glassmorphism */
-  .mobile-menu-expand {
-    position: absolute;
-    bottom: 90px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 280px;
-    background: rgba(31, 36, 42, 0.9);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-radius: 20px;
-    border: 1px solid rgba(199, 209, 246, 0.15);
-    box-shadow:
-      0 12px 48px rgba(0, 0, 0, 0.5),
-      0 4px 16px rgba(0, 0, 0, 0.4),
-      inset 0 1px 2px rgba(255, 255, 255, 0.05);
-    overflow: hidden;
-  }
-
-  .mobile-menu-items {
-    display: flex;
-    flex-direction: column;
-    padding: 0.5rem;
-    gap: 0.25rem;
-  }
-
-  .mobile-menu-item {
-    display: block;
-    text-decoration: none;
-    color: #EAF1FC;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .mobile-menu-item-content {
-    padding: 1rem 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(45, 51, 60, 0.5);
-    border: 1px solid rgba(199, 209, 246, 0.08);
-    border-radius: 12px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .mobile-menu-item-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(199, 209, 246, 0.1),
-      transparent
-    );
-    transition: left 0.5s ease;
-  }
-
-  .mobile-menu-item:active .mobile-menu-item-content::before {
-    left: 100%;
-  }
-
-  .mobile-menu-item-content span {
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-  }
-
-  .mobile-menu-item:hover .mobile-menu-item-content {
-    background: rgba(199, 209, 246, 0.15);
-    border-color: rgba(199, 209, 246, 0.25);
-    transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(199, 209, 246, 0.2);
-  }
-
-  .mobile-menu-item:active .mobile-menu-item-content {
-    transform: scale(0.98);
   }
 
   /* Hero - Corporate Identity Palette */
