@@ -97,60 +97,84 @@
 
       gsap.ticker.lagSmoothing(0);
 
-      // Hero Entry: CTA reveals with opacity + Y(10→0) + blur(3→0) (~300ms)
-      gsap.from('.hero-cta-group', {
-        opacity: 0,
-        y: 10,
-        filter: 'blur(3px)',
-        duration: 0.3,
-        delay: 0.15,
-        ease: 'power2.out',
-        onComplete: () => {
-          heroVisible = true;
-        },
-      });
+      // Wait for DOM to be ready
+      setTimeout(() => {
+        const ctaGroup = document.querySelector('.hero-cta-group');
 
-      // SplitType: Per-word animation for CTA label
-      const ctaButton = document.querySelector('.btn-hero-primary');
-      if (ctaButton) {
-        // Clone text content without the arrow icon
-        const textContent = ctaButton.childNodes[0]?.textContent?.trim();
-        if (textContent) {
-          // Create a temporary span for SplitType
-          const tempSpan = document.createElement('span');
-          tempSpan.textContent = textContent;
-          tempSpan.style.display = 'inline-block';
+        if (ctaGroup) {
+          // Hero Entry: CTA reveals with opacity + Y(10→0) + blur(3→0) (~300ms)
+          gsap.fromTo(ctaGroup,
+            {
+              // FROM state
+              opacity: 0,
+              y: 10,
+              filter: 'blur(3px)',
+            },
+            {
+              // TO state
+              opacity: 1,
+              y: 0,
+              filter: 'blur(0px)',
+              duration: 0.3,
+              delay: 0.15,
+              ease: 'power2.out',
+              onComplete: () => {
+                heroVisible = true;
+              },
+            }
+          );
 
-          // Replace text node with span
-          ctaButton.childNodes[0].replaceWith(tempSpan);
-
-          // Apply SplitType
-          const split = new SplitType(tempSpan, { types: 'words' });
-
-          // Animate words
-          gsap.from(split.words, {
+          // Scroll-Down: CTA fade/slide-out 24–30px to hand focus to dock
+          gsap.to(ctaGroup, {
             opacity: 0,
-            y: 8,
-            duration: 0.4,
-            stagger: 0.05,
-            delay: 0.3,
-            ease: 'power2.out',
+            y: 25,
+            scrollTrigger: {
+              trigger: '.hero',
+              start: '30% top',
+              end: '50% top',
+              scrub: 1,
+              markers: false,
+            },
           });
+        } else {
+          // Fallback if element not found
+          heroVisible = true;
         }
-      }
 
-      // Scroll-Down: CTA fade/slide-out 24–30px to hand focus to dock
-      gsap.to('.hero-cta-group', {
-        opacity: 0,
-        y: 25,
-        scrollTrigger: {
-          trigger: '.hero',
-          start: '30% top',
-          end: '50% top',
-          scrub: 1,
-          markers: false, // Set to true for debugging
-        },
-      });
+        // SplitType: Per-word animation for CTA label (optional enhancement)
+        const ctaButton = document.querySelector('.btn-hero-primary');
+        if (ctaButton) {
+          // Find the text node (first child that's not the icon)
+          const textNode = Array.from(ctaButton.childNodes).find(
+            node => node.nodeType === Node.TEXT_NODE && node.textContent.trim()
+          );
+
+          if (textNode && textNode.textContent.trim()) {
+            // Wrap text in span for SplitType
+            const tempSpan = document.createElement('span');
+            tempSpan.textContent = textNode.textContent.trim();
+            tempSpan.style.display = 'inline-block';
+            textNode.replaceWith(tempSpan);
+
+            // Apply SplitType
+            try {
+              const split = new SplitType(tempSpan, { types: 'words' });
+
+              // Animate words
+              gsap.from(split.words, {
+                opacity: 0,
+                y: 8,
+                duration: 0.4,
+                stagger: 0.05,
+                delay: 0.3,
+                ease: 'power2.out',
+              });
+            } catch (e) {
+              console.warn('SplitType animation failed:', e);
+            }
+          }
+        }
+      }, 50);  // Small delay to ensure DOM is ready
 
       // Parallax: Background scrub
       gsap.to('.hero-bg', {
@@ -1413,16 +1437,13 @@
     /* Separation from Bottom Dock: 24-32px + safe-area-inset-bottom */
     margin-bottom: max(28px, env(safe-area-inset-bottom, 0px));
 
-    /* Hero Entry: opacity + Y(10→0) + blur(3→0) ≈300ms */
-    opacity: 0;
-    transform: translateY(10px);
-    filter: blur(3px);
-    transition:
-      opacity var(--t-mount) ease-out 150ms,
-      transform var(--t-mount) ease-out 150ms,
-      filter var(--t-mount) ease-out 150ms;
+    /* Visible by default - GSAP will handle animation */
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
   }
 
+  /* Fallback for reduced motion: no animation needed */
   .hero-cta-group.visible {
     opacity: 1;
     transform: translateY(0);
