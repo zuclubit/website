@@ -1464,23 +1464,24 @@
 
   /* CSS Custom Properties (Design Tokens) */
   :root {
-    --cta-py: 18px;
+    --cta-py: 19px;        /* Refined: 19px (was 18px) */
     --cta-px: 28px;
     --cta-radius: 20px;
     --cta-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
     --cta-focus: #C7D1F6;
 
-    /* Duration Tokens */
-    --t-fast: 120ms;
-    --t-med: 180ms;        /* Updated: hover 180ms (was 200ms) */
-    --t-mount: 300ms;      /* New: mount animation */
+    /* Duration Tokens - Refined Timing */
+    --t-fast: 140ms;       /* Refined: pressed 140ms (was 120ms) */
+    --t-med: 190ms;        /* Refined: hover 190ms (was 180ms) */
+    --t-mount: 300ms;      /* Mount animation */
     --t-large: 320ms;
 
     /* Material Tokens - Glass-Metal Homologation */
-    --glass-blur: 17px;
+    --glass-blur: 18px;    /* Refined: 18px (was 17px) */
     --glass-sat: 110%;
     --glow-turquoise: rgba(0, 229, 195, 0.12);  /* #00E5C3 @ 12% */
     --bevel-color: rgba(160, 165, 190, 0.85);   /* #A0A5BE @ 85% */
+    --inner-diffuser: rgba(199, 209, 246, 0.06); /* Inner matte diffuser */
 
     /* Easing: Pleasant ease-out */
     --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -1551,15 +1552,18 @@
     /* WCAG AA Contrast: #EAF1FC on dark glass = 13.94:1 */
     color: #EAF1FC;
 
-    /* Inner Bevel: 1.5px rim in #A0A5BE (Updated from #2D333C) */
-    border: 1.5px solid var(--bevel-color);
+    /* Inner Bevel: 1.2px rim in #A0A5BE (Refined from 1.5px) */
+    border: 1.2px solid var(--bevel-color);
     background-clip: padding-box;
 
     position: relative;
     overflow: visible;
 
-    /* Unified Scene Lighting: Cool Keylight 45° + Turquoise Rimlight 225° + AO */
+    /* Unified Scene Lighting: Top Specular + Keylight 45° + Turquoise Rimlight 225° + AO */
     box-shadow:
+      /* Top Specular Reflection (NEW - adds crisp top edge) */
+      inset 0 1px 2px rgba(255, 255, 255, 0.15),
+
       /* Keylight Cool Top-Left 45° (#EAF1FC 10-14%, using 12%) */
       inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.12),
       inset 0.5px 0.5px 1.5px rgba(234, 241, 252, 0.08),
@@ -1576,23 +1580,27 @@
       0 0 16px rgba(0, 229, 195, 0.08),
 
       /* Outer Depth Shadow for Base Elevation */
+      0 8px 22px rgba(0, 0, 0, 0.25),
       0 3px 12px rgba(0, 0, 0, 0.28),
       0 1px 6px rgba(0, 0, 0, 0.22);
   }
 
-  /* Fallback Contrast Enhancement: Inner White Stroke 10-12% */
+  /* Inner Matte Diffuser Layer: Cool Tint for Dual-Chamber Effect */
   .btn-hero-primary::before {
     content: '';
     position: absolute;
     inset: 0;
-    border-radius: calc(var(--cta-radius) - 2px);
+    border-radius: calc(var(--cta-radius) - 1.5px);
+
+    /* Inner matte diffuser with cool tint (rgba(199,209,246,0.06)) */
+    background: var(--inner-diffuser);
 
     /* Inner white stroke for contrast boost */
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.11);
     pointer-events: none;
   }
 
-  /* Hover State: 180ms ease-out */
+  /* Hover State: 190ms ease-out */
   .btn-hero-primary:hover {
     /* Brighten +8% */
     filter: brightness(1.08);
@@ -1602,6 +1610,9 @@
 
     /* Enhanced Lighting + Glow Intensifies +20% */
     box-shadow:
+      /* Enhanced Top Specular */
+      inset 0 1px 2px rgba(255, 255, 255, 0.18),
+
       /* Enhanced Keylight */
       inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.14),
       inset 0.5px 0.5px 1.5px rgba(234, 241, 252, 0.1),
@@ -1613,9 +1624,9 @@
       /* AO */
       inset 0 0 8px rgba(0, 0, 0, 0.08),
 
-      /* Intensified Turquoise Glow +20% (from 12% to ~14%) */
-      0 0 12px rgba(0, 229, 195, 0.14),
-      0 0 18px rgba(0, 229, 195, 0.1),
+      /* Intensified Turquoise Glow +20% (from 12% to ~14.4%) */
+      0 0 12px rgba(0, 229, 195, 0.144),
+      0 0 18px rgba(0, 229, 195, 0.096),
 
       /* Elevated Depth Shadow */
       var(--cta-shadow),
@@ -1627,7 +1638,7 @@
     transform: translateX(3px);
   }
 
-  /* Pressed State: 120ms, scale(0.985) */
+  /* Pressed State: 140ms, scale(0.985) */
   .btn-hero-primary:active {
     /* Pressed scale 0.985 */
     transform: translateY(0) scale(0.985);
@@ -1641,6 +1652,9 @@
 
     /* Pressed Shadow: Shorter, Base Level (no outer glow) */
     box-shadow:
+      /* Top Specular (maintained) */
+      inset 0 1px 2px rgba(255, 255, 255, 0.15),
+
       /* Base Inner Lighting */
       inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.12),
       inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.1),
@@ -1661,6 +1675,9 @@
       0 0 0 4px var(--cta-focus),  /* Actual ring */
       0 0 16px rgba(199, 209, 246, 0.6),
 
+      /* Top Specular Preserved */
+      inset 0 1px 2px rgba(255, 255, 255, 0.15),
+
       /* Inner Lighting Preserved */
       inset 1.5px 1.5px 3px rgba(234, 241, 252, 0.12),
       inset -1.5px -1.5px 3px rgba(0, 229, 195, 0.1),
@@ -1671,6 +1688,7 @@
       0 0 16px rgba(0, 229, 195, 0.08),
 
       /* Outer Depth */
+      0 8px 22px rgba(0, 0, 0, 0.25),
       0 3px 12px rgba(0, 0, 0, 0.28);
   }
 
