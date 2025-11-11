@@ -4,6 +4,7 @@
   import PremiumLogo from './components/PremiumLogo.svelte';
   import PremiumButton from './components/PremiumButton.svelte';
   import NavItem from './components/NavItem.svelte';
+  import ServiceCard from './components/ServiceCard.svelte';
   import {
     Building2,
     Settings,
@@ -233,6 +234,46 @@
     }
 
     // ========================================
+    // Service Cards Scroll Reveal (Glass-Metal)
+    // ========================================
+
+    if (!prefersReducedMotion) {
+      const serviceCards = document.querySelectorAll('.service-card');
+
+      serviceCards.forEach((card, i) => {
+        gsap.fromTo(
+          card,
+          {
+            // FROM: Hidden state (opacity 0, Y +20, blur 4px)
+            opacity: 0,
+            y: 20,
+            filter: 'blur(4px)',
+          },
+          {
+            // TO: Revealed state (opacity 1, Y 0, blur 0)
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+
+            // ScrollTrigger configuration
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 85%',  // Start when card is 85% down viewport
+              end: 'top 70%',    // Complete by 70%
+              scrub: false,      // Instant animation, no scrubbing
+              toggleActions: 'play none none none',  // Play once on enter
+            },
+
+            // Animation timing (matching navbar timing curve)
+            duration: 0.6,
+            delay: i * 0.08,  // Stagger: 80ms between cards
+            ease: 'power2.out',
+          }
+        );
+      });
+    }
+
+    // ========================================
     // Scroll Spy: Active Section Detection
     // ========================================
 
@@ -270,54 +311,66 @@
     }
   });
 
-  // Services data
+  // Services data (Glass-Metal ServiceCard format)
   const services = [
     {
       id: 'architecture',
       icon: Building2,
       title: 'Architecture & Design',
-      description:
+      body:
         'Software, data, infrastructure, integration, and security architecture for enterprise systems.',
       tags: ['Microservices', 'Cloud Native', 'Event-Driven'],
+      ctaText: 'Learn More',
+      ctaHref: '#contact',
     },
     {
       id: 'devops',
       icon: Settings,
       title: 'DevOps & Operations',
-      description:
+      body:
         'DevOps, SecOps, MLOps, DataOps, FinOps, and AIOps implementation with continuous delivery.',
       tags: ['CI/CD', 'IaC', 'Automation'],
+      ctaText: 'Learn More',
+      ctaHref: '#contact',
     },
     {
       id: 'ai',
       icon: Brain,
       title: 'AI & Machine Learning',
-      description:
+      body:
         'Artificial intelligence, machine learning, data science, and predictive analytics solutions.',
       tags: ['Deep Learning', 'NLP', 'Computer Vision'],
+      ctaText: 'Learn More',
+      ctaHref: '#contact',
     },
     {
       id: 'cloud',
       icon: Cloud,
       title: 'Cloud Computing',
-      description: 'Multi-cloud, hybrid cloud, edge computing architecture and migration services.',
+      body: 'Multi-cloud, hybrid cloud, edge computing architecture and migration services.',
       tags: ['AWS', 'Azure', 'GCP'],
+      ctaText: 'Learn More',
+      ctaHref: '#contact',
     },
     {
       id: 'security',
       icon: Shield,
       title: 'Cybersecurity',
-      description:
+      body:
         'Security audits, penetration testing, compliance, and threat detection systems.',
       tags: ['Zero Trust', 'SIEM', 'SOC'],
+      ctaText: 'Learn More',
+      ctaHref: '#contact',
     },
     {
       id: 'transformation',
       icon: TrendingUp,
       title: 'Digital Transformation',
-      description:
+      body:
         'IT consulting, process automation, business intelligence, and enterprise modernization.',
       tags: ['RPA', 'BI/Analytics', 'Legacy Migration'],
+      ctaText: 'Learn More',
+      ctaHref: '#contact',
     },
   ];
 
@@ -513,7 +566,7 @@
   </div>
 </section>
 
-<!-- Services Section -->
+<!-- Services Section — Glass-Metal Service Cards -->
 <section id="services" class="services">
   <div class="container">
     <div class="section-header">
@@ -522,31 +575,15 @@
     </div>
     <div class="services-grid">
       {#each services as service, i}
-        <div
-          class="service-card"
-          class:active={activeService === service.id}
-          in:fly={{ y: 50, delay: i * 100, duration: 600 }}
-          on:mouseenter={() => (activeService = service.id)}
-          on:mouseleave={() => (activeService = null)}
-          role="button"
-          tabindex="0"
-        >
-          <div class="service-icon">
-            <svelte:component this={service.icon} size={48} strokeWidth={1.5} />
-          </div>
-          <h3 class="service-title">{service.title}</h3>
-          <p class="service-description">{service.description}</p>
-          <div class="service-tags">
-            {#each service.tags as tag}
-              <span class="tag">{tag}</span>
-            {/each}
-          </div>
-          <div class="service-cta-container">
-            <a href="#contact" class="service-cta">
-              Learn More <ArrowRight size={16} />
-            </a>
-          </div>
-        </div>
+        <ServiceCard
+          icon={service.icon}
+          title={service.title}
+          body={service.body}
+          tags={service.tags}
+          ctaText={service.ctaText}
+          ctaHref={service.ctaHref}
+          delay={i * 100}
+        />
       {/each}
     </div>
   </div>
